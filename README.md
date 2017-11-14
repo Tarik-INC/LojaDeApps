@@ -1,4 +1,4 @@
-Especificações do projeto orientado a objetos de PLP
+Especificações do projeto orientado a objetos
 
 Objetivando a escrita de um programa consistente e coeso, bem como facilitando sua escrita, leitura e manutenção, esse documento contém normas e sugestões de desenvolvimento em Java, apoiando a programação em grupo e a estruturação do relatório.
 
