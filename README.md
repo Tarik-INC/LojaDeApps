@@ -4,9 +4,13 @@ Objetivando a escrita de um programa consistente e coeso, bem como facilitando s
 
 Preferência do fecha e abre chaves:
 
-Preferencial public Construtor() { /////// ////// }
+Preferencial public Construtor() { /////// 
+ }
 
-Evitar public Construtor() { /////// }
+Evitar public Construtor() 
+{ 
+    ///////
+}
 
 Comentários: Devem ser deixados uma boa quantidade de comentários no código. Se o método de correção for mantido como no semestre passado, a dupla irá avaliar bem um código comentado corretamente, além dos comentários ajudar na elaboração do relatório e na leitura do seu código por outras pessoas do grupo. A sugestão é deixar comentários sobre o porquê determinado atributo ou método foi escolhido como private ou public ou protected ou static, salvo casos já subentendidos como construtores public e mensagens, como funciona resumidamente determinado método, bem como a representabilidade da classe no programa e possíveis problemas que outras pessoas do grupo podem auxiliar a resolução. Por exemplo:
 
