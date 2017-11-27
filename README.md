@@ -10,7 +10,7 @@ Preferencial -> public Construtor() {
 
 }
 
-Evitar -> public Construtor() 
+Evitar -> public Construtor()                                                                                    
 
 { 
     
