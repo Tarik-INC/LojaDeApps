@@ -5,7 +5,7 @@ Objetivando a escrita de um programa consistente e coeso, bem como facilitando s
 Preferência do fecha e abre chaves:
 
 Preferencial -> public Construtor() { /////// 
- }
+}
 
 Evitar -> public Construtor() 
 { 
