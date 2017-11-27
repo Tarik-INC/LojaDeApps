@@ -22,7 +22,7 @@ class Estoque {
 
 }
 
-Organização do projeto: Para cada arquivo .java deverá haver apenas uma classe, o nome do arquivo deve coincidir com o nome da classe; exemplo arquivo Main deve conter a classe Main. Cada arquivo logicamente relacionado deverá ser guardado em um pacote com um nome coerente. O conjunto de pacotes deve estar na pasta do projeto com nome livre. Será enviado a pasta do projeto src
+Organização do projeto: Para cada arquivo .java deverá haver apenas uma classe, o nome do arquivo deve coincidir com o nome da classe; exemplo arquivo Main deve conter a classe Main. Cada arquivo logicamente relacionado deverá ser guardado em um pacote com um nome coerente. O conjunto de pacotes deve estar na pasta do projeto com nome livre. Será enviado a pasta do projeto src.
 
 Sugestões:
 
