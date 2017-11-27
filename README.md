@@ -11,6 +11,7 @@ Preferencial -> public Construtor() {
 }
 
 Evitar -> public Construtor() 
+
 { 
     //////
     /////
