@@ -17,5 +17,6 @@ public class Main {
         System.out.println( Gerador.gerarChave() );
         
         //int x = 4000000000; 
+
     }
 }
