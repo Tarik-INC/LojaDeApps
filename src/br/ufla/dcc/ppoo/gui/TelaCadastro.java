@@ -6,7 +6,8 @@
 package br.ufla.dcc.ppoo.gui;
 
 import br.ufla.dcc.ppoo.users.Cadastro;
-import br.ufla.dcc.ppoo.manager.GerenciadorCadastro;
+import br.ufla.dcc.ppoo.management.GerenciadorCadastro;
+import br.ufla.dcc.ppoo.users.Administrador;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -132,7 +133,7 @@ public class TelaCadastro extends JFrame {
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    gCadastro.AdicionarCadastro(new Cadastro(nome,login,senha));
+                    gCadastro.AdicionarCadastro(new Administrador(nome,login,senha));
                     JOptionPane.showMessageDialog(null,
                             "Cadastro OK!", "Parabéns", JOptionPane.INFORMATION_MESSAGE);
                 }

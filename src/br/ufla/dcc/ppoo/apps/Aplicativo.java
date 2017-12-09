@@ -23,6 +23,7 @@ public class Aplicativo {
     private int faixaEtaria;
     private int downloads;
     private float nota;
+    private int numAvaliacoes;
 
     /**
      * Criar um novo aplicativo
@@ -43,6 +44,9 @@ public class Aplicativo {
         this.faixaEtaria = faixaEtaria;
         this.sistemas = new ArrayList();
         this.idiomas = new ArrayList();
+        this.downloads = 0;
+        this.nota = 0.0f;
+        this.numAvaliacoes = 0;
     }
 
     /**
@@ -83,6 +87,93 @@ public class Aplicativo {
      */
     public void setFaixaEtaria(int faixaEtaria) {
         this.faixaEtaria = faixaEtaria;
+    }
+
+    /**
+     * Getter
+     * @return Número do registro
+     */
+    public int getNroRegistro() {
+        return nroRegistro;
+    }
+
+    /**
+     * Getter
+     * @return Referência para a empresa desenvolvedora
+     */
+    public Empresa getDesenvolvedor() {
+        return desenvolvedor;
+    }
+
+    /**
+     * Getter
+     * @return Nome do aplicativo
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    /**
+     * Getter
+     * @return valor do tamanho do download
+     */
+    public int getTamanho() {
+        return tamanho;
+    }
+
+    /**
+     * Getter
+     * @return Tipo de aplicativo ou finalidade
+     */
+    public TipoAplicativo getGenero() {
+        return genero;
+    }
+
+    /**
+     * Getter
+     * @return Versão do app
+     */
+    public String getVersao() {
+        return versao;
+    }
+
+    /**
+     * Getter
+     * @return Idade de censura
+     */
+    public int getFaixaEtaria() {
+        return faixaEtaria;
+    }
+
+    /**
+     * Getter
+     * @return Número de downloads
+     */
+    public int getDownloads() {
+        return downloads;
+    }
+
+    /**
+     * Getter
+     * @return Nota de avaliação média
+     */
+    public float getNota() {
+        return nota;
+    }
+    
+    /**
+     * Alguém acabou de baixar, então incrementa
+     */
+    public void newDownload() {
+        downloads++;
+    }
+    
+    /**
+     * Alguém avaliou, então atualiza média
+     * @param nota Nota de avaliação (1 a 5 estrelas)
+     */
+    public void avaliar(int nota) {
+        this.nota = (this.nota * numAvaliacoes + nota) / (++numAvaliacoes);
     }
     
 }

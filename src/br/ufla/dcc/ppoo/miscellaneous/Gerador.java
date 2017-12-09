@@ -6,8 +6,6 @@ import java.util.Date;
 /**
  * Funções Geradoras
  * @author william
- * @since 09/12/2017
- * @version 2017.12.09-13h12m
  */
 public abstract class Gerador {
     /**
@@ -23,5 +21,18 @@ public abstract class Gerador {
         // ss  - 2 dígitos para os segundos  (0 a 59)
         // SSS - 3 dígitos para os miliseg   (0 a 999)
         return Integer.parseInt( new SimpleDateFormat("DDDHHmmss").format(new Date()) );
+    }
+    
+    /**
+     * Gera String de id com base na hora
+     * @return Chave de 23 caracteres
+     */
+    public static String gerarId() {
+        /** CUIDADO! Este método ainda pode gerar chaves igual em um intervalo de 
+         *  tempo muito próximo. */
+        // yyyy - 4 dígitos para o ano
+        // MM   - 2 dígitos para o mês
+        // dd   - 2 dígitos para o dia do mês
+        return new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss.SSS").format(new Date());
     }
 }
