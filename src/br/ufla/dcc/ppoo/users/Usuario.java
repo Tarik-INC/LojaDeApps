@@ -7,7 +7,32 @@ import java.util.List;
 public class Usuario extends Cadastro {
     private String email;
     private String tipo;
-    private float credito;
+    private double credito;
     private Data dataNasce;
     private List<Licenca> apps;
+    
+    
+    
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public double getCredito() {
+        return credito;
+    }
+
+    public Data getDataNasce() {
+        return dataNasce;
+    }
+
+    public List<Licenca> getApps() {
+        return apps;
+    }
+    
+   
 }
