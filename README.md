@@ -1,7 +1,11 @@
 ## br.ufla.dcc.ppoo
 
-Apaguei quase tudo, metadata de PLP...
-Assinado MCOM
+[Orientações]
+- https://docs.google.com/document/d/1WnZDv3hhyW6g5TfPEcl5bw-v0rt3FbdfrH9Pbnxrp98
+
+[Requisitos do software]
+- https://docs.google.com/document/d/1ZA9dXA1w2gi20kLU8jpv0_ZPCly9sAXp7XDOpGwIqU0
+
 
 #### Colocar somente a pasta 'src' no git.
 
