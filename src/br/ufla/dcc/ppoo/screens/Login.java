@@ -1,5 +1,7 @@
 package br.ufla.dcc.ppoo.screens;
 
+import br.ufla.dcc.ppoo.management.Arquivo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -53,5 +55,30 @@ public class Login extends Tela {
                 dispose();
             }
         });
+
+
+        btnConfirmar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String login = txtLogin.getText();
+                String senha = txtSenha.getText();
+                if (login.isEmpty() || senha.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Um ou mais campos estao vazios",
+                            "ERRO", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    Arquivo aut = new Arquivo();
+
+                    if (aut.buscar(login, senha)) {
+                        JOptionPane.showMessageDialog(null, "OK",
+                                "OK", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Login ou senha errados!",
+                                "ERRO", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        });
+
+
     }
 }
