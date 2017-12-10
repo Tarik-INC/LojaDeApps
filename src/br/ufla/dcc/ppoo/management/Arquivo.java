@@ -1,5 +1,6 @@
 package br.ufla.dcc.ppoo.management;
 
+import br.ufla.dcc.ppoo.miscellaneous.Data;
 import br.ufla.dcc.ppoo.users.*;
 
 import java.io.*;
@@ -22,7 +23,6 @@ public class Arquivo {
         }
     }
 
-
     public void AdicionarCadastro(Cadastro cads) {
         cadastros.add(cads);
     }
@@ -30,7 +30,7 @@ public class Arquivo {
     public void escrever() {
         ObjectOutputStream oos = null;
         try {
-            oos = new ObjectOutputStream(new FileOutputStream("aluno.bin"));
+            oos = new ObjectOutputStream(new FileOutputStream("ArqCadastro.bin"));
             oos.writeObject(cadastros);
         } catch (IOException e) {
             System.out.println("Erro de escrita no arquivo 1!");
@@ -48,7 +48,7 @@ public class Arquivo {
     private void ler() {
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream("aluno.bin"));
+            ois = new ObjectInputStream(new FileInputStream("ArqCadastro.bin"));
             List<Cadastro> cadastros = (List<Cadastro>) ois.readObject();
             for (Cadastro c:  cadastros) {
                 System.out.println(c);
@@ -71,10 +71,10 @@ public class Arquivo {
         boolean encontrou = false;
         ObjectInputStream ois = null;
         try {
-            ois = new ObjectInputStream(new FileInputStream("aluno.bin"));
+            ois = new ObjectInputStream(new FileInputStream("ArqCadastro.bin"));
             List<Cadastro> cadastros = (List<Cadastro>) ois.readObject();
             for (Cadastro c:  cadastros) {
-                if (c.getLogin().equals(login) && c.getSenha().equals(senha)) {
+                if (c.isLogin(login) && c.isSenha(senha)) {
                     encontrou = true;
                     break;
                 }
