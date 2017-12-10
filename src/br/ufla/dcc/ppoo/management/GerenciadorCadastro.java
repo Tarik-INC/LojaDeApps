@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufla.dcc.ppoo.users;
+package br.ufla.dcc.ppoo.management;
 
+import br.ufla.dcc.ppoo.users.Cadastro;
+import br.ufla.dcc.ppoo.users.Cadastro;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
