@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
  * Qualquer login na loja
  * @author william
  */
-public /*abstract*/ class Cadastro {
+public abstract class Cadastro {
     private final String login;
     private final String senha;
     private String nome;
@@ -19,14 +19,14 @@ public /*abstract*/ class Cadastro {
      * @param senha Senha de acesso (imutável)
      * @param nome  Nome do usuário
      */
-    public Cadastro(String login, String senha, String nome) {
+    public Cadastro(String nome, String login, String senha) {
         this.login = login;
         this.senha = senhaCriptografada(senha);
         this.nome = nome;
     }
 
     /**
-     * Validar login (Segurança computacional aplicada)
+     * Validar login 
      * @param loginIn Login digitado durante o login
      * @return Booleano indicando se o login confere
      */
@@ -36,7 +36,7 @@ public /*abstract*/ class Cadastro {
     }
 
     /**
-     * Validar senha (Segurança computacional aplicada)
+     * Validar senha 
      * @param senhaIn Senha digitada durante o login
      * @return Booleano indicando se a senha confere
      */
@@ -64,6 +64,7 @@ public /*abstract*/ class Cadastro {
             return hexString.toString();
         }
         catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            // Nunca vai entrar aqui, pois "UTF-8" e "SHA-256" estão corretos
             return null;
         }
     }
@@ -85,20 +86,11 @@ public /*abstract*/ class Cadastro {
     }
 
     /**
-     * Getter - tem que tirar isso depois
-     * @return 
+     * Getter
+     * @return Login
      */
     public String getLogin() {
         return login;
     }
-
-    /**
-     * Getter - tem que tirar isso depois
-     * @return 
-     */
-    public String getSenha() {
-        return senha;
-    }
-    
     
 }

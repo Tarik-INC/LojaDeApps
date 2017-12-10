@@ -1,6 +1,8 @@
 package br.ufla.dcc.ppoo.management;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
+import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.users.Cadastro;
 import java.io.File;
 import java.io.IOException;
@@ -42,19 +44,39 @@ public class BaseDados {
         */
     }
     
-    public void addCadastro(Cadastro cadastro) {
+    public void addCadastro(Cadastro cadastro) throws LoginJaExistenteException {
+        for (Cadastro c : cadastros) {
+            if (c.isLogin(cadastro.getLogin())) {
+                throw new LoginJaExistenteException("Login já existe");
+            }
+        }
+        
         cadastros.add(cadastro);
     }
-    
-    public void removeCadastro(Cadastro cadastro) {
-        cadastros.remove(cadastro);
+    /*
+    public void removeCadastro(Cadastro cadastro) throws LoginInexistenteException {
+        if (! cadastros.remove(cadastro)) {
+            throw new LoginInexistenteException("Cadastro não encontrado");
+        }
     }
-    
-    public void addApp(Aplicativo app) {
+    */
+    public void addNovoApp(Aplicativo app) {
         aplicativos.add(app);
     }
-    
-    public void removeApp(Aplicativo app) {
-        aplicativos.remove(app);
+    /*
+    public void removeApp(Aplicativo app) throws AppInexistenteException {
+        if (! aplicativos.remove(app)) {
+            throw new AppInexistenteException("App não encontrado");
+        }
+    }
+    */
+    public Cadastro buscarCadastro(String login) throws LoginInexistenteException {
+        for (Cadastro c : cadastros) {
+            if (c.isLogin(login)) {
+                return c;
+            }
+        }
+        
+        throw new LoginInexistenteException("Cadastro não encontrado");
     }
 }

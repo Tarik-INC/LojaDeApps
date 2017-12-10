@@ -22,8 +22,8 @@ public class Usuario extends Cadastro {
      * @param senha Senha
      * @param nome Nome
      */
-    public Usuario(String login, String senha, String nome) {
-        super(login, senha, nome);
+    public Usuario(String nome, String login, String senha) {
+        super(nome, login, senha);
         this.dataNasce = null;
         this.apps = new LinkedList();
     }
