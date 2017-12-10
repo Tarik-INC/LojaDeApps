@@ -1,37 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufla.dcc.ppoo.screens;
 
+import br.ufla.dcc.ppoo.management.GerenciadorDados;
 import br.ufla.dcc.ppoo.users.Cadastro;
-import br.ufla.dcc.ppoo.management.GerenciadorCadastro;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 
 public class TelaCadastro extends Tela {
-
-    private GerenciadorCadastro gCadastro;
 
     private GridBagConstraints gbc;
     private GridBagLayout gbl;
@@ -39,47 +28,60 @@ public class TelaCadastro extends Tela {
     public TelaCadastro() {
         super("Cadastrar Usuário", 300, 300);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        gCadastro = new GerenciadorCadastro();
 
         construirTela();
         pack();
     }
 
 
+    @Override
     void construirTela() {
 
         JButton btnSalvar = new JButton("Salvar");
         JButton btnSair = new JButton("Sair");
+        JRadioButton btnUser = new JRadioButton("Usuário", true);
+        JRadioButton btnDev = new JRadioButton("Desenvolvedor", false);
 
         JPanel painelBotoes = new JPanel();
         painelBotoes.setLayout(new GridLayout(1, 1, 30, 30));
         painelBotoes.add(btnSalvar);
         painelBotoes.add(btnSair);
-
-        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 4, 1, 2, 1);
+        
+        ButtonGroup selecaoGrupo = new ButtonGroup();
+        selecaoGrupo.add(btnDev);
+        selecaoGrupo.add(btnUser);
+        
+        JPanel painelSelecao = new JPanel();
+        painelSelecao.setLayout(new GridLayout(1, 1, 30, 30));
+        painelSelecao.add(btnUser);
+        painelSelecao.add(btnDev);
+        
+        adicionarComponentes(painelSelecao, GridBagConstraints.CENTER, GridBagConstraints.NONE, 4, 1, 2, 1);
+        
+        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 5, 1, 2, 1);
 
         JLabel rotuloNome = new JLabel("Nome ");
-        adicionarComponentes(rotuloNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 0, 1, 1);
+        adicionarComponentes(rotuloNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
 
         JTextField caixaTextoNome = new JTextField(20);
-        adicionarComponentes(caixaTextoNome, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 2, 1, 3, 1);
+        adicionarComponentes(caixaTextoNome, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 1, 1, 3, 1);
 
         JLabel rotuloLogin = new JLabel("Login ");
-        adicionarComponentes(rotuloLogin, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
+        adicionarComponentes(rotuloLogin, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 0, 1, 1);
 
         JTextField caixaTextoLogin = new JTextField(20);
-        adicionarComponentes(caixaTextoLogin, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 1, 1, 3, 1);
+        adicionarComponentes(caixaTextoLogin, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 2, 1, 3, 1);
 
         JLabel rotuloSenha = new JLabel("Senha ");
         adicionarComponentes(rotuloSenha, GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 0, 1, 1);
 
-        JTextField caixaTextoSenha = new JTextField(6);
+        JPasswordField caixaTextoSenha = new JPasswordField(6);
         adicionarComponentes(caixaTextoSenha, GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 1, 1, 1);
 
         JLabel rotuloSenhaConfirmar = new JLabel("Confirmar senha ");
         adicionarComponentes(rotuloSenhaConfirmar, GridBagConstraints.CENTER, GridBagConstraints.NONE, 3, 2, 1, 1);
 
-        JTextField caixaTextoSenhaConfirmar = new JTextField(6);
+        JPasswordField caixaTextoSenhaConfirmar = new JPasswordField(6);
         adicionarComponentes(caixaTextoSenhaConfirmar, GridBagConstraints.CENTER, GridBagConstraints.NONE, 3, 3, 1, 1);
 
         /*   JPanel painelSalvar = new JPanel();
@@ -114,9 +116,9 @@ public class TelaCadastro extends Tela {
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    gCadastro.AdicionarCadastro(new Cadastro(nome,login,senha));
+                    GerenciadorDados.adicionarCadastro(new Cadastro(nome,login,senha));
                     JOptionPane.showMessageDialog(null,
-                            "Cadastro OK!", "Parabéns", JOptionPane.INFORMATION_MESSAGE);
+                            "Cadastrado com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
                 }
 
             }
@@ -128,11 +130,6 @@ public class TelaCadastro extends Tela {
             public void actionPerformed(ActionEvent ae) {
                 setVisible(false);
                 dispose();
-                try {
-                    gCadastro.SalvarCadastrosArq();
-                } catch (IOException ex) {
-                   ex.getMessage();
-                }
             }
         });
     }
