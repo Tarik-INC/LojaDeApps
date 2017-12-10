@@ -4,7 +4,12 @@ import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.users.Usuario;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,18 +28,14 @@ public class BaseDados {
      * @param file Arquivo a ser lido
      * @throws java.io.IOException
      */
-    public BaseDados(File file) throws IOException {
-        cadastros = null;
-        throw new IOException("NÃO TEM COMO MEXER NO ARQUIVO AINDA");
-        //System.exit(0);
-        /*
-        // ou arquivo vazio...
-        if (!file.exists()) {
-            file.createNewFile();
-            throw new IOException("Sem dados salvos");
-        }
-        // carregar...
-        */
+    public BaseDados(File file) throws IOException, ClassNotFoundException {
+        ObjectInputStream reader = new ObjectInputStream(new FileInputStream(file));
+        cadastros = (List<Usuario>) reader.readObject();
+    }
+    
+    public void save(File file) throws IOException {
+        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
+        writer.writeObject(cadastros);
     }
     
     public void addCadastro(Usuario cadastro) throws LoginJaExistenteException {
