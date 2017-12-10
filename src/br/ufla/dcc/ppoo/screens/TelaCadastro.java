@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufla.dcc.ppoo.users;
+package br.ufla.dcc.ppoo.screens;
 
+import br.ufla.dcc.ppoo.management.Arquivo;
+import br.ufla.dcc.ppoo.users.Cadastro;
+import br.ufla.dcc.ppoo.management.Arquivo;
+import br.ufla.dcc.ppoo.users.Administrador;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -29,40 +33,20 @@ import javax.swing.JTextField;
  *
  * @author tarik
  */
-public class TelaCadastro extends JFrame {
+public class TelaCadastro extends Tela {
 
-    private GerenciadorCadastro gCadastro;
-    
-    private GridBagConstraints gbc;
-    private GridBagLayout gbl;
+    private Arquivo gCadastro;
 
     public TelaCadastro() {
-        super("Cadastrar Usuário");
-        gCadastro = new GerenciadorCadastro();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super("Cadastrar Usuário", 300, 300);
+        gCadastro = new Arquivo();
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-        gbl = new GridBagLayout();
-        gbc = new GridBagConstraints();
-        setLayout(gbl);
-        ConstruirTela();
+        construirTela();
         pack();
-
     }
 
-    private void adicionarComponentes(Component comp, int achor, int fill,
-            int linha, int coluna, int larg, int alt) {
-        gbc.anchor = (int) achor;
-        gbc.fill = fill;
-        gbc.gridy = linha;
-        gbc.gridx = coluna;
-        gbc.gridwidth = larg;
-        gbc.gridheight = alt;
-        gbc.insets = new Insets(3, 3, 3, 3);
-        gbl.setConstraints(comp, gbc);
-        add(comp);
-    }
-
-    public void ConstruirTela() {
+    public void construirTela() {
 
         JButton btnSalvar = new JButton("Salvar");
         JButton btnSair = new JButton("Sair");
@@ -125,12 +109,12 @@ public class TelaCadastro extends JFrame {
                     JOptionPane.showMessageDialog(null, "Senhas devem ter mais de 4 caracteres",
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 } else if (!confirmar.equals(senha)) {
-                    
-                    JOptionPane.showMessageDialog(null, "Senha de confirmação incorreta", 
+
+                    JOptionPane.showMessageDialog(null, "Senha de confirmação incorreta",
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    gCadastro.AdicionarCadastro(new Cadastro(nome,login,senha));
+                    gCadastro.AdicionarCadastro(new Administrador(nome,login,senha));
                     JOptionPane.showMessageDialog(null,
                             "Cadastro OK!", "Parabéns", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -144,11 +128,7 @@ public class TelaCadastro extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 setVisible(false);
                 dispose();
-                try {
-                    gCadastro.SalvarCadastrosArq();
-                } catch (IOException ex) {
-                   ex.getMessage();
-                }
+                gCadastro.escrever();
             }
         });
     }
