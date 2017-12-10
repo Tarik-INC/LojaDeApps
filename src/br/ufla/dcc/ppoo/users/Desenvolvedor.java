@@ -13,8 +13,8 @@ public class Desenvolvedor extends Cadastro {
      * @param senha Senha
      * @param nome Nome fantasia
      */
-    public Desenvolvedor(String login, String senha, String nome) {
-        super(login, senha, nome);
+    public Desenvolvedor(String nome, String login, String senha) {
+        super(nome, login, senha);
         this.site = null;
     }
 

@@ -1,14 +1,15 @@
 package br.ufla.dcc.ppoo.screens;
 
-import br.ufla.dcc.ppoo.management.GerenciadorDados;
-import br.ufla.dcc.ppoo.users.Cadastro;
+import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
+import br.ufla.dcc.ppoo.management.Gerenciador;
+import br.ufla.dcc.ppoo.users.Desenvolvedor;
+import br.ufla.dcc.ppoo.users.Usuario;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,18 +47,18 @@ public class TelaCadastro extends Tela {
         painelBotoes.setLayout(new GridLayout(1, 1, 30, 30));
         painelBotoes.add(btnSalvar);
         painelBotoes.add(btnSair);
-        
+
         ButtonGroup selecaoGrupo = new ButtonGroup();
         selecaoGrupo.add(btnDev);
         selecaoGrupo.add(btnUser);
-        
+
         JPanel painelSelecao = new JPanel();
         painelSelecao.setLayout(new GridLayout(1, 1, 30, 30));
         painelSelecao.add(btnUser);
         painelSelecao.add(btnDev);
-        
+
         adicionarComponentes(painelSelecao, GridBagConstraints.CENTER, GridBagConstraints.NONE, 4, 1, 2, 1);
-        
+
         adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 5, 1, 2, 1);
 
         JLabel rotuloNome = new JLabel("Nome ");
@@ -111,14 +112,29 @@ public class TelaCadastro extends Tela {
                     JOptionPane.showMessageDialog(null, "Senhas devem ter mais de 4 caracteres",
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 } else if (!confirmar.equals(senha)) {
-                    
+
                     JOptionPane.showMessageDialog(null, "Senha de confirmação incorreta", 
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    GerenciadorDados.adicionarCadastro(new Cadastro(nome,login,senha));
-                    JOptionPane.showMessageDialog(null,
-                            "Cadastrado com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
+                    try {
+                        if (btnUser.isSelected()) {
+                            Gerenciador.adicionarCadastro(new Usuario(nome,login,senha));
+                            JOptionPane.showMessageDialog(null,
+                                "Cadastrado usuário com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        else {
+                            Gerenciador.adicionarCadastro(new Desenvolvedor(nome,login,senha));
+                            JOptionPane.showMessageDialog(null,
+                                "Cadastrado desenvolvedor com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        // Gambiarra violenta!
+                        btnSair.doClick();
+                    }
+                    catch (LoginJaExistenteException except) {
+                        JOptionPane.showMessageDialog(null,
+                        "Login já existe, favor escolha outro.", "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
 
             }
@@ -133,4 +149,5 @@ public class TelaCadastro extends Tela {
             }
         });
     }
+    
 }
