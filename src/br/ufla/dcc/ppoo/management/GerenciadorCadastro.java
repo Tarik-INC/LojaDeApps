@@ -5,7 +5,7 @@
  */
 package br.ufla.dcc.ppoo.management;
 
-import br.ufla.dcc.ppoo.users.Administrador;
+import br.ufla.dcc.ppoo.users.Cadastro;
 import br.ufla.dcc.ppoo.users.Cadastro;
 import java.io.BufferedReader;
 import java.io.File;
@@ -49,7 +49,7 @@ public class GerenciadorCadastro {
         String linha = br.readLine();
         while (linha != null) {
             String[] atributos = linha.split(",");
-            Cadastro cadastro = new Administrador(atributos[0], atributos[1], atributos[2]);
+            Cadastro cadastro = new Cadastro(atributos[0], atributos[1], atributos[2]);
             cadastros.add(cadastro);
             linha = br.readLine();
 

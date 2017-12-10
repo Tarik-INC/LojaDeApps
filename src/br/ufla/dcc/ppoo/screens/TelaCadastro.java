@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufla.dcc.ppoo.gui;
+package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.users.Cadastro;
 import br.ufla.dcc.ppoo.management.GerenciadorCadastro;
-import br.ufla.dcc.ppoo.users.Administrador;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -28,44 +28,25 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/**
- *
- * @author tarik
- */
-public class TelaCadastro extends JFrame {
+
+public class TelaCadastro extends Tela {
 
     private GerenciadorCadastro gCadastro;
-    
+
     private GridBagConstraints gbc;
     private GridBagLayout gbl;
 
     public TelaCadastro() {
-        super("Cadastrar Usuário");
+        super("Cadastrar Usuário", 300, 300);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         gCadastro = new GerenciadorCadastro();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        gbl = new GridBagLayout();
-        gbc = new GridBagConstraints();
-        setLayout(gbl);
-        ConstruirTela();
+        construirTela();
         pack();
-
     }
 
-    private void adicionarComponentes(Component comp, int achor, int fill,
-            int linha, int coluna, int larg, int alt) {
-        gbc.anchor = (int) achor;
-        gbc.fill = fill;
-        gbc.gridy = linha;
-        gbc.gridx = coluna;
-        gbc.gridwidth = larg;
-        gbc.gridheight = alt;
-        gbc.insets = new Insets(3, 3, 3, 3);
-        gbl.setConstraints(comp, gbc);
-        add(comp);
-    }
 
-    public void ConstruirTela() {
+    void construirTela() {
 
         JButton btnSalvar = new JButton("Salvar");
         JButton btnSair = new JButton("Sair");
@@ -133,7 +114,7 @@ public class TelaCadastro extends JFrame {
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
-                    gCadastro.AdicionarCadastro(new Administrador(nome,login,senha));
+                    gCadastro.AdicionarCadastro(new Cadastro(nome,login,senha));
                     JOptionPane.showMessageDialog(null,
                             "Cadastro OK!", "Parabéns", JOptionPane.INFORMATION_MESSAGE);
                 }

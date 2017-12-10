@@ -1,8 +1,7 @@
 package br.ufla.dcc.ppoo.users;
 
-import br.ufla.dcc.ppoo.apps.Licenca;
+import br.ufla.dcc.ppoo.apps.Aplicativo;
 import br.ufla.dcc.ppoo.miscellaneous.Data;
-import br.ufla.dcc.ppoo.users.enums.TipoUsuario;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -14,91 +13,29 @@ import java.util.List;
  * @author william
  */
 public class Usuario extends Cadastro {
-    private final List<Licenca> apps;
-    private final Data dataNasce;
-    private String email;
-    private TipoUsuario tipo;
-    private double credito;
+    private final List<Aplicativo> apps;
+    private Data dataNasce;
 
     /**
-     * Novo usuário padrão, demais atributos fazer um set
+     * Novo usuário padrão
      * @param login Login
      * @param senha Senha
      * @param nome Nome
-     * @param dataNasce Data de nascimento
      */
-    public Usuario(String login, String senha, String nome, Data dataNasce) {
+    public Usuario(String login, String senha, String nome) {
         super(login, senha, nome);
-        this.dataNasce = dataNasce;
-        this.tipo = null;
-        this.email = null;
+        this.dataNasce = null;
         this.apps = new LinkedList();
     }
 
     /**
      * Setter
-     * @param email E-mail do usuário
+     * @param dataNasce Data de nascimento
      */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Setter
-     * @param tipo Tipo de conta (enum)
-     */
-    public void setTipo(TipoUsuario tipo) {
-        this.tipo = tipo;
-    }
-
-    /**
-     * Setter, adiciona crédito (recarga)
-     * @param creditoPlus Valor a ser adicionado
-     */
-    public void addCredito(double creditoPlus) {
-        credito += creditoPlus;
+    public void setDataNasce(Data dataNasce) {
+        this.dataNasce = dataNasce;
     }
     
-    /**
-     * Setter, adiciona nova licenca de app
-     * @param licenca Referência para licença a ser adicionada
-     */
-    public void addApp(Licenca licenca) {
-        apps.add(licenca);
-    }
-    
-    /**
-     * Remove licenca de app
-     * @param licenca Referência para licença a ser removida
-     */
-    public void removeApp(Licenca licenca) {
-        apps.remove(licenca);
-    }
-        
-    /**
-     * Getter
-     * @return E-mail
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Getter
-     * @return Tipo conta (enum)
-     */
-    public TipoUsuario getTipo() {
-        return tipo;
-    }
-
-    /**
-     * Getter
-     * @return Valor do saldo
-     */
-    public double getCredito() {
-        return credito;
-    }
-
     /**
      * Getter
      * @return Data de nascimento
@@ -106,12 +43,28 @@ public class Usuario extends Cadastro {
     public Data getDataNasce() {
         return dataNasce;
     }
+    
+    /**
+     * Setter, adiciona novo app na lista
+     * @param app Referência para o app a ser adicionado
+     */
+    public void addApp(Aplicativo app) {
+        apps.add(app);
+    }
+    
+    /**
+     * Remove app
+     * @param app Referência para o app a ser removido
+     */
+    public void removeApp(Aplicativo app) {
+        apps.remove(app);
+    }
 
     /**
      * Getter
-     * @return Lista de licenças (apps) imutável
+     * @return Lista de apps imutável
      */
-    public List<Licenca> getApps() {
+    public List<Aplicativo> getApps() {
         return Collections.unmodifiableList(apps);
     }
     

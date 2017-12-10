@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
  * Qualquer login na loja
  * @author william
  */
-public abstract class Cadastro {
+public /*abstract*/ class Cadastro {
     private final String login;
     private final String senha;
     private String nome;
@@ -83,5 +83,22 @@ public abstract class Cadastro {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    /**
+     * Getter - tem que tirar isso depois
+     * @return 
+     */
+    public String getLogin() {
+        return login;
+    }
+
+    /**
+     * Getter - tem que tirar isso depois
+     * @return 
+     */
+    public String getSenha() {
+        return senha;
+    }
+    
     
 }
