@@ -1,101 +1,73 @@
 package br.ufla.dcc.ppoo.users;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
-import br.ufla.dcc.ppoo.miscellaneous.Data;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Usuário padrão do sistema
- * @author william
- */
-public class Usuario extends Cadastro {
+public class Usuario {
+    private final String nome;
+    private final String login;
+    private final String senha;
     private final List<Aplicativo> apps;
-    private Data dataNasce;
 
-    /**
-     * Novo usuário padrão
-     * @param login Login
-     * @param senha Senha
-     * @param nome Nome
-     */
     public Usuario(String nome, String login, String senha) {
-        super(nome, login, senha);
-        this.dataNasce = null;
+        this.login = login;
+        this.senha = senhaCriptografada(senha);
+        this.nome = nome;
         this.apps = new LinkedList();
     }
 
     /**
-     * Setter
-     * @param dataNasce Data de nascimento
+     * Validar login 
+     * @param loginIn Login digitado durante o login
+     * @return Booleano indicando se o login confere
      */
-    public void setDataNasce(Data dataNasce) {
-        this.dataNasce = dataNasce;
-    }
-    
-    /**
-     * Getter
-     * @return Data de nascimento
-     */
-    public Data getDataNasce() {
-        return dataNasce;
-    }
-    
-    /**
-     * Setter, adiciona novo app na lista
-     * @param app Referência para o app a ser adicionado
-     */
-    public void addApp(Aplicativo app) {
-        apps.add(app);
-    }
-    
-    /**
-     * Remove app
-     * @param app Referência para o app a ser removido
-     */
-    public void removeApp(Aplicativo app) {
-        apps.remove(app);
+    public boolean isLogin(String loginIn) {
+        return login.equals(loginIn);
     }
 
     /**
-     * Getter
-     * @return Lista de apps imutável
+     * Validar senha 
+     * @param senhaIn Senha digitada durante o login
+     * @return Booleano indicando se a senha confere
      */
-    public List<Aplicativo> getApps() {
-        return Collections.unmodifiableList(apps);
+    public boolean isSenha(String senhaIn) {
+        return senha.equals( senhaCriptografada(senhaIn) );
     }
     
     /**
-     * Idade de acordo com a data e a hora do sistema
-     * @return Idade atual, se for negativo é inválido (data do futuro)
+     * Método de criptografia SHA-256 (Segurança computacional aplicada)
+     * @link https://www.devmedia.com.br/como-funciona-a-criptografia-hash-em-java/31139
+     * @param senhaIn Senha a ser criptografada
+     * @return Senha criptografada, senão null se ocorrer erro
      */
-    public int getIdade() {
-        Date date = new Date();
-        int diaHoje = Integer.parseInt( new SimpleDateFormat("dd").format(date) );
-        int mesHoje = Integer.parseInt( new SimpleDateFormat("MM").format(date) );
-        int anoHoje = Integer.parseInt( new SimpleDateFormat("yyyy").format(date) );
-        
-        int deltaDia = diaHoje - dataNasce.getDia();
-        int deltaMes = mesHoje - dataNasce.getMes();
-        int deltaAno = anoHoje - dataNasce.getAno();
-        
-        if (deltaMes > 0) {
-            return deltaAno;
-        }
-        else if (deltaMes < 0) {
-            return deltaAno - 1;
-        }
-        else {
-            if (deltaDia >= 0) {
-                return deltaAno;
+    private String senhaCriptografada(String senhaIn) {
+        try {
+            MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+            byte messageDigest[] = algorithm.digest(senhaIn.getBytes("UTF-8"));
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : messageDigest) {
+                hexString.append(String.format("%02X", 0xFF & b));
             }
-            else {
-                return deltaAno - 1;
-            }
+
+            return hexString.toString();
         }
+        catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            // Nunca vai entrar aqui, pois "UTF-8" e "SHA-256" estão corretos
+            return null;
+        }
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getLogin() {
+        return login;
     }
     
 }

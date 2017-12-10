@@ -3,7 +3,7 @@ package br.ufla.dcc.ppoo.management;
 import br.ufla.dcc.ppoo.apps.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
-import br.ufla.dcc.ppoo.users.Cadastro;
+import br.ufla.dcc.ppoo.users.Usuario;
 import java.io.File;
 import java.io.IOException;
 
@@ -31,19 +31,15 @@ public abstract class Gerenciador {
         }
     }
 
-    public static void salvarArquivoDados() {
+    public static void salvarDados() {
 
     }
 
-    public static void adicionarCadastro(Cadastro cadastro) throws LoginJaExistenteException {
+    public static void adicionarCadastro(Usuario cadastro) throws LoginJaExistenteException {
         dataBase.addCadastro(cadastro);
     }
     
-    public static void adicionarAplicativo(Aplicativo app) {
-        dataBase.addNovoApp(app);
-    }
-    
-    public static Cadastro buscarCadastro(String login) throws LoginInexistenteException {
+    public static Usuario buscarCadastro(String login) throws LoginInexistenteException {
         return dataBase.buscarCadastro(login);
     }
 

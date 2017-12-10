@@ -2,15 +2,13 @@ package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.management.Gerenciador;
-import br.ufla.dcc.ppoo.users.Cadastro;
+import br.ufla.dcc.ppoo.users.Usuario;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class TelaLogin extends Tela {
+public final class TelaLogin extends Tela {
 
     private GridBagConstraints gbc;
     private GridBagLayout gbl;
@@ -55,7 +53,7 @@ public class TelaLogin extends Tela {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Cadastro c = Gerenciador.buscarCadastro(txtLogin.getText());
+                    Usuario c = Gerenciador.buscarCadastro(txtLogin.getText());
                     if (c.isSenha(txtSenha.getText())) {
                         JOptionPane.showMessageDialog(null,
                                 "Bem Vindo, " + c.getNome() + "!", "Logado com Sucesso", JOptionPane.INFORMATION_MESSAGE);
