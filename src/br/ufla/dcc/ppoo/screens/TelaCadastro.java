@@ -2,7 +2,6 @@ package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.management.Gerenciador;
-import br.ufla.dcc.ppoo.users.Desenvolvedor;
 import br.ufla.dcc.ppoo.users.Usuario;
 
 import java.awt.GridBagConstraints;
@@ -10,18 +9,16 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 
-public class TelaCadastro extends Tela {
+public final class TelaCadastro extends Tela {
 
     private GridBagConstraints gbc;
     private GridBagLayout gbl;
@@ -40,26 +37,13 @@ public class TelaCadastro extends Tela {
 
         JButton btnSalvar = new JButton("Salvar");
         JButton btnSair = new JButton("Sair");
-        JRadioButton btnUser = new JRadioButton("Usuário", true);
-        JRadioButton btnDev = new JRadioButton("Desenvolvedor", false);
 
         JPanel painelBotoes = new JPanel();
         painelBotoes.setLayout(new GridLayout(1, 1, 30, 30));
         painelBotoes.add(btnSalvar);
         painelBotoes.add(btnSair);
 
-        ButtonGroup selecaoGrupo = new ButtonGroup();
-        selecaoGrupo.add(btnDev);
-        selecaoGrupo.add(btnUser);
-
-        JPanel painelSelecao = new JPanel();
-        painelSelecao.setLayout(new GridLayout(1, 1, 30, 30));
-        painelSelecao.add(btnUser);
-        painelSelecao.add(btnDev);
-
-        adicionarComponentes(painelSelecao, GridBagConstraints.CENTER, GridBagConstraints.NONE, 4, 1, 2, 1);
-
-        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 5, 1, 2, 1);
+        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 4, 1, 2, 1);
 
         JLabel rotuloNome = new JLabel("Nome ");
         adicionarComponentes(rotuloNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
@@ -118,16 +102,10 @@ public class TelaCadastro extends Tela {
                 }
                 else {
                     try {
-                        if (btnUser.isSelected()) {
-                            Gerenciador.adicionarCadastro(new Usuario(nome,login,senha));
-                            JOptionPane.showMessageDialog(null,
-                                "Cadastrado usuário com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
-                        }
-                        else {
-                            Gerenciador.adicionarCadastro(new Desenvolvedor(nome,login,senha));
-                            JOptionPane.showMessageDialog(null,
-                                "Cadastrado desenvolvedor com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
-                        }
+                        Gerenciador.adicionarCadastro(new Usuario(nome,login,senha));
+                        JOptionPane.showMessageDialog(null,
+                            "Cadastrado usuário com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
+                        
                         // Gambiarra violenta!
                         btnSair.doClick();
                     }

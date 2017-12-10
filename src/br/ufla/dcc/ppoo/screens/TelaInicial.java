@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TelaInicial extends Tela {
+public final class TelaInicial extends Tela {
 
     public TelaInicial() {
         super("Tela Inicial", 300, 300);
@@ -14,6 +14,7 @@ public class TelaInicial extends Tela {
         construirTela();
     }
 
+    @Override
     void construirTela() {
         JButton btnCadastro = new JButton("Novo Usuário", new ImageIcon(getClass().getResource("images/cadastro.png")));
         JButton btnLogin = new JButton("Login", new ImageIcon(getClass().getResource("images/login.png")));
@@ -21,7 +22,8 @@ public class TelaInicial extends Tela {
 
         adicionarComponentes(btnLogin, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
         adicionarComponentes(btnCadastro, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
-        adicionarComponentes(btnRecuperarSenha, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
+        //adicionarComponentes(btnRecuperarSenha, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
+        //acrescentar para 2ª entrega
 
 
         btnCadastro.addActionListener(new ActionListener() {

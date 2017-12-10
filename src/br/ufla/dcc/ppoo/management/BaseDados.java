@@ -1,28 +1,21 @@
 package br.ufla.dcc.ppoo.management;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
-import br.ufla.dcc.ppoo.users.Cadastro;
+import br.ufla.dcc.ppoo.users.Usuario;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Todos os dados do sistema
- * @author william
- */
 public class BaseDados {
-    private final List<Cadastro> cadastros;
-    private final List<Aplicativo> aplicativos;
+    private final List<Usuario> cadastros;
 
     /**
      * Cria base de dados vazia.
      */
     public BaseDados() {
         cadastros = new LinkedList();
-        aplicativos = new LinkedList();
     }
     
     /**
@@ -32,8 +25,8 @@ public class BaseDados {
      */
     public BaseDados(File file) throws IOException {
         cadastros = null;
-        aplicativos = null; 
         throw new IOException("NÃO TEM COMO MEXER NO ARQUIVO AINDA");
+        //System.exit(0);
         /*
         // ou arquivo vazio...
         if (!file.exists()) {
@@ -44,8 +37,8 @@ public class BaseDados {
         */
     }
     
-    public void addCadastro(Cadastro cadastro) throws LoginJaExistenteException {
-        for (Cadastro c : cadastros) {
+    public void addCadastro(Usuario cadastro) throws LoginJaExistenteException {
+        for (Usuario c : cadastros) {
             if (c.isLogin(cadastro.getLogin())) {
                 throw new LoginJaExistenteException("Login já existe");
             }
@@ -53,25 +46,9 @@ public class BaseDados {
         
         cadastros.add(cadastro);
     }
-    /*
-    public void removeCadastro(Cadastro cadastro) throws LoginInexistenteException {
-        if (! cadastros.remove(cadastro)) {
-            throw new LoginInexistenteException("Cadastro não encontrado");
-        }
-    }
-    */
-    public void addNovoApp(Aplicativo app) {
-        aplicativos.add(app);
-    }
-    /*
-    public void removeApp(Aplicativo app) throws AppInexistenteException {
-        if (! aplicativos.remove(app)) {
-            throw new AppInexistenteException("App não encontrado");
-        }
-    }
-    */
-    public Cadastro buscarCadastro(String login) throws LoginInexistenteException {
-        for (Cadastro c : cadastros) {
+    
+    public Usuario buscarCadastro(String login) throws LoginInexistenteException {
+        for (Usuario c : cadastros) {
             if (c.isLogin(login)) {
                 return c;
             }
