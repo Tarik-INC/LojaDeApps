@@ -6,9 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Start extends Tela {
+public class TelaInicial extends Tela {
 
-    public Start() {
+    public TelaInicial() {
         super("Tela Inicial", 300, 300);
 
         construirTela();
@@ -34,14 +34,14 @@ public class Start extends Tela {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Login().setVisible(true);
+                new TelaLogin().setVisible(true);
             }
         });
 
         btnRecuperarSenha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new RecuperarSenha().setVisible(true);
+                new TelaRecuperarSenha().setVisible(true);
             }
         });
 
