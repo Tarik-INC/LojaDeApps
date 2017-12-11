@@ -1,19 +1,52 @@
 package br.ufla.dcc.ppoo.apps;
 
-import br.ufla.dcc.ppoo.miscellaneous.SistemaOperacional;
-import br.ufla.dcc.ppoo.users.Empresa;
+import java.util.Collections;
 import java.util.List;
 
 public class Aplicativo {
-    private int nroRegistro;
-    private Empresa desenvolvedor;
-    private String nome;
-    private int tamanho;
-    private String genero;
-    private String versao;
-    private List<SistemaOperacional> sistemas;
-    private List<String> idiomas;
-    private int faixaEtaria;
-    private int downloads;
+    private final String nome;
+    private final String descricao;
+    private final List<String> palavrasChave;
     private float nota;
+    private int numAvaliacoes;
+    private int downloads;
+
+    public Aplicativo(String nome, String descricao, List<String> palavrasChave) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.palavrasChave = palavrasChave;
+        this.nota = 0.0f;
+        this.numAvaliacoes = 0;
+        this.downloads = 0;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public List<String> getPalavrasChave() {
+        return Collections.unmodifiableList(palavrasChave);
+    }
+
+    public float getNota() {
+        return nota;
+    }
+    
+    public void novaAvaliacao(int nota) {
+        this.nota = (this.nota * numAvaliacoes + nota) / (++numAvaliacoes);
+    }
+
+    public int getDownloads() {
+        return this.downloads;
+    }
+
+    public void attDownloads() {
+        downloads = ++downloads;
+    }
+
+    
 }
