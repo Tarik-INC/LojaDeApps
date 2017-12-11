@@ -12,12 +12,14 @@ public final class TelaLogin extends Tela {
 
     private GridBagConstraints gbc;
     private GridBagLayout gbl;
+    private final TelaInicial source;
 
-    public TelaLogin() {
+    public TelaLogin(TelaInicial source) {
         super("Login", 300, 300);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
+        this.source = source;
     }
 
 
@@ -48,7 +50,7 @@ public final class TelaLogin extends Tela {
 
         adicionarComponentes(painel, GridBagConstraints.CENTER, GridBagConstraints.NONE, 4, 1, 2, 1);
 
-        
+
         btnConfirmar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,6 +59,9 @@ public final class TelaLogin extends Tela {
                     if (c.isSenha(txtSenha.getText())) {
                         JOptionPane.showMessageDialog(null,
                                 "Bem Vindo, " + c.getNome() + "!", "Logado com Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        source.dispose();
+                        dispose();
+                        new TelaGerenciamento(source).setVisible(true);
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "Senha incorreta.", "Falha ao Logar", JOptionPane.ERROR_MESSAGE);
@@ -67,8 +72,8 @@ public final class TelaLogin extends Tela {
                 }
             }
         });
-        
-        
+
+
         btnCancela.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {

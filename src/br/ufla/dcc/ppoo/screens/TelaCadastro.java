@@ -109,7 +109,7 @@ public final class TelaCadastro extends Tela {
                     }
                     catch (LoginJaExistenteException except) {
                         JOptionPane.showMessageDialog(null,
-                        "Login já existe, favor escolha outro.", "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
+                        "Usuário já existe, favor escolha outro.", "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
                     }
                 }
 

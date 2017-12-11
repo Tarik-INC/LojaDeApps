@@ -40,7 +40,7 @@ public final class TelaInicial extends Tela {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaLogin().setVisible(true);
+                new TelaLogin(TelaInicial.this).setVisible(true);
             }
         });
 
