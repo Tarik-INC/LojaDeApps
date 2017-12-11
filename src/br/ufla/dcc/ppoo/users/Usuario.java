@@ -1,13 +1,14 @@
 package br.ufla.dcc.ppoo.users;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Usuario {
+public class Usuario implements Serializable {
     private final String nome;
     private final String login;
     private final String senha;

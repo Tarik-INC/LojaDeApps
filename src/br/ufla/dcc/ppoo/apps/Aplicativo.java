@@ -1,11 +1,12 @@
 package br.ufla.dcc.ppoo.apps;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class Aplicativo {
+public class Aplicativo implements Serializable {
     private final String nome;
-    private final String descricao;
+    private String descricao;
     private final List<String> palavrasChave;
     private float nota;
     private int numAvaliacoes;
@@ -38,4 +39,7 @@ public class Aplicativo {
         this.nota = (this.nota * numAvaliacoes + nota) / (++numAvaliacoes);
     }
     
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 }
