@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Arquivo {
 
-    private List<Cadastro> cadastros;
+    private List<Usuario> cadastros;
     private File file = new File("ArqCadastro.bin");
 
     public Arquivo() {
@@ -17,13 +17,13 @@ public class Arquivo {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            cadastros = new ArrayList<Cadastro>();
+            cadastros = new ArrayList<Usuario>();
         } catch (IOException ex) {
             ex.getMessage();
         }
     }
 
-    public void AdicionarCadastro(Cadastro cads) {
+    public void AdicionarCadastro(Usuario cads) {
         cadastros.add(cads);
     }
 
@@ -49,8 +49,8 @@ public class Arquivo {
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(new FileInputStream("ArqCadastro.bin"));
-            List<Cadastro> cadastros = (List<Cadastro>) ois.readObject();
-            for (Cadastro c:  cadastros) {
+            List<Usuario> cadastros = (List<Usuario>) ois.readObject();
+            for (Usuario c:  cadastros) {
                 System.out.println(c);
             }
         } catch (IOException|ClassNotFoundException e) {
@@ -72,8 +72,8 @@ public class Arquivo {
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(new FileInputStream("ArqCadastro.bin"));
-            List<Cadastro> cadastros = (List<Cadastro>) ois.readObject();
-            for (Cadastro c:  cadastros) {
+            List<Usuario> cadastros = (List<Usuario>) ois.readObject();
+            for (Usuario c:  cadastros) {
                 if (c.isLogin(login) && c.isSenha(senha)) {
                     encontrou = true;
                     break;

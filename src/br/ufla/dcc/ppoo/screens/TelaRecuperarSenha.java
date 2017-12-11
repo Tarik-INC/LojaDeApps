@@ -5,16 +5,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RecuperarSenha extends Tela {
+public final class TelaRecuperarSenha extends Tela {
 
 
-    public RecuperarSenha() {
+    public TelaRecuperarSenha() {
         super("Recuperar Senha", 300, 300);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
     }
 
+    @Override
     void construirTela() {
 
         JLabel lbLogin = new JLabel("Login");

@@ -3,7 +3,6 @@ package br.ufla.dcc.ppoo.screens;
 import javax.swing.*;
 import java.awt.*;
 
-
 abstract class Tela extends JFrame{
 
 
