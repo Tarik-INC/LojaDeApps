@@ -53,6 +53,8 @@ public class TelaListarApp extends Tela {
         adicionarComponentes(painelRotulo, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1, 0, 1, 1);
 
         DefaultListModel listModel = new DefaultListModel();
+
+        usuario.sortAplicativos();
         JList<Aplicativo> list = new JList<Aplicativo>(listModel);
         for (int i = 0; i < usuario.getAplicativos().size(); ++i) {
             listModel.addElement(usuario.getApp(i));
@@ -99,6 +101,25 @@ public class TelaListarApp extends Tela {
                 } else {
                     new TelaEditarApp(usuario.getAplicativo(index), TelaListarApp.this).setVisible(true);
                     setVisible(false);
+                }
+            }
+        });
+
+
+        btnRemover.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = list.getSelectedIndex();
+
+                if (index == -1) {
+                    JOptionPane.showMessageDialog(null,
+                            "Nenhum aplicativo selecionado!", "ERRO", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    int reply = JOptionPane.showConfirmDialog(null, "Tem certeza que quer deletar?",
+                            "Deletar Aplicativo", JOptionPane.YES_NO_OPTION);
+                    if (reply == JOptionPane.YES_OPTION) {
+                        usuario.deleteAplicativo(index);
+                    }
                 }
             }
         });

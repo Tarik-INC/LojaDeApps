@@ -64,7 +64,7 @@ public class TelaCadastrarApp extends Tela{
                 if (palavrasChave.size() < 2) {
                     JOptionPane.showMessageDialog(null,
                             "Menos de duas palavras-chave!", "ERRO", JOptionPane.WARNING_MESSAGE);
-                } else {
+                }else {
 
                     String[] texto = txtDescricao.getText().split("\n");
                     String descricao = "";
