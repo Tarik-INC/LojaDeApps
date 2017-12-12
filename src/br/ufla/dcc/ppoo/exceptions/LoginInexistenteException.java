@@ -1,8 +1,8 @@
 package br.ufla.dcc.ppoo.exceptions;
 
 /**
- *
- * @author william
+ * Exceção que ocorre quando um login não existe no sistema.
+ * @author rafael, tarik, william
  */
 public class LoginInexistenteException extends LoginException {
 

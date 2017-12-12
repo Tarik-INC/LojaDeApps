@@ -1,8 +1,8 @@
 package br.ufla.dcc.ppoo.exceptions;
 
 /**
- *
- * @author william
+ * Exceção genérica do campo senha.
+ * @author rafael, tarik, william
  */
 public class SenhaException extends Exception {
 
