@@ -70,5 +70,12 @@ public class Usuario implements Serializable {
     public String getLogin() {
         return login;
     }
-    
+
+    public void addApp(Aplicativo aplicativo) {
+        this.apps.add(aplicativo);
+    }
+
+    public List<Aplicativo> getAplicativos() {
+        return apps;
+    }
 }

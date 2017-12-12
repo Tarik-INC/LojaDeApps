@@ -1,15 +1,21 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.users.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TelaListarApp extends Tela {
 
-    public TelaListarApp() {
+    private Usuario usuario;
+
+    public TelaListarApp(Usuario usuario) {
         super("Lista Apps", 300, 300);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.usuario = usuario;
         construirTela();
         pack();
 
@@ -17,17 +23,41 @@ public class TelaListarApp extends Tela {
 
     @Override
     void construirTela() {
-        /*
-        String[] colunas = {"Nome", "Descrição", "Palavras-Chave", "Nota", "Downloads"};
+
+        JLabel lbInstrucao = new JLabel("Selecione um aplicativo para realizar alguma ação:");
+        JButton btnVisualizar = new JButton("Visualizar");
+        JButton btnEditar = new JButton("Editar");
+        JButton btnRemover = new JButton("Remover");
+        JButton btnSair = new JButton("Sair");
+        JPanel painelBotoes = new JPanel();
+        painelBotoes.setLayout(new GridLayout(1, 4, 30, 30));
+        painelBotoes.add(btnVisualizar);
+        painelBotoes.add(btnEditar);
+        painelBotoes.add(btnRemover);
+        painelBotoes.add(btnSair);
+
+        adicionarComponentes(lbInstrucao, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
+        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
+
+        btnSair.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispose();
+            }
+        });
+
+
+        String[] columnNames = {"Nome",
+                "Descrição",
+                "Palavras-Chave",
+                "Nota",
+                "Downloads"};
         Object[][] data = {
-                {"Nome", "Descricao", "Teste", 5, 5}
+
         };
-        */
-        String[] columnNames = {"First Name",
-                "Last Name",
-                "Sport",
-                "# of Years",
-                "Vegetarian"};
+
+/*
         Object[][] data = {
                 {"Kathy", "Smith",
                         "Snowboarding", new Integer(5), new Boolean(false)},
@@ -40,7 +70,11 @@ public class TelaListarApp extends Tela {
                 {"Joe", "Brown",
                         "Pool", new Integer(10), new Boolean(false)}
         };
-        JTable tbTabela = new JTable(data, columnNames);
-        adicionarComponentes(tbTabela, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, 1, 1);
+*/
+        JTable table = new JTable(data, columnNames);
+        JScrollPane scrollPane = new JScrollPane(table);
+        table.setFillsViewportHeight(true);
+        adicionarComponentes(scrollPane, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0, 0, 1, 1);
+
     }
 }

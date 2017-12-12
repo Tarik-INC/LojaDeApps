@@ -1,21 +1,26 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.users.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class TelaGerenciamento extends Tela{
 
     private TelaInicial source;
+    private Usuario usuario;
 
-    public TelaGerenciamento(TelaInicial source) {
+    public TelaGerenciamento(TelaInicial source, Usuario usuario) {
         super("Gerenciamento", 300, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         construirTela();
         this.source = source;
+        this.usuario = usuario;
     }
 
     @Override
@@ -43,15 +48,16 @@ public class TelaGerenciamento extends Tela{
         btnCadastrarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaCadastrarApp().setVisible(true);
+                new TelaCadastrarApp(usuario).setVisible(true);
             }
         });
 
         btnListarApps.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaListarApp().setVisible(true);
+                new TelaListarApp(usuario).setVisible(true);
             }
         });
+
     }
 }

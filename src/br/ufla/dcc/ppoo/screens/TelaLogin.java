@@ -12,7 +12,7 @@ public final class TelaLogin extends Tela {
 
     private GridBagConstraints gbc;
     private GridBagLayout gbl;
-    private final TelaInicial source;
+    private TelaInicial source;
 
     public TelaLogin(TelaInicial source) {
         super("Login", 300, 300);
@@ -61,7 +61,7 @@ public final class TelaLogin extends Tela {
                                 "Bem Vindo, " + c.getNome() + "!", "Logado com Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         source.dispose();
                         dispose();
-                        new TelaGerenciamento(source).setVisible(true);
+                        new TelaGerenciamento(source, c).setVisible(true);
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "Senha incorreta.", "Falha ao Logar", JOptionPane.ERROR_MESSAGE);
