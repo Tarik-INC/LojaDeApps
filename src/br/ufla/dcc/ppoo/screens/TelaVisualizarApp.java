@@ -41,7 +41,7 @@ public class TelaVisualizarApp extends Tela {
                 new StarRater.StarListener() {
             
             public void handleSelection(int selection) {
-                app.setNota(selection);
+                app.setNota((selection+ app.getNota()/2));
                 lbQuantAvaliacao.setText(Integer.toString(selection));
             }
         });
