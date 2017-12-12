@@ -9,8 +9,8 @@ import java.awt.*;
  */
 abstract class Tela extends JFrame{
 
-    private GridBagConstraints gbc;
-    private GridBagLayout gbl;
+    private final GridBagConstraints gbc;
+    private final GridBagLayout gbl;
 
     /**
      * Construtor da tela.
@@ -20,7 +20,8 @@ abstract class Tela extends JFrame{
      */
     public Tela(String nomeTela, int largura, int altura) {
         super(nomeTela);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setResizable(false);
         setSize(largura, altura);
 
         gbl = new GridBagLayout();

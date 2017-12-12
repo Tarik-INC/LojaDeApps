@@ -80,6 +80,7 @@ public class TelaLogin extends Tela {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 setVisible(false);
+                source.setVisible(true);
                 dispose();
             }
         });

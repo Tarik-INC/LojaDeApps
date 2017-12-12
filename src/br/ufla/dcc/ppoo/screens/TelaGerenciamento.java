@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TelaGerenciamento extends Tela{
+public class TelaGerenciamento extends Tela {
 
     private final TelaInicial source;
     private final Usuario usuario;
@@ -53,7 +53,7 @@ public class TelaGerenciamento extends Tela{
         btnBuscarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Não fiz!", "Deu Ruim", JOptionPane.WARNING_MESSAGE);
+                new TelaBuscar().setVisible(true);
             }
         });
         

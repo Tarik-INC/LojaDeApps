@@ -2,7 +2,7 @@ package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
 import br.ufla.dcc.ppoo.miscellaneous.Comentario;
-import br.ufla.dcc.ppoo.starRater.StarRater;
+import br.ufla.dcc.ppoo.miscellaneous.StarRater;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

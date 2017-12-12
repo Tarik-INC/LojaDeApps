@@ -1,4 +1,4 @@
-package br.ufla.dcc.ppoo.starRater;
+package br.ufla.dcc.ppoo.miscellaneous;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

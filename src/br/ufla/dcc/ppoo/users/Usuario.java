@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -114,7 +115,7 @@ public class Usuario implements Serializable {
      */
     public String getAplicativoString(int i) {
         String aplicativo = String.format("%s | %s | %s | %s", 
-            apps.get(i).getNome(), apps.get(i).getDescricao().substring(0, 10),
+            apps.get(i).getNome(), apps.get(i).getDescricaoResumido(),
             apps.get(i).getPalavrasChave(), apps.get(i).getNota());
         return aplicativo;
     }
@@ -126,6 +127,21 @@ public class Usuario implements Serializable {
      */
     public Aplicativo getAplicativo(int i) {
         return apps.get(i);
+    }
+    
+    /**
+     * Ordena lista de aplicativos.
+     */
+    public void sortAplicativos() {
+        apps.sort(Comparator.comparing(Aplicativo::getNome));
+    }
+
+    /**
+     * Remove app da lista.
+     * @param i Índice do app
+     */
+    public void removeAplicativo(int i) {
+        apps.remove(apps.get(i));
     }
     
 }

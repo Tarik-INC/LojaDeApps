@@ -12,7 +12,6 @@ public class TelaInicial extends Tela {
     private JButton btnCadastro;
     private JButton btnLogin;
     private JButton btnSair;
-    //private JButton btnRecuperarSenha;
     
     public TelaInicial() {
         super("Tela Inicial", 300, 300);
@@ -26,24 +25,24 @@ public class TelaInicial extends Tela {
         btnCadastro = new JButton("Novo Usuário", new ImageIcon(getClass().getResource("images/cadastro.png")));
         btnLogin = new JButton("Login", new ImageIcon(getClass().getResource("images/login.png")));
         btnSair = new JButton("Sair", new ImageIcon(getClass().getResource("images/sair.png")));
-        //btnRecuperarSenha = new JButton("Recuperar Senha", new ImageIcon(getClass().getResource("images/recuperarSenha.png")));
 
         adicionarComponentes(btnLogin, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
         adicionarComponentes(btnCadastro, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
         adicionarComponentes(btnSair, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
-        //adicionarComponentes(btnRecuperarSenha, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
         
         
         btnCadastro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaCadastro().setVisible(true);
+                dispose();
+                new TelaCadastro(TelaInicial.this).setVisible(true);
             }
         });
 
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 new TelaLogin(TelaInicial.this).setVisible(true);
             }
         });
@@ -51,22 +50,21 @@ public class TelaInicial extends Tela {
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Gerenciador.salvarDados();
-                    System.exit(0);
-                } catch (IOException ex) {
-                    
+                int closeOption = JOptionPane.showConfirmDialog(null, 
+                    "Deseja mesmo sair?", "Sair", 
+                    JOptionPane.WARNING_MESSAGE
+                );
+                
+                if (closeOption == JOptionPane.OK_OPTION) {
+                    try {
+                        Gerenciador.salvarDados();
+                        System.exit(0);
+                    } catch (IOException ex) {
+
+                    }
                 }
             }
         });
-        
-        /*btnRecuperarSenha.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new TelaRecuperarSenha().setVisible(true);
-            }
-        });*/
-        
     }
 
 }

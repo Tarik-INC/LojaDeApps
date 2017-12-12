@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class TelaCadastrarApp extends Tela{
     
-    private Usuario usuario;
+    private final Usuario usuario;
     private JLabel lbNome;
     private JLabel lbDescricao;
     private JLabel lbPalavrasChave;
