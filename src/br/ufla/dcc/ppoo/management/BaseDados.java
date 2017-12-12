@@ -1,5 +1,7 @@
 package br.ufla.dcc.ppoo.management;
 
+import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.AppInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.users.Usuario;
@@ -56,4 +58,19 @@ public class BaseDados {
         
         throw new LoginInexistenteException("Cadastro não encontrado");
     }
+
+    public Aplicativo buscarAplicativo(String aplicativo) throws AppInexistenteException {
+        for (Usuario c :
+                cadastros) {
+            for (Aplicativo app :
+                    c.getAplicativos()) {
+                if (app.getNome() == aplicativo) {
+                    return app;
+                }
+            }
+        }
+
+        throw
+    }
+
 }
