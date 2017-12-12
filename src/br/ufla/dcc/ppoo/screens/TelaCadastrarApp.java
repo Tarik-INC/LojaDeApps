@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.List;
 
 public class TelaCadastrarApp extends Tela{
 
@@ -58,9 +59,27 @@ public class TelaCadastrarApp extends Tela{
         btnSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Aplicativo aplicativo = new Aplicativo(txtNome.getText(), txtDescricao.getText(),
-                        Arrays.asList(txtPalavrasChave.getText().split(";")));
-                usuario.addApp(aplicativo);
+
+                List<String> palavrasChave = Arrays.asList(txtPalavrasChave.getText().split(";"));
+                if (palavrasChave.size() < 2) {
+                    JOptionPane.showMessageDialog(null,
+                            "Menos de duas palavras-chave!", "ERRO", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    String[] texto = txtDescricao.getText().split("\n");
+                    String descricao = "";
+                    for (int i = 0; i < texto.length; ++i) {
+                        descricao += texto[i] + System.lineSeparator();
+                    }
+
+                    Aplicativo aplicativo = new Aplicativo(txtNome.getText(), descricao, palavrasChave);
+                    usuario.addApp(aplicativo);
+
+                    JOptionPane.showMessageDialog(null,
+                            "Aplicativo cadastrado com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
+
+                    btnCancelar.doClick();
+                }
             }
         });
 
