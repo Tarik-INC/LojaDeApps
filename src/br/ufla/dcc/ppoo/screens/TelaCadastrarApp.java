@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.users.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +11,12 @@ import java.util.Arrays;
 
 public class TelaCadastrarApp extends Tela{
 
-    public TelaCadastrarApp() {
+    private Usuario usuario;
+
+    public TelaCadastrarApp(Usuario usuario) {
         super("Cadastrar App", 300, 300);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.usuario = usuario;
         construirTela();
         pack();
     }
@@ -56,6 +60,7 @@ public class TelaCadastrarApp extends Tela{
             public void actionPerformed(ActionEvent e) {
                 Aplicativo aplicativo = new Aplicativo(txtNome.getText(), txtDescricao.getText(),
                         Arrays.asList(txtPalavrasChave.getText().split(";")));
+                usuario.addApp(aplicativo);
             }
         });
 

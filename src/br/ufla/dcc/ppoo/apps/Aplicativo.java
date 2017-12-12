@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Aplicativo implements Serializable {
+
     private final String nome;
     private String descricao;
     private final List<String> palavrasChave;
@@ -31,15 +32,31 @@ public class Aplicativo implements Serializable {
         return Collections.unmodifiableList(palavrasChave);
     }
 
+    public String getPalavrasChaveString() {
+        // Isso aqui que é gambiarra seu mongol
+        String result = palavrasChave.get(0)+", ";
+        for (String palavraChave : palavrasChave) {
+            palavraChave = palavraChave + ", ";
+           if(!palavraChave.equals(result)) {
+               result += palavraChave;
+           }
+        }
+        return result;
+    }
+
     public float getNota() {
         return nota;
     }
-    
+
     public void novaAvaliacao(int nota) {
         this.nota = (this.nota * numAvaliacoes + nota) / (++numAvaliacoes);
     }
-    
+
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+    
+      public void setNota(float nota) {
+        this.nota = nota;
     }
 }

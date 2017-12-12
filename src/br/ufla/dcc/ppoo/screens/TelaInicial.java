@@ -8,11 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+
 public final class TelaInicial extends Tela {
 
     public TelaInicial() {
-        super("Tela Inicial", 300, 300);
-        
+        super("Tela Inicial", 250, 280);
         construirTela();
     }
 
@@ -20,14 +20,13 @@ public final class TelaInicial extends Tela {
     void construirTela() {
         JButton btnCadastro = new JButton("Novo Usuário", new ImageIcon(getClass().getResource("images/cadastro.png")));
         JButton btnLogin = new JButton("Login", new ImageIcon(getClass().getResource("images/login.png")));
-        JButton btnRecuperarSenha = new JButton("Recuperar Senha", new ImageIcon(getClass().getResource("images/recuperarSenha.png")));
+        JButton btnRecuperarSenha = new JButton("Recuperar senha", new ImageIcon(getClass().getResource("images/recuperarSenha.png")));
         JButton btnSair = new JButton("Sair");
 
         adicionarComponentes(btnLogin, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
         adicionarComponentes(btnCadastro, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
-        //adicionarComponentes(btnRecuperarSenha, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
+//        adicionarComponentes(btnRecuperarSenha, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
         adicionarComponentes(btnSair, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
-        
 
 
         btnCadastro.addActionListener(new ActionListener() {
@@ -44,13 +43,15 @@ public final class TelaInicial extends Tela {
             }
         });
 
+        /*
         btnRecuperarSenha.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new TelaRecuperarSenha().setVisible(true);
             }
         });
-        
+        */
+
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,11 +59,10 @@ public final class TelaInicial extends Tela {
                     Gerenciador.salvarDados();
                     System.exit(0);
                 } catch (IOException ex) {
-                    
+
                 }
             }
         });
-
 
     }
 

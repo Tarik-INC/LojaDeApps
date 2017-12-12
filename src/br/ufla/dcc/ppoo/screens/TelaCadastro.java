@@ -86,6 +86,7 @@ public final class TelaCadastro extends Tela {
                 String senha = caixaTextoSenha.getText().trim();
                 String confirmar = caixaTextoSenhaConfirmar.getText().trim();
 
+                //Podemos criar exceçoes customizadas para esse caso e do confimar senha(nao feito)
                 if (login.isEmpty() || senha.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Senha ou email inválidos!",
                             "ERRO", JOptionPane.WARNING_MESSAGE);
@@ -96,20 +97,21 @@ public final class TelaCadastro extends Tela {
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 } else if (!confirmar.equals(senha)) {
 
-                    JOptionPane.showMessageDialog(null, "Senha de confirmação incorreta", 
+                    JOptionPane.showMessageDialog(null, "Senha de confirmação incorreta",
                             "ERRO", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
                     try {
                         Gerenciador.adicionarCadastro(new Usuario(nome,login,senha));
                         JOptionPane.showMessageDialog(null,
-                            "Cadastrado usuário com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
-                        
+                                "Cadastrado usuário com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Gambiarra violenta!
                         btnSair.doClick();
                     }
                     catch (LoginJaExistenteException except) {
                         JOptionPane.showMessageDialog(null,
-                        "Usuário já existe, favor escolha outro.", "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
+                                "Login já existe, favor escolha outro.", "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
                     }
                 }
 
@@ -125,5 +127,5 @@ public final class TelaCadastro extends Tela {
             }
         });
     }
-    
+
 }
