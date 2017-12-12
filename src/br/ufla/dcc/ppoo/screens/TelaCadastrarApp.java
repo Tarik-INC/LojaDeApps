@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.users.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 
 public class TelaCadastrarApp extends Tela{
     
+    private Usuario usuario;
     private JLabel lbNome;
     private JLabel lbDescricao;
     private JLabel lbPalavrasChave;
@@ -20,8 +22,9 @@ public class TelaCadastrarApp extends Tela{
     private JButton btnCancelar;
     private JPanel painelBotoes;
     
-    public TelaCadastrarApp() {
+    public TelaCadastrarApp(Usuario usuario) {
         super("Cadastrar App", 300, 300);
+        this.usuario = usuario;
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
@@ -63,8 +66,27 @@ public class TelaCadastrarApp extends Tela{
         btnSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Aplicativo aplicativo = new Aplicativo(txtNome.getText(), txtDescricao.getText(),
-                        Arrays.asList(txtPalavrasChave.getText().split(";")));
+
+                java.util.List<String> palavrasChave = Arrays.asList(txtPalavrasChave.getText().split(";"));
+                if (palavrasChave.size() < 2) {
+                    JOptionPane.showMessageDialog(null,
+                            "Menos de duas palavras-chave!", "ERRO", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    String[] texto = txtDescricao.getText().split("\n");
+                    String descricao = "";
+                    for (int i = 0; i < texto.length; ++i) {
+                        descricao += texto[i] + System.lineSeparator();
+                    }
+
+                    Aplicativo aplicativo = new Aplicativo(txtNome.getText(), descricao, palavrasChave);
+                    usuario.addApp(aplicativo);
+
+                    JOptionPane.showMessageDialog(null,
+                            "Aplicativo cadastrado com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
+
+                    btnCancelar.doClick();
+                }
             }
         });
 

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -88,6 +89,43 @@ public class Usuario implements Serializable {
      */
     public String getLogin() {
         return login;
+    }
+    
+    /**
+     * Adicionar novo app na lista.
+     * @param aplicativo Novo app cadastrado
+     */
+    public void addApp(Aplicativo aplicativo) {
+        apps.add(aplicativo);
+    }
+
+    /**
+     * Get apps.
+     * @return Lista imutável de apps
+     */
+    public List<Aplicativo> getAplicativos() {
+        return Collections.unmodifiableList(apps);
+    }
+
+    /**
+     * Get aplicativo em forma de string.
+     * @param i Índice do registro
+     * @return Representação em string
+     */
+    public String getAplicativoString(int i) {
+        String aplicativo = String.format("%s | %s | %s | %s", 
+            apps.get(i).getNome(), apps.get(i).getDescricao().substring(0, 10),
+            apps.get(i).getPalavrasChave(), apps.get(i).getNota());
+        return aplicativo;
+    }
+
+    /**
+     * Get referêcia para aplicativo.
+     * @param i Índice do registro
+     * @return Referência para o objeto
+     */
+    public Aplicativo getAplicativo(int i) {
+        return apps.get(i);
     }
     
 }

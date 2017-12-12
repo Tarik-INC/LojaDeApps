@@ -63,7 +63,7 @@ public class TelaLogin extends Tela {
                                 "Bem Vindo, " + c.getNome() + "!", "Logado com Sucesso", JOptionPane.INFORMATION_MESSAGE);
                         source.dispose();
                         dispose();
-                        new TelaGerenciamento(source).setVisible(true);
+                        new TelaGerenciamento(source, c).setVisible(true);
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "Senha incorreta.", "Falha ao Logar", JOptionPane.ERROR_MESSAGE);

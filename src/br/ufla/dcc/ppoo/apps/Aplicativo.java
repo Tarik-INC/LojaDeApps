@@ -1,7 +1,9 @@
 package br.ufla.dcc.ppoo.apps;
 
+import br.ufla.dcc.ppoo.miscellaneous.Comentario;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,6 +17,7 @@ public class Aplicativo implements Serializable {
     private List<String> palavrasChave;
     private float nota;
     private int numAvaliacoes;
+    private List<Comentario> comentarios;
     
     /**
      * Construtor de um novo app.
@@ -28,6 +31,7 @@ public class Aplicativo implements Serializable {
         this.palavrasChave = palavrasChave;
         this.nota = 0.0f;
         this.numAvaliacoes = 0;
+        this.comentarios = new LinkedList();
     }
 
     /**
@@ -53,6 +57,22 @@ public class Aplicativo implements Serializable {
     public List<String> getPalavrasChave() {
         return Collections.unmodifiableList(palavrasChave);
     }
+    
+    /**
+     * Palavras-chave na forma de string.
+     * @return String palavras-chave
+     */
+    public String getPalavrasChaveString() {
+        // Isso aqui que é gambiarra seu mongol
+        String result = palavrasChave.get(0)+", ";
+        for (String palavraChave : palavrasChave) {
+            palavraChave = palavraChave + ", ";
+            if(!palavraChave.equals(result)) {
+                result += palavraChave;
+            }
+        }
+        return result;
+    }
 
     /**
      * Get Nota.
@@ -68,6 +88,32 @@ public class Aplicativo implements Serializable {
      */
     public void novaAvaliacao(int nota) {
         this.nota = (this.nota * numAvaliacoes + nota) / (++numAvaliacoes);
+    }
+    
+    /**
+     * Adiciona novo comentário.
+     * @param comentario Novo comentário
+     */
+    public void addComentario(Comentario comentario) {
+        comentarios.add(comentario);
+    }
+
+    /**
+     * Tamanho da lista de comentários.
+     * @return Tamanho
+     */
+    public int getComentariosSize() {
+        return comentarios.size();
+    }
+
+    /**
+     * Get i-ésimo comentário 
+     * @param i Índice
+     * @return Referência para o comentário
+     */
+    public String getComentario(int i) {
+        String comentario = comentarios.get(i).getUsuario() + ": " + comentarios.get(i).getComentario();
+        return comentario;
     }
     
     /**
