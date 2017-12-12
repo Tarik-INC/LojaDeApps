@@ -54,11 +54,8 @@ public class Aplicativo implements Serializable {
      * Get Descrição resumida.
      * @return Descrição resumida do recurso
      */
-    public String getDescricaoResumido() {
-        if (descricao.length() > 15) {
-            return descricao.substring(0, 15) + "...";
-        }
-        else if (!descricao.isEmpty()) {
+    public String getDescricaoFormatada() {
+        if (!descricao.isEmpty()) {
             return descricao;
         }
         else {
@@ -102,7 +99,7 @@ public class Aplicativo implements Serializable {
      * Get Nota em string para interface gráfica.
      * @return Nota formatada (Valor real ou "Sem avaliação")
      */
-    public String getNotaString() {
+    public String getNotaFormatada() {
         if (nota == 0.0f) {
             return "Sem avaliação";
         }

@@ -80,7 +80,7 @@ public class TelaListarApp extends Tela {
         usuario.sortAplicativos();
         list = new JList<Aplicativo>(listModel);
         for (Aplicativo app : usuario.getAplicativos()) {
-            listModel.addElement( linhaFormatada(app.getNome(), app.getDescricao(), app.getNotaString()) );
+            listModel.addElement( linhaFormatada(app.getNome(), app.getDescricaoFormatada(), app.getNotaFormatada()) );
         }
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL);
