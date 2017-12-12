@@ -20,7 +20,7 @@ public class BaseDados {
      * Cria base de dados vazia.
      */
     public BaseDados() {
-        cadastros = new ArrayList<Usuario>();
+        cadastros = new LinkedList();
     }
     
     /**
