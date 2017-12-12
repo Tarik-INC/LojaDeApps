@@ -15,7 +15,6 @@ public class TelaMudarPalavraChave extends Tela {
 
     public TelaMudarPalavraChave(Aplicativo app) {
         super("Mudar Palavras-Chave", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.app = app;
         construirTela();
         pack();

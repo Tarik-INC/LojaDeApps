@@ -13,7 +13,6 @@ public class TelaMudarDescricao extends Tela {
 
     public TelaMudarDescricao(Aplicativo app) {
         super("Mudar Descrição", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.app = app;
         construirTela();
         pack();

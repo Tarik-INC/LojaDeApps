@@ -17,7 +17,6 @@ public class TelaCadastrarApp extends Tela{
 
     public TelaCadastrarApp(Usuario usuario) {
         super("Cadastrar App", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.usuario = usuario;
         construirTela();
         pack();

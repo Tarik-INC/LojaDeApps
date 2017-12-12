@@ -13,6 +13,7 @@ public final class TelaInicial extends Tela {
 
     public TelaInicial() {
         super("Tela Inicial", 250, 280);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         construirTela();
     }
 

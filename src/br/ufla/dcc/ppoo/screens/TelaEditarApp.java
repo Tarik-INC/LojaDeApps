@@ -15,7 +15,6 @@ public class TelaEditarApp extends Tela {
 
     public TelaEditarApp(Aplicativo app, TelaListarApp source) {
         super("Editar Aplicativo", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.app = app;
         this.source = source;
         construirTela();

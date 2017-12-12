@@ -17,7 +17,6 @@ public class TelaListarApp extends Tela {
 
     public TelaListarApp(Usuario usuario) {
         super("Lista Apps", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.usuario = usuario;
         construirTela();
         pack();

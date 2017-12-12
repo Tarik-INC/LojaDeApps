@@ -21,7 +21,6 @@ public class TelaVisualizarApp extends Tela {
         this.app = app;
         this.source = source;
         this.nomeUsuario = nomeUsuario;
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
 
