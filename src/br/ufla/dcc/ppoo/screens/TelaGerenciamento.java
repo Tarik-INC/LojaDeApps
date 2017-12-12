@@ -59,5 +59,12 @@ public class TelaGerenciamento extends Tela{
             }
         });
 
+        btnBuscarApp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TelaBuscar(usuario).setVisible(true);
+            }
+        });
+
     }
 }

@@ -1,5 +1,7 @@
 package br.ufla.dcc.ppoo.management;
 
+import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.AppInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.users.Usuario;
@@ -9,8 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class BaseDados {
     private final List<Usuario> cadastros;
@@ -56,4 +57,35 @@ public class BaseDados {
         
         throw new LoginInexistenteException("Cadastro não encontrado");
     }
+
+    public List<Aplicativo> buscarAplicativo(String aplicativo) throws AppInexistenteException {
+        List<Aplicativo> lista = new LinkedList();
+        for (Usuario c : cadastros) {
+            for (Aplicativo app : c.getAplicativos()) {
+                if (app.getNome().equals(aplicativo) || app.getPalavrasChave().contains(aplicativo)) {
+                    lista.add(app);
+                }
+            }
+        }
+        if (lista != null) {
+            lista.sort(Comparator.comparing(Aplicativo::getNota));
+            Collections.reverse(lista);
+            return lista;
+        } else {
+            throw new AppInexistenteException("Aplicativo não encontrado");
+        }
+    }
+
+
+    public boolean aplicativoExiste(String aplicativo) {
+        for (Usuario c: cadastros) {
+            for (Aplicativo app : c.getAplicativos()) {
+                if (app.getNome().equals(aplicativo)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
