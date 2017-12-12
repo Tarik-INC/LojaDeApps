@@ -55,11 +55,14 @@ public class Aplicativo implements Serializable {
      * @return Descrição resumida do recurso
      */
     public String getDescricaoResumido() {
-        if (descricao.length() > 10) {
-            return descricao.substring(0, 10) + "...";
+        if (descricao.length() > 15) {
+            return descricao.substring(0, 15) + "...";
+        }
+        else if (!descricao.isEmpty()) {
+            return descricao;
         }
         else {
-            return descricao;
+            return "Sem descrição.";
         }
     }
 
@@ -86,13 +89,26 @@ public class Aplicativo implements Serializable {
         }
         return result;
     }
-
+    
     /**
      * Get Nota.
-     * @return Nota média das avaliações
+     * @return Valor da nota média das avaliações
      */
     public float getNota() {
         return nota;
+    }
+    
+    /**
+     * Get Nota em string para interface gráfica.
+     * @return Nota formatada (Valor real ou "Sem avaliação")
+     */
+    public String getNotaString() {
+        if (nota == 0.0f) {
+            return "Sem avaliação";
+        }
+        else {
+            return String.format("%.1f", nota);
+        }
     }
     
     /**

@@ -6,18 +6,26 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Tela de gerenciamento do usuário, diponível após o login.
+ * Mostra como opções:
+ * - cadastrar novo app
+ * - listar meus apps
+ * - buscar app
+ * - logout
+ * @author rafael, tarik, william
+ */
 public class TelaGerenciamento extends Tela {
 
-    private final TelaInicial source;
+    private final Tela source;
     private final Usuario usuario;
     private JButton btnCadastrarApp;
     private JButton btnListarApps;
     private JButton btnBuscarApp;
     private JButton btnSair;
 
-    public TelaGerenciamento(TelaInicial source, Usuario usuario) {
+    public TelaGerenciamento(Tela source, Usuario usuario) {
         super("Gerenciamento", 300, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         construirTela();
         this.source = source;
         this.usuario = usuario;
@@ -26,10 +34,10 @@ public class TelaGerenciamento extends Tela {
     @Override
     void construirTela() {
 
-        btnCadastrarApp = new JButton("Cadastrar App");
-        btnListarApps = new JButton("Listar Apps");
-        btnBuscarApp = new JButton("Buscar App");
-        btnSair = new JButton("Sair");
+        btnCadastrarApp = new JButton("Cadastrar Novo App");
+        btnListarApps = new JButton("Listar Meus Apps");
+        btnBuscarApp = new JButton("Buscar Apps");
+        btnSair = new JButton("Logout");
 
         adicionarComponentes(btnCadastrarApp, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
         adicionarComponentes(btnListarApps, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
@@ -39,20 +47,23 @@ public class TelaGerenciamento extends Tela {
         btnCadastrarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaCadastrarApp(usuario).setVisible(true);
+                setVisible(false);
+                new TelaCadastrarApp(TelaGerenciamento.this, usuario).setVisible(true);
             }
         });
         
         btnListarApps.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaListarApp(usuario).setVisible(true);
+                setVisible(false);
+                new TelaListarApp(TelaGerenciamento.this, usuario).setVisible(true);
             }
         });
         
         btnBuscarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setVisible(false);
                 new TelaBuscar().setVisible(true);
             }
         });

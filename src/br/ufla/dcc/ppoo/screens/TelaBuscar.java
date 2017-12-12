@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 public class TelaBuscar extends Tela {
     public TelaBuscar() {
         super("Buscar Aplicativo", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
     }

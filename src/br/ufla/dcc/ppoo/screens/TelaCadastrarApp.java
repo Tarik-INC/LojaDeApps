@@ -1,6 +1,8 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.AppNomeVazioException;
+import br.ufla.dcc.ppoo.exceptions.AppPalavrasChaveException;
 import br.ufla.dcc.ppoo.users.Usuario;
 
 import javax.swing.*;
@@ -8,9 +10,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.List;
 
+/**
+ * Tela para usuário cadastrar novo app.
+ * Pede para cadastro:
+ * - Nome do app
+ * - Descrição de texto longo
+ * - Lista de palavras-chave
+ * @author rafael, tarik, william
+ */
 public class TelaCadastrarApp extends Tela{
     
+    private final Tela source;
     private final Usuario usuario;
     private JLabel lbNome;
     private JLabel lbDescricao;
@@ -22,10 +34,10 @@ public class TelaCadastrarApp extends Tela{
     private JButton btnCancelar;
     private JPanel painelBotoes;
     
-    public TelaCadastrarApp(Usuario usuario) {
+    public TelaCadastrarApp(Tela source, Usuario usuario) {
         super("Cadastrar App", 300, 300);
         this.usuario = usuario;
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.source = source;
         construirTela();
         pack();
     }
@@ -59,6 +71,7 @@ public class TelaCadastrarApp extends Tela{
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
+                source.setVisible(true);
                 dispose();
             }
         });
@@ -66,29 +79,68 @@ public class TelaCadastrarApp extends Tela{
         btnSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                java.util.List<String> palavrasChave = Arrays.asList(txtPalavrasChave.getText().split(";"));
-                if (palavrasChave.size() < 2) {
-                    JOptionPane.showMessageDialog(null,
-                            "Menos de duas palavras-chave!", "ERRO", JOptionPane.WARNING_MESSAGE);
-                } else {
-
-                    String[] texto = txtDescricao.getText().split("\n");
-                    String descricao = "";
-                    for (int i = 0; i < texto.length; ++i) {
-                        descricao += texto[i] + System.lineSeparator();
-                    }
-
-                    Aplicativo aplicativo = new Aplicativo(txtNome.getText(), descricao, palavrasChave);
-                    usuario.addApp(aplicativo);
+                try {
+                    String nome = verificarNome();
+                    List<String> palavrasChave = verificarPalavrasChave();
+                    String descricao = verificarDescricao();
+                    
+                    usuario.addApp( new Aplicativo(nome, descricao, palavrasChave) );
 
                     JOptionPane.showMessageDialog(null,
-                            "Aplicativo cadastrado com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
+                            "Aplicativo cadastrado com sucesso!", "Cadastro Completo", 
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
 
                     btnCancelar.doClick();
+                } 
+                catch (AppNomeVazioException | AppPalavrasChaveException except) {
+                    JOptionPane.showMessageDialog(null,
+                            except.getMessage(), "Erro", 
+                            JOptionPane.ERROR_MESSAGE
+                    );
                 }
             }
         });
-
     }
+    
+    /**
+     * 
+     * @return Nome do app em string
+     */
+    private String verificarNome() throws AppNomeVazioException {
+        String nome = txtNome.getText().trim();
+        if ( nome.isEmpty() ) {
+            throw new AppNomeVazioException("Campo nome do app está vazio.");
+        }
+        return nome;
+    }
+    
+    /**
+     * 
+     * @return Lista de palavras-chave
+     */
+    private List<String> verificarPalavrasChave() throws AppPalavrasChaveException {
+        List<String> palavrasChave = Arrays.asList(txtPalavrasChave.getText().split(";"));
+        if (palavrasChave.size() < 2) {
+            throw new AppPalavrasChaveException("Deve haver no mínimo 2 palavras-chave.");
+        } 
+        return palavrasChave;
+    }
+    
+    
+    /**
+     * 
+     * @return 
+     */
+    private String verificarDescricao() {
+        /*
+        String[] texto = txtDescricao.getText().split("\n");
+        String descricao = "";
+        for (int i = 0; i < texto.length; ++i) {
+            descricao += texto[i] + System.lineSeparator();
+        }
+        */
+        return txtDescricao.getText().trim();
+    }
+    
 }

@@ -7,6 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * Tela inicial do programa.
+ * Mostra opções:
+ * - Logar no sistema
+ * - Cadastrar novo usuário
+ * - Sair do programa
+ * @author rafael, tarik, william
+ */
 public class TelaInicial extends Tela {
     
     private JButton btnCadastro;
@@ -15,7 +23,6 @@ public class TelaInicial extends Tela {
     
     public TelaInicial() {
         super("Tela Inicial", 300, 300);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         
         construirTela();
     }

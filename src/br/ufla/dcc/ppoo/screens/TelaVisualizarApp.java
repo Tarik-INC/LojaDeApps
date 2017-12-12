@@ -20,7 +20,6 @@ public class TelaVisualizarApp extends Tela {
         this.app = app;
         this.nomeUsuario = nomeUsuario;
         this.source = source;
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
 
@@ -39,7 +38,7 @@ public class TelaVisualizarApp extends Tela {
         StarRater starRater = new StarRater(5, app.getNota(), 0);
         starRater.addStarListener(
                 new StarRater.StarListener() {
-
+                    @Override
                     public void handleSelection(int selection) {
                         app.novaAvaliacao(selection);
                         lbQuantAvaliacao.setText(Integer.toString(selection));

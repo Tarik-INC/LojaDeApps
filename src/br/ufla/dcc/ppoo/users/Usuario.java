@@ -114,9 +114,9 @@ public class Usuario implements Serializable {
      * @return Representação em string
      */
     public String getAplicativoString(int i) {
-        String aplicativo = String.format("%s | %s | %s | %s", 
-            apps.get(i).getNome(), apps.get(i).getDescricaoResumido(),
-            apps.get(i).getPalavrasChave(), apps.get(i).getNota());
+        String aplicativo = String.format("%s | %s | %s", 
+            apps.get(i).getNome(), apps.get(i).getDescricaoResumido(), apps.get(i).getNotaString()
+        );
         return aplicativo;
     }
 
