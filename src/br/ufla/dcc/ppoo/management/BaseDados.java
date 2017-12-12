@@ -9,10 +9,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Base de dados do sistema.
+ * @author rafael, tarik, william
+ */
 public class BaseDados {
     private final List<Usuario> cadastros;
 
@@ -24,30 +27,46 @@ public class BaseDados {
     }
     
     /**
-     * Cria base de dados a partir do arquivo
+     * Cria base de dados a partir do arquivo.
      * @param file Arquivo a ser lido
-     * @throws java.io.IOException
      */
     public BaseDados(File file) throws IOException, ClassNotFoundException {
         ObjectInputStream reader = new ObjectInputStream(new FileInputStream(file));
         cadastros = (List<Usuario>) reader.readObject();
+        reader.close();
     }
     
+    /**
+     * Salvar dados no arquivo, fazendo sobrescrita.
+     * @param file Arquivo a ser salvo
+     */
     public void save(File file) throws IOException {
         ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
         writer.writeObject(cadastros);
+        writer.close();
     }
     
+    /**
+     * Adiciona novo usuário à lista.
+     * @param cadastro Novo cadastro de usuário
+     */
     public void addCadastro(Usuario cadastro) throws LoginJaExistenteException {
         for (Usuario c : cadastros) {
             if (c.isLogin(cadastro.getLogin())) {
-                throw new LoginJaExistenteException("Login já existe");
+                throw new LoginJaExistenteException(
+                    String.format("Login \"%s\" já existe no sistema.", cadastro.getLogin())
+                );
             }
         }
         
         cadastros.add(cadastro);
     }
     
+    /**
+     * Busca referência para objeto usuário com o login dado.
+     * @param login Login do usuário a ser buscado
+     * @return Referência para o objeto
+     */
     public Usuario buscarCadastro(String login) throws LoginInexistenteException {
         for (Usuario c : cadastros) {
             if (c.isLogin(login)) {
@@ -55,6 +74,9 @@ public class BaseDados {
             }
         }
         
-        throw new LoginInexistenteException("Cadastro não encontrado");
+        throw new LoginInexistenteException(
+            String.format("Cadastro com login \"%s\" não encontrado.", login)
+        );
     }
+    
 }

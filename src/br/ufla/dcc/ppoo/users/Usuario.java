@@ -8,12 +8,23 @@ import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Classe Usuário.
+ * Um usuário do sistema
+ * @author rafael, tarik, william
+ */
 public class Usuario implements Serializable {
     private final String nome;
     private final String login;
     private final String senha;
     private final List<Aplicativo> apps;
 
+    /**
+     * Construtor para criar um novo usuário.
+     * @param nome Nome do usuário
+     * @param login Login do usuário
+     * @param senha Senha do usuário
+     */
     public Usuario(String nome, String login, String senha) {
         this.login = login;
         this.senha = senhaCriptografada(senha);
@@ -22,7 +33,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Validar login 
+     * Validar login.
      * @param loginIn Login digitado durante o login
      * @return Booleano indicando se o login confere
      */
@@ -31,7 +42,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Validar senha 
+     * Validar senha.
      * @param senhaIn Senha digitada durante o login
      * @return Booleano indicando se a senha confere
      */
@@ -40,7 +51,7 @@ public class Usuario implements Serializable {
     }
     
     /**
-     * Método de criptografia SHA-256 (Segurança computacional aplicada)
+     * Método de criptografia SHA-256.
      * @link https://www.devmedia.com.br/como-funciona-a-criptografia-hash-em-java/31139
      * @param senhaIn Senha a ser criptografada
      * @return Senha criptografada, senão null se ocorrer erro
@@ -63,10 +74,18 @@ public class Usuario implements Serializable {
         }
     }
 
+    /**
+     * Get Nome.
+     * @return Nome do usuário
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     * Get Login.
+     * @return Login do usuário
+     */
     public String getLogin() {
         return login;
     }

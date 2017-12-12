@@ -1,8 +1,8 @@
 package br.ufla.dcc.ppoo.exceptions;
 
 /**
- *
- * @author william
+ * Exceção genérica de um recurso de app.
+ * @author rafael, tarik, william
  */
 public class AppException extends Exception {
 
