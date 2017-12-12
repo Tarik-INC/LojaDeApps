@@ -14,14 +14,16 @@ public class Aplicativo implements Serializable {
     private float nota;
     private int numAvaliacoes;
     private List<Comentario> comentarios;
+    private String autor;
 
-    public Aplicativo(String nome, String descricao, List<String> palavrasChave) {
+    public Aplicativo(String nome, String descricao, List<String> palavrasChave, String autor) {
         this.nome = nome;
         this.descricao = descricao;
         this.palavrasChave = palavrasChave;
         this.nota = 0.0f;
         this.numAvaliacoes = 0;
         this.comentarios = new LinkedList();
+        this.autor = autor;
     }
 
     public String getNome() {
@@ -81,4 +83,7 @@ public class Aplicativo implements Serializable {
         this.palavrasChave = palavrasChave;
     }
 
+    public String getAutor() {
+        return autor;
+    }
 }

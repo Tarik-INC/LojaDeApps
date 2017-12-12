@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.management.Gerenciador;
 import br.ufla.dcc.ppoo.users.Usuario;
 
 import javax.swing.*;
@@ -64,15 +65,17 @@ public class TelaCadastrarApp extends Tela{
                 if (palavrasChave.size() < 2) {
                     JOptionPane.showMessageDialog(null,
                             "Menos de duas palavras-chave!", "ERRO", JOptionPane.WARNING_MESSAGE);
-                }else {
-
+                } else if (Gerenciador.aplicativoExiste(txtNome.getText())) {
+                    JOptionPane.showMessageDialog(null,
+                            "Já existe um aplicativo com esse nome!", "ERRO", JOptionPane.WARNING_MESSAGE);
+                } else {
                     String[] texto = txtDescricao.getText().split("\n");
                     String descricao = "";
                     for (int i = 0; i < texto.length; ++i) {
                         descricao += texto[i] + System.lineSeparator();
                     }
 
-                    Aplicativo aplicativo = new Aplicativo(txtNome.getText(), descricao, palavrasChave);
+                    Aplicativo aplicativo = new Aplicativo(txtNome.getText(), descricao, palavrasChave, usuario.getNome());
                     usuario.addApp(aplicativo);
 
                     JOptionPane.showMessageDialog(null,

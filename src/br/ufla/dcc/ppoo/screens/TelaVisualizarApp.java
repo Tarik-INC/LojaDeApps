@@ -3,6 +3,7 @@ package br.ufla.dcc.ppoo.screens;
 import br.ufla.dcc.ppoo.apps.Aplicativo;
 import br.ufla.dcc.ppoo.miscellaneous.Comentario;
 import br.ufla.dcc.ppoo.starRater.StarRater;
+import br.ufla.dcc.ppoo.users.Usuario;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,15 +12,15 @@ import javax.swing.*;
 
 public class TelaVisualizarApp extends Tela {
 
-    private String nomeUsuario;
     private Aplicativo app;
-    private TelaListarApp source;
+    private Tela source;
+    private String nomeUsuario;
 
-    public TelaVisualizarApp(String nomeUsuario, Aplicativo app, TelaListarApp source) {
+    public TelaVisualizarApp(String nomeUsuario, Aplicativo app, Tela source) {
         super("Visualizar Aplicativo", 250, 400);
         this.app = app;
-        this.nomeUsuario = nomeUsuario;
         this.source = source;
+        this.nomeUsuario = nomeUsuario;
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
@@ -29,7 +30,7 @@ public class TelaVisualizarApp extends Tela {
     @Override
     void construirTela() {
 
-        JLabel lbNomeApp = new JLabel("Login: " + nomeUsuario + "   |    " + app.getNome());
+        JLabel lbNomeApp = new JLabel("Login: " + app.getAutor() + "   |    " + app.getNome());
         adicionarComponentes(lbNomeApp, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);
 
         JPanel painelAvaliacao = new JPanel();
