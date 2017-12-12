@@ -72,10 +72,20 @@ public class Usuario implements Serializable {
     }
 
     public void addApp(Aplicativo aplicativo) {
-        this.apps.add(aplicativo);
+        apps.add(aplicativo);
     }
 
     public List<Aplicativo> getAplicativos() {
         return apps;
     }
+
+    public String getApp(int i) {
+        String aplicativo = apps.get(i).getNome() + " | " + apps.get(i).getDescricao() + " | " + apps.get(i).getPalavrasChave() + " | " + apps.get(i).getNota();
+        return aplicativo;
+    }
+
+    public Aplicativo getAplicativo(int i) {
+        return apps.get(i);
+    }
+
 }
