@@ -8,9 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Aplicativo implements Serializable {
-    private final String nome;
+    private String nome;
     private String descricao;
-    private final List<String> palavrasChave;
+    private List<String> palavrasChave;
     private float nota;
     private int numAvaliacoes;
     private List<Comentario> comentarios;
@@ -69,5 +69,16 @@ public class Aplicativo implements Serializable {
         return comentario;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setPalavrasChave(List<String> palavrasChave) {
+        this.palavrasChave = palavrasChave;
+    }
 
 }

@@ -41,14 +41,6 @@ public class TelaListarApp extends Tela {
         adicionarComponentes(lbInstrucao, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
         adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 3,0,1,1);
 
-        btnSair.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                dispose();
-            }
-        });
-
         JPanel painelRotulo = new JPanel();
         JLabel lbNome = new JLabel("Nome |");
         JLabel lbDescricao = new JLabel("Descricao |");
@@ -72,6 +64,13 @@ public class TelaListarApp extends Tela {
         listScroller.setPreferredSize(new Dimension(300, 300));
         adicionarComponentes(listScroller, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2, 0, 1, 1);
 
+        btnSair.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispose();
+            }
+        });
 
         btnVisualizar.addActionListener(new ActionListener() {
             @Override
@@ -84,6 +83,21 @@ public class TelaListarApp extends Tela {
                 } else {
                     TelaVisualizarApp tv = new TelaVisualizarApp(usuario.getNome(), usuario.getAplicativo(index), TelaListarApp.this);
                     tv.setVisible(true);
+                    setVisible(false);
+                }
+            }
+        });
+
+        btnEditar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = list.getSelectedIndex();
+
+                if (index == -1) {
+                    JOptionPane.showMessageDialog(null,
+                            "Nenhum aplicativo selecionado!", "ERRO", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    new TelaEditarApp(usuario.getAplicativo(index), TelaListarApp.this).setVisible(true);
                     setVisible(false);
                 }
             }
