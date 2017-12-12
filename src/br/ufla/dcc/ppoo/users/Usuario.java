@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -88,6 +90,58 @@ public class Usuario implements Serializable {
      */
     public String getLogin() {
         return login;
+    }
+    
+    /**
+     * Adicionar novo app na lista.
+     * @param aplicativo Novo app cadastrado
+     */
+    public void addApp(Aplicativo aplicativo) {
+        apps.add(aplicativo);
+    }
+
+    /**
+     * Get apps.
+     * @return Lista imutável de apps
+     */
+    public List<Aplicativo> getAplicativos() {
+        return Collections.unmodifiableList(apps);
+    }
+
+    /**
+     * Get aplicativo em forma de string.
+     * @param i Índice do registro
+     * @return Representação em string
+     */
+    public String getAplicativoString(int i) {
+        String aplicativo = String.format("%s | %s | %s", 
+            apps.get(i).getNome(), apps.get(i).getDescricaoResumido(), apps.get(i).getNotaString()
+        );
+        return aplicativo;
+    }
+
+    /**
+     * Get referêcia para aplicativo.
+     * @param i Índice do registro
+     * @return Referência para o objeto
+     */
+    public Aplicativo getAplicativo(int i) {
+        return apps.get(i);
+    }
+    
+    /**
+     * Ordena lista de aplicativos.
+     */
+    public void sortAplicativos() {
+        apps.sort(Comparator.comparing(Aplicativo::getNome));
+    }
+
+    /**
+     * Remove app da lista.
+     * @param i Índice do app
+     */
+    public void removeAplicativo(int i) {
+        apps.remove(apps.get(i));
     }
     
 }

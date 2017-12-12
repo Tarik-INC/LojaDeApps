@@ -18,9 +18,17 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-
+/**
+ * Tela de cadastro de um novo usuário.
+ * Pede para cadastro:
+ * - Nome
+ * - Login
+ * - Senha
+ * @author rafael, tarik, william
+ */
 public class TelaCadastro extends Tela {
     
+    private final Tela source;    
     private JButton btnSalvar;
     private JButton btnCancelar;
     private JPanel painelBotoes;
@@ -33,10 +41,9 @@ public class TelaCadastro extends Tela {
     private JPasswordField caixaTextoSenha;
     private JPasswordField caixaTextoSenhaConfirmar;
     
-    public TelaCadastro() {
+    public TelaCadastro(Tela source) {
         super("Cadastrar Usuário", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
+        this.source = source;
         construirTela();
         pack();
     }
@@ -117,6 +124,7 @@ public class TelaCadastro extends Tela {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 setVisible(false);
+                source.setVisible(true);
                 dispose();
             }
         });

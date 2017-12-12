@@ -8,9 +8,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Tela de login do usuário.
+ * Pede para autenticação:
+ * - login
+ * - senha
+ * @author rafael, tarik, william
+ */
 public class TelaLogin extends Tela {
 
-    private final TelaInicial source;
+    private final Tela source;
     private JLabel lbLogin;
     private JLabel lbSenha;
     private JTextField txtLogin;
@@ -19,9 +26,8 @@ public class TelaLogin extends Tela {
     private JButton btnCancela;
     private JPanel painel;
 
-    public TelaLogin(TelaInicial source) {
+    public TelaLogin(Tela source) {
         super("Login", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.source = source;
         construirTela();
         pack();
@@ -61,9 +67,8 @@ public class TelaLogin extends Tela {
                     if (c.isSenha(txtSenha.getText())) {
                         JOptionPane.showMessageDialog(null,
                                 "Bem Vindo, " + c.getNome() + "!", "Logado com Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        source.dispose();
                         dispose();
-                        new TelaGerenciamento(source).setVisible(true);
+                        new TelaGerenciamento(source, c).setVisible(true);
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "Senha incorreta.", "Falha ao Logar", JOptionPane.ERROR_MESSAGE);
@@ -80,6 +85,7 @@ public class TelaLogin extends Tela {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 setVisible(false);
+                source.setVisible(true);
                 dispose();
             }
         });

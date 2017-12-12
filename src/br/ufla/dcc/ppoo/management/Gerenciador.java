@@ -1,5 +1,6 @@
 package br.ufla.dcc.ppoo.management;
 
+import br.ufla.dcc.ppoo.apps.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.users.Usuario;
@@ -60,6 +61,15 @@ public abstract class Gerenciador {
      */
     public static Usuario buscarCadastro(String login) throws LoginInexistenteException {
         return dataBase.buscarCadastro(login);
+    }
+    
+    /**
+     * Busca um app na base de dados.
+     * @param nome Nome do app buscado
+     * @return Referência para o app
+     */
+    public static Aplicativo buscarAplicativo(String nome) {
+        return null;
     }
 
 }
