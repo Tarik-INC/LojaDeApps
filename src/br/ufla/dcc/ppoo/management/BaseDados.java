@@ -11,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -96,6 +98,47 @@ public class BaseDados {
         }
         
         throw new AppInexistenteException( String.format("App \"%s\" não encontrado.", nome) );
+    }
+    
+    /**
+     * Busca aplcativo, usado no menu de busca.
+     * @param aplicativo Nome do app
+     * @return Lista de combinações encontradas
+     */
+    public List<Aplicativo> buscarAplicativo(String aplicativo) throws AppInexistenteException {
+        List<Aplicativo> lista = new LinkedList();
+        for (Usuario c : cadastros) {
+            for (Aplicativo app : c.getAplicativos()) {
+                if (app.getNome().equals(aplicativo) || app.getPalavrasChave().contains(aplicativo)) {
+                    lista.add(app);
+                }
+            }
+        }
+        if (lista != null) {
+            lista.sort(Comparator.comparing(Aplicativo::getNota));
+            Collections.reverse(lista);
+            return lista;
+        } else {
+            throw new AppInexistenteException(
+                String.format("Aplicativo \"%s\" não encontrado.", aplicativo)
+            );
+        }
+    }
+
+    /**
+     * Verifica se um app pertence à base de dados.
+     * @param aplicativo Nome do aplicativo
+     * @return Booleano indicando sim ou não
+     */
+    public boolean aplicativoExiste(String aplicativo) {
+        for (Usuario c: cadastros) {
+            for (Aplicativo app : c.getAplicativos()) {
+                if (app.getNome().equals(aplicativo)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
 }

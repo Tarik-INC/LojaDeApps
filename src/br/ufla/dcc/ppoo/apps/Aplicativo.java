@@ -18,6 +18,7 @@ public class Aplicativo implements Serializable {
     private float nota;
     private int numAvaliacoes;
     private List<Comentario> comentarios;
+    private String autor;
     
     /**
      * Construtor de um novo app.
@@ -25,13 +26,14 @@ public class Aplicativo implements Serializable {
      * @param descricao Descrição do recurso
      * @param palavrasChave Lista de palavras chaves
      */
-    public Aplicativo(String nome, String descricao, List<String> palavrasChave) {
+    public Aplicativo(String nome, String descricao, List<String> palavrasChave, String autor) {
         this.nome = nome;
         this.descricao = descricao;
         this.palavrasChave = palavrasChave;
         this.nota = 0.0f;
         this.numAvaliacoes = 0;
         this.comentarios = new LinkedList();
+        this.autor = autor;
     }
 
     /**
@@ -159,11 +161,19 @@ public class Aplicativo implements Serializable {
     }
 
     /**
-     * Atualiza palavras-chave
+     * Atualiza palavras-chave.
      * @param palavrasChave Nova lista de palavras-chave
      */
     public void setPalavrasChave(List<String> palavrasChave) {
         this.palavrasChave = palavrasChave;
+    }
+    
+    /**
+     * Get autor.
+     * @return Nome do autor do app
+     */
+    public String getAutor() {
+        return autor;
     }
     
 }

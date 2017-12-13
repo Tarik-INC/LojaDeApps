@@ -22,7 +22,6 @@ import java.util.List;
  */
 public class TelaCadastrarApp extends Tela{
     
-    private final Tela source;
     private final Usuario usuario;
     private JLabel lbNome;
     private JLabel lbDescricao;
@@ -34,10 +33,9 @@ public class TelaCadastrarApp extends Tela{
     private JButton btnCancelar;
     private JPanel painelBotoes;
     
-    public TelaCadastrarApp(Tela source, Usuario usuario) {
+    public TelaCadastrarApp(Usuario usuario) {
         super("Cadastrar App", 300, 300);
         this.usuario = usuario;
-        this.source = source;
         construirTela();
         pack();
     }
@@ -71,7 +69,6 @@ public class TelaCadastrarApp extends Tela{
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                source.setVisible(true);
                 dispose();
             }
         });
@@ -84,7 +81,7 @@ public class TelaCadastrarApp extends Tela{
                     List<String> palavrasChave = verificarPalavrasChave();
                     String descricao = verificarDescricao();
                     
-                    usuario.addApp( new Aplicativo(nome, descricao, palavrasChave) );
+                    usuario.addApp( new Aplicativo(nome, descricao, palavrasChave, usuario.getNome()) );
 
                     JOptionPane.showMessageDialog(null,
                             "Aplicativo cadastrado com sucesso!", "Cadastro Completo", 

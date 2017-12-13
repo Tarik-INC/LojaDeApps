@@ -13,9 +13,9 @@ public class TelaVisualizarApp extends Tela {
 
     private String nomeUsuario;
     private Aplicativo app;
-    private TelaListarApp source;
+    private Tela source;
 
-    public TelaVisualizarApp(String nomeUsuario, Aplicativo app, TelaListarApp source) {
+    public TelaVisualizarApp(String nomeUsuario, Aplicativo app, Tela source) {
         super("Visualizar Aplicativo", 250, 400);
         this.app = app;
         this.nomeUsuario = nomeUsuario;

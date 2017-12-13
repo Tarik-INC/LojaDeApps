@@ -21,7 +21,6 @@ import java.awt.event.ActionListener;
  */
 public class TelaListarApp extends Tela {
     
-    private final Tela source;
     private final Usuario usuario;
     private JLabel lbInstrucao;
     private JButton btnVisualizar ;
@@ -38,10 +37,9 @@ public class TelaListarApp extends Tela {
     private JList<Aplicativo> list;
     private JScrollPane listScroller;
 
-    public TelaListarApp(Tela source, Usuario usuario) {
+    public TelaListarApp(Usuario usuario) {
         super("Meus Apps", 300, 300);
         this.usuario = usuario;
-        this.source = source;
         construirTela();
         pack();
     }
@@ -93,7 +91,6 @@ public class TelaListarApp extends Tela {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                source.setVisible(true);
                 dispose();
             }
         });

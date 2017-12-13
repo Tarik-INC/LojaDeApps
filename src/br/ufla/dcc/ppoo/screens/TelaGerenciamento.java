@@ -47,24 +47,21 @@ public class TelaGerenciamento extends Tela {
         btnCadastrarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                new TelaCadastrarApp(TelaGerenciamento.this, usuario).setVisible(true);
+                new TelaCadastrarApp(usuario).setVisible(true);
             }
         });
         
         btnListarApps.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                new TelaListarApp(TelaGerenciamento.this, usuario).setVisible(true);
+                new TelaListarApp(usuario).setVisible(true);
             }
         });
         
         btnBuscarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                new TelaBuscar().setVisible(true);
+                new TelaBuscar(usuario).setVisible(true);
             }
         });
         
