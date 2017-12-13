@@ -25,8 +25,6 @@ public final class TelaCadastro extends Tela {
 
     public TelaCadastro() {
         super("Cadastrar Usuário", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-
         construirTela();
         pack();
     }

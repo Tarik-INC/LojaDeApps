@@ -1,5 +1,7 @@
 package br.ufla.dcc.ppoo.management;
 
+import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.AppInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.users.Usuario;
@@ -7,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 /**
  *
@@ -44,4 +47,11 @@ public  class Gerenciador {
         return dataBase.buscarCadastro(login);
     }
 
+    public static List<Aplicativo> buscarAplicativo(String aplicativo) throws AppInexistenteException {
+        return dataBase.buscarAplicativo(aplicativo);
+    }
+
+    public static boolean aplicativoExiste(String aplicativo) {
+        return dataBase.aplicativoExiste(aplicativo);
+    }
 }

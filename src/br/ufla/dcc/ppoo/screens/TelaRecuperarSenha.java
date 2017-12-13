@@ -9,7 +9,6 @@ public class TelaRecuperarSenha extends Tela {
 
     public TelaRecuperarSenha() {
         super("Recuperar Senha", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
     }

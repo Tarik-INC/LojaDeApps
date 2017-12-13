@@ -17,7 +17,7 @@ public class TelaGerenciamento extends Tela{
 
     public TelaGerenciamento(TelaInicial source, Usuario usuario) {
         super("Gerenciamento", 300, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         construirTela();
         this.source = source;
         this.usuario = usuario;
@@ -56,6 +56,13 @@ public class TelaGerenciamento extends Tela{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new TelaListarApp(usuario).setVisible(true);
+            }
+        });
+
+        btnBuscarApp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TelaBuscar(usuario).setVisible(true);
             }
         });
 

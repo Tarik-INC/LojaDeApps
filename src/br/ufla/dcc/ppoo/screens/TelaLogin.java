@@ -16,7 +16,6 @@ public final class TelaLogin extends Tela {
 
     public TelaLogin(TelaInicial source) {
         super("Login", 300, 300);
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         construirTela();
         pack();
         this.source = source;
