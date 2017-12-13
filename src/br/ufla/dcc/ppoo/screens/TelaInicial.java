@@ -1,6 +1,5 @@
 package br.ufla.dcc.ppoo.screens;
 
-
 import br.ufla.dcc.ppoo.management.Gerenciador;
 import javax.swing.*;
 import java.awt.*;
@@ -8,64 +7,71 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-
-public final class TelaInicial extends Tela {
-
+/**
+ * Tela inicial do programa.
+ * Mostra opções:
+ * - Logar no sistema
+ * - Cadastrar novo usuário
+ * - Sair do programa
+ * @author rafael, tarik, william
+ */
+public class TelaInicial extends Tela {
+    
+    private JButton btnCadastro;
+    private JButton btnLogin;
+    private JButton btnSair;
+    
     public TelaInicial() {
-        super("Tela Inicial", 250, 280);
+        super("Tela Inicial", 300, 300);
+        
         construirTela();
     }
 
     @Override
     void construirTela() {
-        JButton btnCadastro = new JButton("Novo Usuário", new ImageIcon(getClass().getResource("images/cadastro.png")));
-        JButton btnLogin = new JButton("Login", new ImageIcon(getClass().getResource("images/login.png")));
-        JButton btnRecuperarSenha = new JButton("Recuperar senha", new ImageIcon(getClass().getResource("images/recuperarSenha.png")));
-        JButton btnSair = new JButton("Sair");
+        btnCadastro = new JButton("Novo Usuário", new ImageIcon(getClass().getResource("images/cadastro.png")));
+        btnLogin = new JButton("Login", new ImageIcon(getClass().getResource("images/login.png")));
+        btnSair = new JButton("Sair", new ImageIcon(getClass().getResource("images/sair.png")));
 
         adicionarComponentes(btnLogin, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
         adicionarComponentes(btnCadastro, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
-//        adicionarComponentes(btnRecuperarSenha, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
         adicionarComponentes(btnSair, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
-
-
+        
+        
         btnCadastro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaCadastro().setVisible(true);
+                dispose();
+                new TelaCadastro(TelaInicial.this).setVisible(true);
             }
         });
 
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 new TelaLogin(TelaInicial.this).setVisible(true);
             }
         });
-
-        /*
-        btnRecuperarSenha.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new TelaRecuperarSenha().setVisible(true);
-            }
-        });
-        */
-
+        
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Gerenciador.salvarDados();
-                    System.exit(0);
-                } catch (IOException ex) {
+                int closeOption = JOptionPane.showConfirmDialog(null, 
+                    "Deseja mesmo sair?", "Sair", 
+                    JOptionPane.WARNING_MESSAGE
+                );
+                
+                if (closeOption == JOptionPane.OK_OPTION) {
+                    try {
+                        Gerenciador.salvarDados();
+                        System.exit(0);
+                    } catch (IOException ex) {
 
+                    }
                 }
             }
         });
-
     }
-
-
 
 }

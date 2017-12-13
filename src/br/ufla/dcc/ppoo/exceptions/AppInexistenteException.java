@@ -1,8 +1,8 @@
 package br.ufla.dcc.ppoo.exceptions;
 
 /**
- *
- * @author william
+ * Exceção gerada quando um app não for encontrado.
+ * @author rafael, tarik, william
  */
 public class AppInexistenteException extends AppException {
 
