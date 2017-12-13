@@ -1,148 +1,135 @@
 package br.ufla.dcc.ppoo.users;
 
-import br.ufla.dcc.ppoo.apps.Licenca;
-import br.ufla.dcc.ppoo.miscellaneous.Data;
-import br.ufla.dcc.ppoo.users.enums.TipoUsuario;
-import java.text.SimpleDateFormat;
+import br.ufla.dcc.ppoo.apps.Aplicativo;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
-import java.util.Date;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Usuário padrão do sistema
- * @author william
+ * Classe Usuário.
+ * Um usuário do sistema
+ * @author rafael, tarik, william
  */
-public class Usuario extends Cadastro {
-    private final List<Licenca> apps;
-    private final Data dataNasce;
-    private String email;
-    private TipoUsuario tipo;
-    private double credito;
+public class Usuario implements Serializable {
+    private final String nome;
+    private final String login;
+    private final String senha;
+    private final List<Aplicativo> apps;
 
     /**
-     * Novo usuário padrão, demais atributos fazer um set
-     * @param login Login
-     * @param senha Senha
-     * @param nome Nome
-     * @param dataNasce Data de nascimento
+     * Construtor para criar um novo usuário.
+     * @param nome Nome do usuário
+     * @param login Login do usuário
+     * @param senha Senha do usuário
      */
-    public Usuario(String login, String senha, String nome, Data dataNasce) {
-        super(login, senha, nome);
-        this.dataNasce = dataNasce;
-        this.tipo = null;
-        this.email = null;
+    public Usuario(String nome, String login, String senha) {
+        this.login = login;
+        this.senha = senhaCriptografada(senha);
+        this.nome = nome;
         this.apps = new LinkedList();
     }
 
     /**
-     * Setter
-     * @param email E-mail do usuário
+     * Validar login.
+     * @param loginIn Login digitado durante o login
+     * @return Booleano indicando se o login confere
      */
-    public void setEmail(String email) {
-        this.email = email;
+    public boolean isLogin(String loginIn) {
+        return login.equals(loginIn);
     }
 
     /**
-     * Setter
-     * @param tipo Tipo de conta (enum)
+     * Validar senha.
+     * @param senhaIn Senha digitada durante o login
+     * @return Booleano indicando se a senha confere
      */
-    public void setTipo(TipoUsuario tipo) {
-        this.tipo = tipo;
-    }
-
-    /**
-     * Setter, adiciona crédito (recarga)
-     * @param creditoPlus Valor a ser adicionado
-     */
-    public void addCredito(double creditoPlus) {
-        credito += creditoPlus;
+    public boolean isSenha(String senhaIn) {
+        return senha.equals( senhaCriptografada(senhaIn) );
     }
     
     /**
-     * Setter, adiciona nova licenca de app
-     * @param licenca Referência para licença a ser adicionada
+     * Método de criptografia SHA-256.
+     * @link https://www.devmedia.com.br/como-funciona-a-criptografia-hash-em-java/31139
+     * @param senhaIn Senha a ser criptografada
+     * @return Senha criptografada, senão null se ocorrer erro
      */
-    public void addApp(Licenca licenca) {
-        apps.add(licenca);
+    private String senhaCriptografada(String senhaIn) {
+        try {
+            MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+            byte messageDigest[] = algorithm.digest(senhaIn.getBytes("UTF-8"));
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : messageDigest) {
+                hexString.append(String.format("%02X", 0xFF & b));
+            }
+
+            return hexString.toString();
+        }
+        catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            // Nunca vai entrar aqui, pois "UTF-8" e "SHA-256" estão corretos
+            return null;
+        }
+    }
+
+    /**
+     * Get Nome.
+     * @return Nome do usuário
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    /**
+     * Get Login.
+     * @return Login do usuário
+     */
+    public String getLogin() {
+        return login;
     }
     
     /**
-     * Remove licenca de app
-     * @param licenca Referência para licença a ser removida
+     * Adicionar novo app na lista.
+     * @param aplicativo Novo app cadastrado
      */
-    public void removeApp(Licenca licenca) {
-        apps.remove(licenca);
-    }
-        
-    /**
-     * Getter
-     * @return E-mail
-     */
-    public String getEmail() {
-        return email;
+    public void addApp(Aplicativo aplicativo) {
+        apps.add(aplicativo);
     }
 
     /**
-     * Getter
-     * @return Tipo conta (enum)
+     * Get apps.
+     * @return Lista imutável de apps
      */
-    public TipoUsuario getTipo() {
-        return tipo;
-    }
-
-    /**
-     * Getter
-     * @return Valor do saldo
-     */
-    public double getCredito() {
-        return credito;
-    }
-
-    /**
-     * Getter
-     * @return Data de nascimento
-     */
-    public Data getDataNasce() {
-        return dataNasce;
-    }
-
-    /**
-     * Getter
-     * @return Lista de licenças (apps) imutável
-     */
-    public List<Licenca> getApps() {
+    public List<Aplicativo> getAplicativos() {
         return Collections.unmodifiableList(apps);
     }
+
+    /**
+     * Get referêcia para aplicativo.
+     * @param i Índice do registro
+     * @return Referência para o objeto
+     */
+    public Aplicativo getAplicativo(int i) {
+        return apps.get(i);
+    }
     
     /**
-     * Idade de acordo com a data e a hora do sistema
-     * @return Idade atual, se for negativo é inválido (data do futuro)
+     * Ordena lista de aplicativos.
      */
-    public int getIdade() {
-        Date date = new Date();
-        int diaHoje = Integer.parseInt( new SimpleDateFormat("dd").format(date) );
-        int mesHoje = Integer.parseInt( new SimpleDateFormat("MM").format(date) );
-        int anoHoje = Integer.parseInt( new SimpleDateFormat("yyyy").format(date) );
-        
-        int deltaDia = diaHoje - dataNasce.getDia();
-        int deltaMes = mesHoje - dataNasce.getMes();
-        int deltaAno = anoHoje - dataNasce.getAno();
-        
-        if (deltaMes > 0) {
-            return deltaAno;
-        }
-        else if (deltaMes < 0) {
-            return deltaAno - 1;
-        }
-        else {
-            if (deltaDia >= 0) {
-                return deltaAno;
-            }
-            else {
-                return deltaAno - 1;
-            }
-        }
+    public void sortAplicativos() {
+        apps.sort(Comparator.comparing(Aplicativo::getNome));
+    }
+
+    /**
+     * Remove app da lista.
+     * @param i Índice do app
+     */
+    public void removeAplicativo(int i) {
+        apps.remove(apps.get(i));
     }
     
 }
