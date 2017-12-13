@@ -1,11 +1,13 @@
 package br.ufla.dcc.ppoo.management;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.AppInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.users.Usuario;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Classe estática responsável por fornecer métodos de gestão da base de dados,
@@ -68,8 +70,17 @@ public abstract class Gerenciador {
      * @param nome Nome do app buscado
      * @return Referência para o app
      */
-    public static Aplicativo buscarAplicativo(String nome) {
-        return null;
+    public static List<Aplicativo> buscarAplicativo(String nome) throws AppInexistenteException {
+        return dataBase.buscarAplicativo(nome);
+    }
+    
+    /**
+     * Verifica se um app pertence à base de dados.
+     * @param nome Nome do aplicativo
+     * @return Booleano indicando sim ou não
+     */
+    public static boolean aplicativoExiste(String nome) {
+        return dataBase.aplicativoExiste(nome);
     }
 
 }

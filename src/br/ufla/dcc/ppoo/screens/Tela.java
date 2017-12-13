@@ -20,8 +20,8 @@ abstract class Tela extends JFrame{
      */
     public Tela(String nomeTela, int largura, int altura) {
         super(nomeTela);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        setResizable(false);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        //setResizable(false);
         setSize(largura, altura);
 
         gbl = new GridBagLayout();

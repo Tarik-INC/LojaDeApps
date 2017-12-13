@@ -109,18 +109,6 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Get aplicativo em forma de string.
-     * @param i Índice do registro
-     * @return Representação em string
-     */
-    public String getAplicativoString(int i) {
-        String aplicativo = String.format("%s | %s | %s", 
-            apps.get(i).getNome(), apps.get(i).getDescricaoResumido(), apps.get(i).getNotaString()
-        );
-        return aplicativo;
-    }
-
-    /**
      * Get referêcia para aplicativo.
      * @param i Índice do registro
      * @return Referência para o objeto
