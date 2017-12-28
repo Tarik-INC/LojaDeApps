@@ -27,11 +27,11 @@ public class Usuario implements Serializable {
      * @param login Login do usuário
      * @param senha Senha do usuário
      */
-    public Usuario(String nome, String login, String senha) {
+    public Usuario(String nome, String login, char[] senha) {
         this.login = login;
-        this.senha = senhaCriptografada(senha);
         this.nome = nome;
         this.apps = new LinkedList();
+        this.senha = senhaCriptografada(String.copyValueOf(senha));
     }
 
     /**
@@ -48,8 +48,8 @@ public class Usuario implements Serializable {
      * @param senhaIn Senha digitada durante o login
      * @return Booleano indicando se a senha confere
      */
-    public boolean isSenha(String senhaIn) {
-        return senha.equals( senhaCriptografada(senhaIn) );
+    public boolean isSenha(char[] senhaIn) {
+        return senha.equals( senhaCriptografada(String.copyValueOf(senhaIn)) );
     }
     
     /**
@@ -63,7 +63,7 @@ public class Usuario implements Serializable {
             MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
             byte messageDigest[] = algorithm.digest(senhaIn.getBytes("UTF-8"));
             StringBuilder hexString = new StringBuilder();
-
+            
             for (byte b : messageDigest) {
                 hexString.append(String.format("%02X", 0xFF & b));
             }
@@ -73,6 +73,9 @@ public class Usuario implements Serializable {
         catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             // Nunca vai entrar aqui, pois "UTF-8" e "SHA-256" estão corretos
             return null;
+        }
+        finally {
+            senhaIn = null;
         }
     }
 
@@ -129,7 +132,24 @@ public class Usuario implements Serializable {
      * @param i Índice do app
      */
     public void removeAplicativo(int i) {
-        apps.remove(apps.get(i));
+        apps.remove(i);
+    }
+    
+    /**
+     * Remove app da lista.
+     * @param nome Nome do app
+     */
+    public void removeAplicativo(String nome) {
+        int i = 0;
+        for (Aplicativo app : apps) {
+            if (!app.getNome().equals(nome)) {
+                i++;
+            }
+            else {
+                break;
+            }
+        }
+        apps.remove(i);
     }
     
 }

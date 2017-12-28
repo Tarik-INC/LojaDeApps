@@ -1,10 +1,12 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.users.Usuario;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  * Tela de gerenciamento do usuário, diponível após o login.
@@ -16,23 +18,19 @@ import java.awt.event.ActionListener;
  * @author rafael, tarik, william
  */
 public class TelaGerenciamento extends Tela {
-
-    private final Tela source;
-    private final Usuario usuario;
+    
     private JButton btnCadastrarApp;
     private JButton btnListarApps;
     private JButton btnBuscarApp;
     private JButton btnSair;
 
-    public TelaGerenciamento(Tela source, Usuario usuario) {
-        super("Gerenciamento", 300, 300);
+    public TelaGerenciamento(Usuario usuario) {
+        super("Loja de Apps", usuario, 300, 300);
         construirTela();
-        this.source = source;
-        this.usuario = usuario;
     }
 
     @Override
-    void construirTela() {
+    public void construirTela() {
 
         btnCadastrarApp = new JButton("Cadastrar Novo App");
         btnListarApps = new JButton("Listar Meus Apps");
@@ -47,32 +45,45 @@ public class TelaGerenciamento extends Tela {
         btnCadastrarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaCadastrarApp(usuario).setVisible(true);
+                new TelaCadastrarApp(getUsuario()).setVisible(true);
             }
         });
         
         btnListarApps.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaListarApp(usuario).setVisible(true);
+                new TelaListarApp(getUsuario()).setVisible(true);
             }
         });
         
         btnBuscarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaBuscar(usuario).setVisible(true);
+                new TelaBuscarApp(getUsuario()).setVisible(true);
             }
         });
         
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                dispose();
-                source.setVisible(true);
+                int closeOption = mensagemConfirmacaoLogout();
+                if (closeOption == JOptionPane.YES_OPTION) {
+                    // fecha todas as janelas da sessão:
+                    for (Window window : Window.getWindows()) window.dispose();
+                    // volta para tela inicial:
+                    new TelaInicial().setVisible(true);
+                }
             }
         });
+    }
+
+    private int mensagemConfirmacaoLogout() {
+        return JOptionPane.showConfirmDialog(null, "Deseja mesmo encerrar sua sessão?", "Deslogar", JOptionPane.YES_NO_OPTION);
+    }
+    
+    @Override
+    public void acaoAoFechar() {
+        btnSair.doClick();
     }
     
 }

@@ -1,7 +1,7 @@
 package br.ufla.dcc.ppoo.main;
 
 import br.ufla.dcc.ppoo.management.Gerenciador;
-import br.ufla.dcc.ppoo.screens.*;
+import br.ufla.dcc.ppoo.screens.TelaInicial;
 
 /**
  * Chamada principal.

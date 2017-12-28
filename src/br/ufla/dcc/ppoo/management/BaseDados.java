@@ -79,7 +79,7 @@ public class BaseDados {
         }
         
         throw new LoginInexistenteException(
-            String.format("Cadastro com login \"%s\" não encontrado.", login)
+            String.format("Cadastro com login \"%s\" inexistente.", login)
         );
     }
     

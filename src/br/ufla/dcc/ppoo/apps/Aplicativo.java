@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.apps;
 
 import br.ufla.dcc.ppoo.miscellaneous.Comentario;
+import br.ufla.dcc.ppoo.users.Usuario;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,7 +19,7 @@ public class Aplicativo implements Serializable {
     private float nota;
     private int numAvaliacoes;
     private List<Comentario> comentarios;
-    private String autor;
+    private Usuario autor;
     
     /**
      * Construtor de um novo app.
@@ -26,7 +27,7 @@ public class Aplicativo implements Serializable {
      * @param descricao Descrição do recurso
      * @param palavrasChave Lista de palavras chaves
      */
-    public Aplicativo(String nome, String descricao, List<String> palavrasChave, String autor) {
+    public Aplicativo(String nome, String descricao, List<String> palavrasChave, Usuario autor) {
         this.nome = nome;
         this.descricao = descricao;
         this.palavrasChave = palavrasChave;
@@ -172,7 +173,7 @@ public class Aplicativo implements Serializable {
      * Get autor.
      * @return Nome do autor do app
      */
-    public String getAutor() {
+    public Usuario getAutor() {
         return autor;
     }
     

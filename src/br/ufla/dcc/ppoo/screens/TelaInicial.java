@@ -1,11 +1,13 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.management.Gerenciador;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 /**
  * Tela inicial do programa.
@@ -22,13 +24,12 @@ public class TelaInicial extends Tela {
     private JButton btnSair;
     
     public TelaInicial() {
-        super("Tela Inicial", 300, 300);
-        
+        super("Loja de Apps", 300, 300);
         construirTela();
     }
 
     @Override
-    void construirTela() {
+    public void construirTela() {
         btnCadastro = new JButton("Novo Usuário", new ImageIcon(getClass().getResource("images/cadastro.png")));
         btnLogin = new JButton("Login", new ImageIcon(getClass().getResource("images/login.png")));
         btnSair = new JButton("Sair", new ImageIcon(getClass().getResource("images/sair.png")));
@@ -41,7 +42,7 @@ public class TelaInicial extends Tela {
         btnCadastro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                setVisible(false);
                 new TelaCadastro(TelaInicial.this).setVisible(true);
             }
         });
@@ -49,7 +50,7 @@ public class TelaInicial extends Tela {
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                setVisible(false);
                 new TelaLogin(TelaInicial.this).setVisible(true);
             }
         });
@@ -57,21 +58,26 @@ public class TelaInicial extends Tela {
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int closeOption = JOptionPane.showConfirmDialog(null, 
-                    "Deseja mesmo sair?", "Sair", 
-                    JOptionPane.WARNING_MESSAGE
-                );
-                
-                if (closeOption == JOptionPane.OK_OPTION) {
-                    try {
-                        Gerenciador.salvarDados();
-                        System.exit(0);
-                    } catch (IOException ex) {
-
-                    }
-                }
+                operacaoConfirmacaoSair();
             }
         });
+    }
+    
+    private void operacaoConfirmacaoSair() {
+        int closeOption = JOptionPane.showConfirmDialog(null, "Deseja mesmo sair?", "Sair", JOptionPane.YES_NO_OPTION);
+        if (closeOption == JOptionPane.YES_OPTION) {
+            try {
+                Gerenciador.salvarDados();
+                System.exit(0);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao Salvar Dados", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    @Override
+    public void acaoAoFechar() {
+        btnSair.doClick();
     }
 
 }
