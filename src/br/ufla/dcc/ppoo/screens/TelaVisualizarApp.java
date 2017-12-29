@@ -26,6 +26,7 @@ public class TelaVisualizarApp extends Tela {
     private Aplicativo app;
     private JLabel lbNomeApp;
     private JLabel lbAutorApp;
+    private JLabel lbNotaMedia;
     private JPanel painelNome;
     private JLabel lbAvaliacao;
     private StarRater starRater;
@@ -51,7 +52,6 @@ public class TelaVisualizarApp extends Tela {
         super("Visualizar Aplicativo", source, usuario, 375, 600);
         this.app = app;
         construirTela();
-        setResizable(true);
     }
 
     @Override
@@ -63,11 +63,15 @@ public class TelaVisualizarApp extends Tela {
         
         lbAutorApp = new JLabel( "by " + stringReduzida(app.getAutor().getNome(), 25) );
         lbAutorApp.setToolTipText( app.getAutor().getNome() );
+        
+        lbNotaMedia = new JLabel("Média das avaliações: " + app.getNotaFormatada());
+        lbNotaMedia.setToolTipText(String.format("Nota = %.4f", app.getNota()));
 
         painelNome = new JPanel();
-        painelNome.setLayout(new GridLayout(2, 1));
+        painelNome.setLayout(new GridLayout(3, 1));
         painelNome.add(lbNomeApp);
         painelNome.add(lbAutorApp);
+        painelNome.add(lbNotaMedia);
 
         lbAvaliacao = new JLabel("Avaliar:");
         starRater = new StarRater(5, app.getNota(), 0);
@@ -76,6 +80,10 @@ public class TelaVisualizarApp extends Tela {
             public void handleSelection(int selection) {
                 app.novaAvaliacao(selection);
                 JOptionPane.showMessageDialog(null, "Avaliação salva!", "Concluído", JOptionPane.INFORMATION_MESSAGE);
+                
+                //refresh
+                dispose();
+                new TelaVisualizarApp(getParentScreen(), getUsuario(), app).setVisible(true);
             }
         });
 
@@ -146,7 +154,6 @@ public class TelaVisualizarApp extends Tela {
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
                 dispose();
                 setParentVisible(true);
             }
