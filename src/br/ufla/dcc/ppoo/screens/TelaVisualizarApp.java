@@ -19,82 +19,107 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class TelaVisualizarApp extends Tela {
-    
+
     private Aplicativo app;
     private JLabel lbNomeApp;
-    private JPanel painelAvaliacao;
-    private JLabel lbQuantAvaliacao;
+    private JLabel lbAutorApp;
+    private JPanel painelNome;
+    private JLabel lbAvaliacao;
     private StarRater starRater;
+    private JPanel painelAvaliacao;
     private JLabel lbTituloDescricao;
-    private JLabel lbDescicao;
+    private JTextArea txtDescicao;
+    private JScrollPane painelDescricao;
     private JLabel lbTituloPalavraChave;
-    private JLabel lbPalavrasChaves;
+    private JTextArea txtPalavrasChave;
+    private JScrollPane painelPalavrasChave;
     private JLabel lbTituloComentarios;
     private DefaultListModel listModel;
     private JList<String> list;
-    private JScrollPane listScroller;
-    private JTextArea textComentarios;
+    private JScrollPane listComentarios;
+    private JLabel lbTituloComentar;
+    private JTextArea textComentar;
+    private JScrollPane painelComentar;
     private JButton btnComentar;
     private JButton btnSair;
     private JPanel painelBotoes;
 
     public TelaVisualizarApp(Tela source, Usuario usuario, Aplicativo app) {
-        super("Visualizar Aplicativo", source, usuario, 250, 400); 
+        super("Visualizar Aplicativo", source, usuario, 375, 600);
         this.app = app;
         construirTela();
-        pack();
+        setResizable(true);
     }
 
     @Override
     public void construirTela() {
+
+        lbNomeApp = new JLabel( stringReduzida(app.getNome(), 35) );
+        lbNomeApp.setToolTipText( app.getNome() );
+        lbNomeApp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
         
-        lbNomeApp = new JLabel("Login: " + getUsuario().getNome() + "   |    " + app.getNome());
+        lbAutorApp = new JLabel( "by " + stringReduzida(app.getAutor().getNome(), 25) );
+        lbAutorApp.setToolTipText( app.getAutor().getNome() );
 
-        painelAvaliacao = new JPanel();
-        painelAvaliacao.setLayout(new GridLayout(1, 2, 20, 20));
+        painelNome = new JPanel();
+        painelNome.setLayout(new GridLayout(2, 1));
+        painelNome.add(lbNomeApp);
+        painelNome.add(lbAutorApp);
 
-        lbQuantAvaliacao = new JLabel(Double.toString(0.0));
+        lbAvaliacao = new JLabel("Avaliar:");
         starRater = new StarRater(5, app.getNota(), 0);
         starRater.addStarListener(new StarListener() {
             @Override
             public void handleSelection(int selection) {
                 app.novaAvaliacao(selection);
-                lbQuantAvaliacao.setText(Integer.toString(selection));
+                JOptionPane.showMessageDialog(null, "Avaliação salva!", "Concluído", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
+        painelAvaliacao = new JPanel();
+        painelAvaliacao.setLayout(new GridLayout(1, 2));
+        painelAvaliacao.add(lbAvaliacao);
         painelAvaliacao.add(starRater);
-        painelAvaliacao.add(lbQuantAvaliacao);
+
+        lbTituloDescricao = new JLabel("Descrição:");
+        txtDescicao = new JTextArea(app.getDescricao(), 5, 30);
+        txtDescicao.setLineWrap(true);
+        txtDescicao.setEditable(false);        
         
-        lbTituloDescricao = new JLabel("Descrição: ");
-        lbTituloDescricao.setFont(new Font("Arial", Font.BOLD, 16));
+        painelDescricao = new JScrollPane(txtDescicao);
+        painelDescricao.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        lbTituloPalavraChave = new JLabel("Palavras-Chave:");
+        txtPalavrasChave = new JTextArea(app.getPalavrasChaveString() + ".", 3, 30);
+        txtPalavrasChave.setLineWrap(true);
+        txtPalavrasChave.setEditable(false);        
         
-        lbDescicao = new JLabel(app.getDescricao());
-        
-        lbTituloPalavraChave = new JLabel("Palavras-Chave: ");
-        lbTituloPalavraChave.setFont(new Font("Arial", Font.BOLD, 16));
-        
-        lbPalavrasChaves = new JLabel(app.getPalavrasChaveString());
-        
-        lbTituloComentarios = new JLabel("Comentários: ");
-        lbTituloComentarios.setFont(new Font("Arial", Font.BOLD, 16));
-        
+        painelPalavrasChave = new JScrollPane(txtPalavrasChave);
+        painelPalavrasChave.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        lbTituloComentarios = new JLabel("Comentários:");
+
         listModel = new DefaultListModel();
         list = new JList(listModel);
-        for (int i = 0; i < app.getComentariosSize(); ++i) {
-            listModel.addElement(app.getComentario(i));
+        for (Comentario comentario : app.getComentarios()) {
+            listModel.addElement( String.format("%s: %s", comentario.getUsuario(), comentario.getComentario()) );
         }
 
         list.setEnabled(false);
         list.setLayoutOrientation(JList.VERTICAL);
         list.setVisibleRowCount(-1);
-        listScroller = new JScrollPane(list);
-        listScroller.setPreferredSize(new Dimension(250, 100));
-        
-        textComentarios = new JTextArea(8, 20);
-        
+        listComentarios = new JScrollPane(list);
+        listComentarios.setPreferredSize(new Dimension(250, 100));
+
+        lbTituloComentar = new JLabel("Escreva seu comentário na caixa abaixo:");        
+        textComentar = new JTextArea(4, 20);
+        textComentar.setLineWrap(true);
+
+        painelComentar = new JScrollPane(textComentar);
+
         btnComentar = new JButton("Comentar");
         btnSair = new JButton("Sair");
 
@@ -102,20 +127,22 @@ public class TelaVisualizarApp extends Tela {
         painelBotoes.setLayout(new GridLayout(1, 2, 20, 40));
         painelBotoes.add(btnComentar);
         painelBotoes.add(btnSair);
-        
-        
-        adicionarComponentes(lbNomeApp, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);
-        adicionarComponentes(painelAvaliacao, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 2);
-        adicionarComponentes(lbTituloDescricao, GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 0, 1, 1);
-        adicionarComponentes(lbDescicao, GridBagConstraints.WEST, GridBagConstraints.NONE, 4, 0, 1, 1);
-        adicionarComponentes(lbTituloPalavraChave, GridBagConstraints.WEST, GridBagConstraints.NONE, 5, 0, 1, 1);
-        adicionarComponentes(lbPalavrasChaves, GridBagConstraints.WEST, GridBagConstraints.NONE, 6, 0, 1, 1);
-        adicionarComponentes(lbTituloComentarios, GridBagConstraints.WEST, GridBagConstraints.NONE, 7, 0, 1, 1);
-        adicionarComponentes(listScroller, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 8, 0, 1, 1);
-        adicionarComponentes(textComentarios, GridBagConstraints.WEST, GridBagConstraints.BOTH, 9, 0, 1, 1);
-        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER,GridBagConstraints.NONE , 10, 0, 1, 1);
 
-        
+        adicionarComponentes(painelNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);
+        adicionarComponentes(new JPanel(), GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
+        adicionarComponentes(painelAvaliacao, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 0, 1, 1);
+        adicionarComponentes(new JPanel(), GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 0, 1, 1);
+        adicionarComponentes(lbTituloDescricao, GridBagConstraints.WEST, GridBagConstraints.NONE, 4, 0, 1, 1);
+        adicionarComponentes(painelDescricao, GridBagConstraints.WEST, GridBagConstraints.NONE, 5, 0, 1, 1);
+        adicionarComponentes(lbTituloPalavraChave, GridBagConstraints.WEST, GridBagConstraints.NONE, 6, 0, 1, 1);
+        adicionarComponentes(painelPalavrasChave, GridBagConstraints.WEST, GridBagConstraints.NONE, 7, 0, 1, 1);
+        adicionarComponentes(new JPanel(), GridBagConstraints.WEST, GridBagConstraints.NONE, 8, 0, 1, 1);
+        adicionarComponentes(lbTituloComentarios, GridBagConstraints.WEST, GridBagConstraints.NONE, 9, 0, 1, 1);
+        adicionarComponentes(listComentarios, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0, 1, 1);
+        adicionarComponentes(lbTituloComentar, GridBagConstraints.WEST, GridBagConstraints.BOTH, 11, 0, 1, 1);
+        adicionarComponentes(painelComentar, GridBagConstraints.WEST, GridBagConstraints.BOTH, 12, 0, 1, 1);
+        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 13, 0, 1, 1);
+
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -128,20 +155,30 @@ public class TelaVisualizarApp extends Tela {
         btnComentar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (textComentarios.getText().isEmpty()) {
+                String texto = textComentar.getText().trim();
+                if (texto.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Comentário vazio!",
-                            "ERRO", JOptionPane.WARNING_MESSAGE);
+                            "Erro", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    Comentario comentario = new Comentario(textComentarios.getText(), getUsuario().getNome());
+                    Comentario comentario = new Comentario(texto, stringReduzida(getUsuario().getNome(), 15));
                     app.addComentario(comentario);
-                    JOptionPane.showMessageDialog(null,
-                            "Comentário cadastrado com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
-                    btnSair.doClick();
+                    
+                    // refresh
+                    dispose();
+                    new TelaVisualizarApp(getParentScreen(), getUsuario(), app).setVisible(true);
                 }
             }
         });
 
+    }
+    
+    private String stringReduzida(String s, int tam) {
+        if (s.length() > tam) {
+            return s.substring(0, tam-3) + "...";
+        }
+        else {
+            return s;
+        }
     }
 
     @Override

@@ -80,14 +80,20 @@ public class Aplicativo implements Serializable {
      */
     public String getPalavrasChaveString() {
         // Isso aqui que é gambiarra seu mongol
-        String result = palavrasChave.get(0)+", ";
+        /*String result = palavrasChave.get(0)+", ";
         for (String palavraChave : palavrasChave) {
             palavraChave = palavraChave + ", ";
             if(!palavraChave.equals(result)) {
                 result += palavraChave;
             }
         }
-        return result;
+        return result;*/
+        String out = palavrasChave.get(0);
+        for (int i = 0; i < palavrasChave.size(); i++) {
+            out = out.concat(", " + palavrasChave.get(i));
+        }
+        return out;
+        
     }
     
     /**
@@ -128,21 +134,11 @@ public class Aplicativo implements Serializable {
     }
 
     /**
-     * Tamanho da lista de comentários.
-     * @return Tamanho
+     * Get Lista de comentários.
+     * @return Lista de comentários imutável
      */
-    public int getComentariosSize() {
-        return comentarios.size();
-    }
-
-    /**
-     * Get i-ésimo comentário 
-     * @param i Índice
-     * @return Referência para o comentário
-     */
-    public String getComentario(int i) {
-        String comentario = comentarios.get(i).getUsuario() + ": " + comentarios.get(i).getComentario();
-        return comentario;
+    public List<Comentario> getComentarios() {
+        return Collections.unmodifiableList(comentarios);
     }
     
     /**

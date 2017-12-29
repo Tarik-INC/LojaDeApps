@@ -134,6 +134,14 @@ public abstract class Tela extends JFrame {
     }
     
     /**
+     * Get tela pai.
+     * @return Referência para a tela que a invocou
+     */
+    public Tela getParentScreen() {
+        return parentScreen;
+    }
+    
+    /**
      * Protótipo do método para construir a tela.
      */
     public abstract void construirTela();
