@@ -82,5 +82,13 @@ public abstract class Gerenciador {
     public static boolean aplicativoExiste(String nome) {
         return dataBase.aplicativoExiste(nome);
     }
+    
+    /**
+     * Retorna todos os aplicativos de todos os usuário do sistema.
+     * @return Lista de todos os apps
+     */
+    public static List<Aplicativo> obterTodosAplicativos() {
+        return dataBase.getAllApps();
+    }
 
 }

@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.AppJaExistenteException;
 import br.ufla.dcc.ppoo.exceptions.AppNomeVazioException;
 import br.ufla.dcc.ppoo.exceptions.AppPalavrasChaveException;
 import br.ufla.dcc.ppoo.users.Usuario;
@@ -32,7 +33,7 @@ public class TelaEditarApp extends TelaCadastrarApp {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 disposeParent();
-                new TelaListarApp(getUsuario()).setVisible(true);
+                new TelaListarMeusApps(getUsuario()).setVisible(true);
             }
         });
     }
@@ -48,17 +49,24 @@ public class TelaEditarApp extends TelaCadastrarApp {
                     String descricao = getDescricaoVerificada();
                     Usuario usuario = getUsuario();
 
-                    usuario.removeAplicativo(app.getNome());
-                    usuario.addApp( new Aplicativo(nome, descricao, palavrasChave, usuario) );
+                    if (usuario.containsOther(app.getNome(), nome)) {
+                        throw new AppJaExistenteException(String.format("Já existe um app chamado \"%s\".", nome));
+                    }
+                    else {
+                        app.setNome(nome);
+                        app.setDescricao(descricao);
+                        app.setPalavrasChave(palavrasChave);
+                        usuario.sortAplicativos();
 
-                    JOptionPane.showMessageDialog(null,
-                            "Aplicativo atualizado com sucesso!", "Edição Completo", 
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                        JOptionPane.showMessageDialog(null,
+                                "Aplicativo atualizado com sucesso!", "Edição Completa", 
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                    }
 
                     acaoAoFechar();
                 } 
-                catch (AppNomeVazioException | AppPalavrasChaveException except) {
+                catch (AppNomeVazioException | AppPalavrasChaveException |AppJaExistenteException except) {
                     JOptionPane.showMessageDialog(null,
                             except.getMessage(), "Erro no Cadastro", 
                             JOptionPane.ERROR_MESSAGE

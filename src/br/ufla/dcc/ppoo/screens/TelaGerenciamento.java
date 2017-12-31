@@ -20,7 +20,8 @@ import javax.swing.JOptionPane;
 public class TelaGerenciamento extends Tela {
     
     private JButton btnCadastrarApp;
-    private JButton btnListarApps;
+    private JButton btnListarMeusApps;
+    private JButton btnListarTodosApps;
     private JButton btnBuscarApp;
     private JButton btnSair;
 
@@ -33,14 +34,16 @@ public class TelaGerenciamento extends Tela {
     public void construirTela() {
 
         btnCadastrarApp = new JButton("Cadastrar Novo App");
-        btnListarApps = new JButton("Listar Meus Apps");
+        btnListarMeusApps = new JButton("Listar Meus Apps");
+        btnListarTodosApps = new JButton("Listar Todos os Apps");
         btnBuscarApp = new JButton("Buscar Apps");
         btnSair = new JButton("Logout");
 
         adicionarComponentes(btnCadastrarApp, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
-        adicionarComponentes(btnListarApps, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
-        adicionarComponentes(btnBuscarApp, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2, 0, 1, 1);
-        adicionarComponentes(btnSair, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 3, 0, 1, 1);
+        adicionarComponentes(btnListarMeusApps, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
+        adicionarComponentes(btnListarTodosApps, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
+        adicionarComponentes(btnBuscarApp, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 3, 0, 1, 1);
+        adicionarComponentes(btnSair, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 4, 0, 1, 1);
 
         btnCadastrarApp.addActionListener(new ActionListener() {
             @Override
@@ -49,10 +52,17 @@ public class TelaGerenciamento extends Tela {
             }
         });
         
-        btnListarApps.addActionListener(new ActionListener() {
+        btnListarMeusApps.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TelaListarApp(getUsuario()).setVisible(true);
+                new TelaListarMeusApps(getUsuario()).setVisible(true);
+            }
+        });
+        
+        btnListarTodosApps.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TelaListarTodosApps(getUsuario()).setVisible(true);
             }
         });
         

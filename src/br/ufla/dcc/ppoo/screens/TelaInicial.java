@@ -43,7 +43,7 @@ public class TelaInicial extends Tela {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                new TelaCadastro(TelaInicial.this).setVisible(true);
+                new TelaCadastrarUsuario(TelaInicial.this).setVisible(true);
             }
         });
 

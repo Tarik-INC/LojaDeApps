@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class TelaBuscarApp extends TelaListarApp {
+public class TelaBuscarApp extends TelaListarMeusApps {
     
     private List<Aplicativo> listaApps;
     private JButton btnBuscar;
@@ -46,11 +46,7 @@ public class TelaBuscarApp extends TelaListarApp {
         painelBuscar.add(txtBuscarAplicativo);
         painelBuscar.add(btnBuscar);
         
-        setPainelBotoes(new JPanel());
-        getPainelBotoes().setLayout(new GridLayout(1, 2, 30, 30));
-        getPainelBotoes().add(getBtnVisualizar());
-        getPainelBotoes().add(getBtnSair());
-
+        criarPainelBotoes();
         criarLista();
         
         adicionarComponentes(lbBuscarAplicativo, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
@@ -92,5 +88,16 @@ public class TelaBuscarApp extends TelaListarApp {
             }
         });
     }
+
+    @Override
+    public void criarPainelBotoes() {
+        setPainelBotoes(new JPanel());
+        JPanel painelBotoes = getPainelBotoes();
+        painelBotoes.setLayout(new GridLayout(1, 2, 30, 30));
+        painelBotoes.add(getBtnVisualizar());
+        painelBotoes.add(getBtnSair());
+    }
+    
+    
     
 }

@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.AppJaExistenteException;
 import br.ufla.dcc.ppoo.exceptions.AppNomeVazioException;
 import br.ufla.dcc.ppoo.exceptions.AppPalavrasChaveException;
 import br.ufla.dcc.ppoo.users.Usuario;
@@ -108,7 +109,7 @@ public class TelaCadastrarApp extends Tela {
 
                     acaoAoFechar();
                 } 
-                catch (AppNomeVazioException | AppPalavrasChaveException except) {
+                catch (AppNomeVazioException | AppPalavrasChaveException | AppJaExistenteException except) {
                     JOptionPane.showMessageDialog(null,
                             except.getMessage(), "Erro no Cadastro", 
                             JOptionPane.ERROR_MESSAGE

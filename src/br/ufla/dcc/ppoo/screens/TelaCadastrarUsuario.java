@@ -25,7 +25,7 @@ import javax.swing.JTextField;
  * - Senha
  * @author rafael, tarik, william
  */
-public class TelaCadastro extends Tela {
+public class TelaCadastrarUsuario extends Tela {
       
     private JButton btnSalvar;
     private JButton btnCancelar;
@@ -39,7 +39,7 @@ public class TelaCadastro extends Tela {
     private JPasswordField caixaTextoSenha;
     private JPasswordField caixaTextoSenhaConfirmar;
     
-    public TelaCadastro(Tela source) {
+    public TelaCadastrarUsuario(Tela source) {
         super("Cadastrar Usuário", source, 360, 180);
         construirTela();
     }
@@ -47,7 +47,7 @@ public class TelaCadastro extends Tela {
     @Override
     public void construirTela() {
 
-        btnSalvar = new JButton("Salvar");
+        btnSalvar = new JButton("Cadastrar");
         btnCancelar = new JButton("Cancelar");
 
         painelBotoes = new JPanel();
@@ -104,7 +104,7 @@ public class TelaCadastro extends Tela {
                     }
                     catch (LoginJaExistenteException except) {
                         JOptionPane.showMessageDialog(null,
-                        "Usuário já existe, favor escolha outro.", "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
+                        except.getMessage(), "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 catch (LoginInvalidoException | SenhaInvalidaException except) {
@@ -140,8 +140,8 @@ public class TelaCadastro extends Tela {
         if ( senha == null || senha.length == 0 ) {
             throw new SenhaInvalidaException("Campo senha está vazio.");
         } 
-        else if ( senha.length <= 4 ) {
-            throw new SenhaInvalidaException("Senha deve conter no mínimo 5 dígitos.");
+        else if ( senha.length < 4 ) {
+            throw new SenhaInvalidaException("Senha deve conter no mínimo 4 dígitos.");
         }
         else if ( ! senhaIgualConfirmacao(senha, confirmacao) ) {
             throw new SenhaInvalidaException("Confirmação de senha digitada incorretamente.");

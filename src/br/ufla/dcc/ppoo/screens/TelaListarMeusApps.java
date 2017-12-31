@@ -29,7 +29,7 @@ import javax.swing.ListSelectionModel;
  * - sair
  * @author rafael, tarik, william
  */
-public class TelaListarApp extends Tela {
+public class TelaListarMeusApps extends Tela {
     
     private JButton btnEditar;
     private JButton btnRemover;
@@ -41,11 +41,11 @@ public class TelaListarApp extends Tela {
     private JList<Aplicativo> list; //**
     private JScrollPane listScroller; //**
 
-    public TelaListarApp(Usuario usuario) {
+    public TelaListarMeusApps(Usuario usuario) {
         this("Meus Apps", usuario, 540, 425);
     }
     
-    public TelaListarApp(String nomeTela, Usuario usuario, int larg, int alt) {
+    public TelaListarMeusApps(String nomeTela, Usuario usuario, int larg, int alt) {
         super(nomeTela, usuario, larg, alt);
         construirTela();
     }
@@ -59,23 +59,9 @@ public class TelaListarApp extends Tela {
         btnRemover = new JButton("Remover");
         btnSair = new JButton("Sair");
         
-        painelBotoes = new JPanel();
-        painelBotoes.setLayout(new GridLayout(1, 4, 30, 30));
-        painelBotoes.add(btnVisualizar);
-        painelBotoes.add(btnEditar);
-        painelBotoes.add(btnRemover);
-        painelBotoes.add(btnSair);
-        
-        Usuario usuario = getUsuario();
-        usuario.sortAplicativos();  //  ---->    FAZER INSERÇÃO ORDENADA
-        
+        criarPainelBotoes();
         criarLista();
-        
-        listModel.addElement( linhaFormatada("NOME DO APP:", "DESCRIÇÃO:", "NOTA:") );
-        
-        for (Aplicativo app : usuario.getAplicativos()) {
-            listModel.addElement( linhaFormatada(app.getNome(), app.getDescricaoFormatada(), app.getNotaFormatada()) );
-        }
+        preencherLista();
         
         
         adicionarComponentes(lbInstrucao, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
@@ -90,6 +76,14 @@ public class TelaListarApp extends Tela {
         
     }
     
+    public void preencherLista() {
+        listModel.addElement( linhaFormatada("NOME DO APP:", "DESCRIÇÃO:", "NOTA:") );
+        
+        for (Aplicativo app : getUsuario().getAplicativos()) {
+            listModel.addElement( linhaFormatada(app.getNome(), app.getDescricaoFormatada(), app.getNotaFormatada()) );
+        }
+    }
+    
     public void addListenerEditar() {
         btnEditar.addActionListener(new ActionListener() {
             @Override
@@ -98,7 +92,7 @@ public class TelaListarApp extends Tela {
                 try {
                     int index = getSelectedIndex();
                     
-                    Tela tv = new TelaEditarApp(TelaListarApp.this, usuario, usuario.getAplicativo(index));
+                    Tela tv = new TelaEditarApp(TelaListarMeusApps.this, usuario, usuario.getAplicativo(index));
                     tv.setVisible(true);
                 }
                 catch (NenhumItemSelecionadoException except) {
@@ -131,7 +125,7 @@ public class TelaListarApp extends Tela {
                         
                         // refresh:
                         dispose();
-                        new TelaListarApp(usuario).setVisible(true);
+                        new TelaListarMeusApps(usuario).setVisible(true);
                     }
                 }
                 catch (NenhumItemSelecionadoException except) {                
@@ -160,7 +154,7 @@ public class TelaListarApp extends Tela {
                 try {
                     int index = getSelectedIndex();
                     
-                    Tela tv = new TelaVisualizarApp(TelaListarApp.this, usuario, usuario.getAplicativo(index));
+                    Tela tv = new TelaVisualizarApp(TelaListarMeusApps.this, usuario, usuario.getAplicativo(index));
                     tv.setVisible(true);
                 } 
                 catch (NenhumItemSelecionadoException except) {
@@ -172,6 +166,15 @@ public class TelaListarApp extends Tela {
         });
     }
     
+    public void criarPainelBotoes() {
+        painelBotoes = new JPanel();
+        painelBotoes.setLayout(new GridLayout(1, 4, 30, 30));
+        painelBotoes.add(btnVisualizar);
+        painelBotoes.add(btnEditar);
+        painelBotoes.add(btnRemover);
+        painelBotoes.add(btnSair);
+    }
+    
     public void criarLista() {
         listModel = new DefaultListModel();
         list = new JList(listModel);
@@ -180,7 +183,7 @@ public class TelaListarApp extends Tela {
         list.setLayoutOrientation(JList.VERTICAL);
         list.setVisibleRowCount(-1);
         listScroller = new JScrollPane(list);
-        listScroller.setPreferredSize(new Dimension(300, 300));
+        listScroller.setPreferredSize(new Dimension(500, 300));
     }
     
     public int getSelectedIndex() throws NenhumItemSelecionadoException {
@@ -230,6 +233,14 @@ public class TelaListarApp extends Tela {
         return btnVisualizar;
     }
 
+    public JButton getBtnEditar() {
+        return btnEditar;
+    }
+
+    public JButton getBtnRemover() {
+        return btnRemover;
+    }
+
     public JButton getBtnSair() {
         return btnSair;
     }
@@ -276,6 +287,14 @@ public class TelaListarApp extends Tela {
 
     public void setListScroller(JScrollPane listScroller) {
         this.listScroller = listScroller;
+    }
+
+    public void setBtnEditar(JButton btnEditar) {
+        this.btnEditar = btnEditar;
+    }
+
+    public void setBtnRemover(JButton btnRemover) {
+        this.btnRemover = btnRemover;
     }
     
 }

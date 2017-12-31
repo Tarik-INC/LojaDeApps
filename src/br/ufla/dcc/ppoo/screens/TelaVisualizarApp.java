@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.ComentarioException;
 import br.ufla.dcc.ppoo.miscellaneous.Comentario;
 import br.ufla.dcc.ppoo.miscellaneous.StarRater;
 import br.ufla.dcc.ppoo.miscellaneous.StarRater.StarListener;
@@ -74,18 +75,23 @@ public class TelaVisualizarApp extends Tela {
         painelNome.add(lbNotaMedia);
 
         lbAvaliacao = new JLabel("Avaliar:");
-        starRater = new StarRater(5, app.getNota(), 0);
+        starRater = new StarRater(5, app.getNotaUsuario(getUsuario()), 0);
         starRater.addStarListener(new StarListener() {
             @Override
             public void handleSelection(int selection) {
-                app.novaAvaliacao(selection);
+                app.setNotaAvaliacao(getUsuario(), selection);
                 JOptionPane.showMessageDialog(null, "Avaliação salva!", "Concluído", JOptionPane.INFORMATION_MESSAGE);
-                
+
                 //refresh
                 dispose();
                 new TelaVisualizarApp(getParentScreen(), getUsuario(), app).setVisible(true);
+
             }
         });
+        
+        if (app.getAutor().equals(getUsuario())) {
+            starRater.setEnabled(false);
+        }
 
         painelAvaliacao = new JPanel();
         painelAvaliacao.setLayout(new GridLayout(1, 2));
@@ -162,21 +168,37 @@ public class TelaVisualizarApp extends Tela {
         btnComentar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String texto = textComentar.getText().trim();
-                if (texto.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Comentário vazio!",
-                            "Erro", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    Comentario comentario = new Comentario(texto, stringReduzida(getUsuario().getNome(), 15));
+                try {
+                    String texto = getComentario();
+                
+                    Comentario comentario = new Comentario(texto, getUsuario().getNome());
                     app.addComentario(comentario);
                     
                     // refresh
                     dispose();
                     new TelaVisualizarApp(getParentScreen(), getUsuario(), app).setVisible(true);
                 }
+                catch (ComentarioException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
+    }
+    
+    private String getComentario() throws ComentarioException {
+        final int MAX = 144;
+        String texto = textComentar.getText().trim().replace("\n", " ");
+        
+        if (texto.isEmpty()) {
+            throw new ComentarioException("Comentário vazio.");
+        }
+        else if (texto.length() > MAX) {
+            throw new ComentarioException(String.format("Comentário tem %d caracteres, máximo é %d.", texto.length(), MAX));
+        }
+        else {
+            return texto;
+        }
     }
     
     private String stringReduzida(String s, int tam) {

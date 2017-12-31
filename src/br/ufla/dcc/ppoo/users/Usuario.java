@@ -1,6 +1,7 @@
 package br.ufla.dcc.ppoo.users;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.AppJaExistenteException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -94,15 +95,70 @@ public class Usuario implements Serializable {
     public String getLogin() {
         return login;
     }
+     
+    /**
+     * Verifica se um app com mesmo nome já está na lista.
+     * @param app App a ser conferido
+     * @return Verdadeiro ou Falso
+     */
+    public boolean contains(Aplicativo app) {
+        for (Aplicativo oneApp : apps) {
+            if ( oneApp.getNome().equals(app.getNome()) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Verifica se um outro app possui o novo nome a ser atribuído após edição.
+     * @param nomeOriginal string nome original do app a ser conferido
+     * @param nomeNovo string novo nome do app a ser conferido
+     * @return Verdadeiro ou Falso
+     */
+    public boolean containsOther(String nomeOriginal, String nomeNovo) {
+        for (Aplicativo oneApp : apps) {
+            if ( !oneApp.getNome().equals(nomeOriginal) && oneApp.getNome().equals(nomeNovo) ) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     /**
      * Adicionar novo app na lista.
      * @param aplicativo Novo app cadastrado
      */
-    public void addApp(Aplicativo aplicativo) {
-        apps.add(aplicativo);
+    public void addApp(Aplicativo aplicativo) throws AppJaExistenteException {
+        if (!contains(aplicativo)) {
+            addAppOrdenado(aplicativo);
+        }
+        else {
+            throw new AppJaExistenteException(
+                String.format("Já existe um app chamado \"%s\" em sua conta.", aplicativo.getNome())
+            );
+        }
     }
-
+    
+    /**
+     * Insere elemento na lista de apps em ordem alfabética.
+     * @param app Objeto a ser inserido
+     */
+    private void addAppOrdenado(Aplicativo app) {
+        if (apps.isEmpty()) {
+            apps.add(app);
+        }
+        else {
+            for (int i = 0; i < apps.size(); i++) {
+                if ( app.getNome().compareToIgnoreCase(apps.get(i).getNome()) < 0 ) {
+                    apps.add(i, app);
+                    return;
+                }
+            }
+            apps.add(app);
+        }
+    }
+    
     /**
      * Get apps.
      * @return Lista imutável de apps

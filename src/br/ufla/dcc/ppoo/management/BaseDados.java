@@ -35,9 +35,19 @@ public class BaseDados {
      * @param file Arquivo a ser lido
      */
     public BaseDados(File file) throws IOException, ClassNotFoundException {
-        ObjectInputStream reader = new ObjectInputStream(new FileInputStream(file));
-        cadastros = (List<Usuario>) reader.readObject();
-        reader.close();
+        ObjectInputStream reader = null;
+        try {
+            reader = new ObjectInputStream(new FileInputStream(file));
+            cadastros = (List<Usuario>) reader.readObject();
+        }
+        catch (ClassNotFoundException | IOException e) {
+            throw e;
+        }
+        finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
     }
     
     /**
@@ -45,9 +55,19 @@ public class BaseDados {
      * @param file Arquivo a ser salvo
      */
     public void save(File file) throws IOException {
-        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
-        writer.writeObject(cadastros);
-        writer.close();
+        ObjectOutputStream writer = null;
+        try {
+            writer = new ObjectOutputStream(new FileOutputStream(file));
+            writer.writeObject(cadastros);
+        }
+        catch (IOException e) {
+            throw e;
+        }
+        finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
     }
     
     /**
@@ -139,6 +159,20 @@ public class BaseDados {
             }
         }
         return false;
+    }
+    
+    /**
+     * Retorna todos os aplicativos disponíveis na base de dados.
+     * @return Lista contendo todos os apps
+     */
+    public List<Aplicativo> getAllApps() {
+        List<Aplicativo> list = new LinkedList();
+        
+        for (Usuario user : cadastros) {
+            list.addAll(user.getAplicativos());
+        }
+        
+        return list;
     }
     
 }
