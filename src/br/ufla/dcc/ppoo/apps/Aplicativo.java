@@ -1,6 +1,5 @@
 package br.ufla.dcc.ppoo.apps;
 
-import br.ufla.dcc.ppoo.exceptions.AvaliacaoException;
 import br.ufla.dcc.ppoo.exceptions.AvaliacaoNotaInvalidaException;
 import br.ufla.dcc.ppoo.miscellaneous.Avaliacao;
 import br.ufla.dcc.ppoo.miscellaneous.Comentario;
@@ -241,6 +240,34 @@ public class Aplicativo implements Serializable {
         }
         
         return 0;
+    }
+    
+    /**
+     * Verifica se uma palavra chave está contida no nome do app, para buscas.
+     * @param string Palavra chave a ser buscada
+     * @return Verdadeiro ou Falso
+     */
+    public boolean nomeContem(String string) {
+        String key = string.toLowerCase();
+        
+        return nome.toLowerCase().contains(key);
+    }
+    
+    /**
+     * Verifica se uma palavra chave está contida nas palavras-chave, para buscas.
+     * @param string Palavra chave a ser buscada
+     * @return Verdadeiro ou Falso
+     */
+    public boolean palavrasChaveContem(String string) {
+        String key = string.toLowerCase();
+        
+        for (String palavra : palavrasChave) {
+            if (palavra.toLowerCase().contains(key)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
 }

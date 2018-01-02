@@ -9,7 +9,7 @@ import br.ufla.dcc.ppoo.screens.TelaInicial;
  */
 public class Main {
     public static void main(String[] args) {
-        Gerenciador.setArquivoDados("database.bin");
+        Gerenciador.definirArquivoDados("database.bin");
         Gerenciador.carregarDados();
         new TelaInicial().setVisible(true);
     }

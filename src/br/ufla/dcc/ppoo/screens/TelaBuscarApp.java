@@ -2,6 +2,8 @@ package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.AppInexistenteException;
+import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
+import br.ufla.dcc.ppoo.exceptions.NenhumItemSelecionadoException;
 import br.ufla.dcc.ppoo.management.Gerenciador;
 import br.ufla.dcc.ppoo.users.Usuario;
 import java.awt.GridBagConstraints;
@@ -13,29 +15,29 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class TelaBuscarApp extends TelaListarMeusApps {
     
     private List<Aplicativo> listaApps;
+    private JLabel lbBuscarAplicativo;
+    private JTextField txtBuscarAplicativo;
     private JButton btnBuscar;
     private JPanel painelBuscar;
-    private JTextField txtBuscarAplicativo;
-    private JLabel lbBuscarAplicativo;
             
     public TelaBuscarApp(Usuario usuario) {
         super("Buscar Aplicativo", usuario, 540, 480);
-        listaApps = new LinkedList();
-        construirTela();
     }
 
     @Override
     public void construirTela() {
         
-        setLbInstrucao(new JLabel("Selecione um aplicativo para visualizar"));
         lbBuscarAplicativo = new JLabel("Digite o nome ou uma palavra-chave para buscar");
         txtBuscarAplicativo = new JTextField(20);
+        
+        setLbInstrucao(new JLabel("Selecione um aplicativo para visualizar"));
         
         btnBuscar = new JButton("Buscar");
         setBtnVisualizar(new JButton("Visualizar"));
@@ -57,10 +59,9 @@ public class TelaBuscarApp extends TelaListarMeusApps {
         adicionarComponentes(getPainelBotoes(), GridBagConstraints.CENTER, GridBagConstraints.BOTH, 5,0,1,1);
         
         
-        addListenerVisualizar(); // visualizar e sair fazem a mesma coisa que a superclasse
-        addListenerSair();
+        addListenerVisualizar(); 
+        addListenerSair(); // sair faz a mesma coisa que a superclasse
         addListenerBuscar();
-        
     }
     
     public void addListenerBuscar() {
@@ -68,23 +69,64 @@ public class TelaBuscarApp extends TelaListarMeusApps {
             @Override
             public void actionPerformed(ActionEvent e) {
                 DefaultListModel listModel = getListModel();
-                
                 listModel.clear();
-                listModel.addElement( linhaFormatada("NOME DO APP:", "AUTOR:", "NOTA:"));
-
+                
                 try {
-                    listaApps = Gerenciador.buscarAplicativo(txtBuscarAplicativo.getText());
-                    for (int i = 0; i< listaApps.size(); ++i) {
-                        Aplicativo app = listaApps.get(i);
+                    String stringBusca = getTextoBusca();
+                    
+                    listModel.addElement("Procurando...");
+                    
+                    listaApps = Gerenciador.buscarAplicativos(stringBusca);
+                    
+                    listModel.clear();
+                    listModel.addElement(linhaFormatada("NOME DO APP:", "AUTOR:", "NOTA:"));
+                    
+                    for (Aplicativo app : listaApps) {
                         listModel.addElement( 
                             linhaFormatada(app.getNome(), app.getAutor().getNome(), app.getNotaFormatada()) 
                         );
                     }
-
-                } catch (AppInexistenteException e1) {
-                    e1.printStackTrace();
+                } 
+                catch (AppInexistenteException ex) {
+                    listModel.clear();
+                    listModel.addElement("Sua busca não retornou resultados.");
+                } 
+                catch (CampoVazioException ex) {
+                    JOptionPane.showMessageDialog(
+                        null, ex.getMessage(), "Erro ao Buscar", JOptionPane.ERROR_MESSAGE
+                    );
                 }
+            }
+        });
+    }
+    
+    private String getTextoBusca() throws CampoVazioException {
+        String txt = txtBuscarAplicativo.getText().trim();
+        if (txt.isEmpty()) {
+            throw new CampoVazioException("Campo buscar está vazio.");
+        }
+        else {
+            return txt;
+        }
+    }
 
+    @Override
+    public void addListenerVisualizar() {
+        getBtnVisualizar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                Usuario usuario = getUsuario();
+                try {
+                    int index = getSelectedIndex();
+                    
+                    Tela tv = new TelaVisualizarApp(TelaBuscarApp.this, usuario, listaApps.get(index));
+                    tv.setVisible(true);
+                } 
+                catch (NenhumItemSelecionadoException except) {
+                    JOptionPane.showMessageDialog(
+                        null, except.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE
+                    );
+                }
             }
         });
     }
@@ -97,7 +139,5 @@ public class TelaBuscarApp extends TelaListarMeusApps {
         painelBotoes.add(getBtnVisualizar());
         painelBotoes.add(getBtnSair());
     }
-    
-    
     
 }

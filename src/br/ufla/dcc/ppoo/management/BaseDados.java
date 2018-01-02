@@ -122,26 +122,26 @@ public class BaseDados {
     
     /**
      * Busca aplcativo, usado no menu de busca.
-     * @param aplicativo Nome do app
-     * @return Lista de combinações encontradas
+     * @param keyword  Nome do app
+     * @return Lista de combinações encontradas, ordenada pela nota descrescente
      */
-    public List<Aplicativo> buscarAplicativo(String aplicativo) throws AppInexistenteException {
+    public List<Aplicativo> buscarAplicativos(String keyword) throws AppInexistenteException {
         List<Aplicativo> lista = new LinkedList();
+        
         for (Usuario c : cadastros) {
             for (Aplicativo app : c.getAplicativos()) {
-                if (app.getNome().equals(aplicativo) || app.getPalavrasChave().contains(aplicativo)) {
+                if (app.nomeContem(keyword) || app.palavrasChaveContem(keyword)) {
                     lista.add(app);
                 }
             }
         }
-        if (lista != null) {
-            lista.sort(Comparator.comparing(Aplicativo::getNota));
-            Collections.reverse(lista);
+        
+        if (!lista.isEmpty()) {
+            lista.sort(Collections.reverseOrder(Comparator.comparing(Aplicativo::getNota)));
             return lista;
-        } else {
-            throw new AppInexistenteException(
-                String.format("Aplicativo \"%s\" não encontrado.", aplicativo)
-            );
+        } 
+        else {
+            throw new AppInexistenteException(String.format("Aplicativo \"%s\" não encontrado.", keyword));
         }
     }
 

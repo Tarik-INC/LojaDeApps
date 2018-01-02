@@ -33,13 +33,13 @@ public class TelaListarMeusApps extends Tela {
     
     private JButton btnEditar;
     private JButton btnRemover;
-    private JButton btnVisualizar ; //**
-    private JButton btnSair; //**
-    private JPanel painelBotoes; //**
-    private JLabel lbInstrucao; //**
-    private DefaultListModel listModel; //**
-    private JList<Aplicativo> list; //**
-    private JScrollPane listScroller; //**
+    private JButton btnVisualizar ; 
+    private JButton btnSair; 
+    private JPanel painelBotoes; 
+    private JLabel lbInstrucao; 
+    private DefaultListModel listModel; 
+    private JList<Aplicativo> list; 
+    private JScrollPane listScroller; 
 
     public TelaListarMeusApps(Usuario usuario) {
         this("Meus Apps", usuario, 540, 425);
