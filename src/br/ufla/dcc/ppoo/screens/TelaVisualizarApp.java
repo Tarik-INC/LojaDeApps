@@ -1,126 +1,218 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.exceptions.ComentarioException;
 import br.ufla.dcc.ppoo.miscellaneous.Comentario;
 import br.ufla.dcc.ppoo.miscellaneous.StarRater;
-
-import java.awt.*;
+import br.ufla.dcc.ppoo.miscellaneous.StarRater.StarListener;
+import br.ufla.dcc.ppoo.users.Usuario;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class TelaVisualizarApp extends Tela {
 
-    private String nomeUsuario;
     private Aplicativo app;
-    private Tela source;
+    private JLabel lbNomeApp;
+    private JLabel lbAutorApp;
+    private JLabel lbNotaMedia;
+    private JPanel painelNome;
+    private JLabel lbAvaliacao;
+    private StarRater starRater;
+    private JPanel painelAvaliacao;
+    private JLabel lbTituloDescricao;
+    private JTextArea txtDescicao;
+    private JScrollPane painelDescricao;
+    private JLabel lbTituloPalavraChave;
+    private JTextArea txtPalavrasChave;
+    private JScrollPane painelPalavrasChave;
+    private JLabel lbTituloComentarios;
+    private DefaultListModel listModel;
+    private JList<String> list;
+    private JScrollPane listComentarios;
+    private JLabel lbTituloComentar;
+    private JTextArea textComentar;
+    private JScrollPane painelComentar;
+    private JButton btnComentar;
+    private JButton btnSair;
+    private JPanel painelBotoes;
 
-    public TelaVisualizarApp(String nomeUsuario, Aplicativo app, Tela source) {
-        super("Visualizar Aplicativo", 250, 400);
+    public TelaVisualizarApp(Tela source, Usuario usuario, Aplicativo app) {
+        super("Visualizar Aplicativo", source, usuario, 375, 600);
         this.app = app;
-        this.nomeUsuario = nomeUsuario;
-        this.source = source;
         construirTela();
-        pack();
-
     }
 
     @Override
-    void construirTela() {
+    public void construirTela() {
 
-        JLabel lbNomeApp = new JLabel("Login: " + nomeUsuario + "   |    " + app.getNome());
-        adicionarComponentes(lbNomeApp, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);
+        lbNomeApp = new JLabel( stringReduzida(app.getNome(), 35) );
+        lbNomeApp.setToolTipText( app.getNome() );
+        lbNomeApp.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 16));
+        
+        lbAutorApp = new JLabel( "by " + stringReduzida(app.getAutor().getNome(), 25) );
+        lbAutorApp.setToolTipText( app.getAutor().getNome() );
+        
+        lbNotaMedia = new JLabel("Média das avaliações: " + app.getNotaFormatada());
+        lbNotaMedia.setToolTipText(String.format("Nota = %.4f", app.getNota()));
 
-        JPanel painelAvaliacao = new JPanel();
-        painelAvaliacao.setLayout(new GridLayout(1, 2, 20, 20));
+        painelNome = new JPanel();
+        painelNome.setLayout(new GridLayout(3, 1));
+        painelNome.add(lbNomeApp);
+        painelNome.add(lbAutorApp);
+        painelNome.add(lbNotaMedia);
 
-        JLabel lbQuantAvaliacao = new JLabel(Double.toString(0.0));
-        StarRater starRater = new StarRater(5, app.getNota(), 0);
-        starRater.addStarListener(
-                new StarRater.StarListener() {
-                    @Override
-                    public void handleSelection(int selection) {
-                        app.novaAvaliacao(selection);
-                        lbQuantAvaliacao.setText(Integer.toString(selection));
-                    }
-                });
+        lbAvaliacao = new JLabel("Avaliar:");
+        starRater = new StarRater(5, app.getNotaUsuario(getUsuario()), 0);
+        starRater.addStarListener(new StarListener() {
+            @Override
+            public void handleSelection(int selection) {
+                app.setNotaAvaliacao(getUsuario(), selection);
+                JOptionPane.showMessageDialog(null, "Avaliação salva!", "Concluído", JOptionPane.INFORMATION_MESSAGE);
 
+                //refresh
+                dispose();
+                new TelaVisualizarApp(getParentScreen(), getUsuario(), app).setVisible(true);
+
+            }
+        });
+        
+        if (app.getAutor().equals(getUsuario())) {
+            starRater.setEnabled(false);
+        }
+
+        painelAvaliacao = new JPanel();
+        painelAvaliacao.setLayout(new GridLayout(1, 2));
+        painelAvaliacao.add(lbAvaliacao);
         painelAvaliacao.add(starRater);
-        painelAvaliacao.add(lbQuantAvaliacao);
-        adicionarComponentes(painelAvaliacao, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 2);
 
-        JLabel lbTituloDescricao = new JLabel("Descrição: ");
-        lbTituloDescricao.setFont(new Font("Arial", Font.BOLD, 16));
-        adicionarComponentes(lbTituloDescricao, GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 0, 1, 1);
+        lbTituloDescricao = new JLabel("Descrição:");
+        txtDescicao = new JTextArea(app.getDescricao(), 5, 30);
+        txtDescicao.setLineWrap(true);
+        txtDescicao.setEditable(false);        
+        
+        painelDescricao = new JScrollPane(txtDescicao);
+        painelDescricao.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        JLabel lbDescicao = new JLabel(app.getDescricao());
-        adicionarComponentes(lbDescicao, GridBagConstraints.WEST, GridBagConstraints.NONE, 4, 0, 1, 1);
+        lbTituloPalavraChave = new JLabel("Palavras-Chave:");
+        txtPalavrasChave = new JTextArea(app.getPalavrasChaveString() + ".", 3, 30);
+        txtPalavrasChave.setLineWrap(true);
+        txtPalavrasChave.setEditable(false);        
+        
+        painelPalavrasChave = new JScrollPane(txtPalavrasChave);
+        painelPalavrasChave.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        JLabel lbTituloPalavraChave = new JLabel("Palavras-Chave: ");
-        lbTituloPalavraChave.setFont(new Font("Arial", Font.BOLD, 16));
-        adicionarComponentes(lbTituloPalavraChave, GridBagConstraints.WEST, GridBagConstraints.NONE, 5, 0, 1, 1);
+        lbTituloComentarios = new JLabel("Comentários:");
 
-        JLabel lbPalavrasChaves = new JLabel(app.getPalavrasChaveString());
-        adicionarComponentes(lbPalavrasChaves, GridBagConstraints.WEST, GridBagConstraints.NONE, 6, 0, 1, 1);
-
-        JLabel lbTituloComentarios = new JLabel("Comentários: ");
-        lbTituloComentarios.setFont(new Font("Arial", Font.BOLD, 16));
-        adicionarComponentes(lbTituloComentarios, GridBagConstraints.WEST, GridBagConstraints.NONE, 7, 0, 1, 1);
-
-        //
-        DefaultListModel listModel = new DefaultListModel();
-        JList<String> list = new JList<String>(listModel);
-        for (int i = 0; i < app.getComentariosSize(); ++i) {
-            listModel.addElement(app.getComentario(i));
+        listModel = new DefaultListModel();
+        list = new JList(listModel);
+        for (Comentario comentario : app.getComentarios()) {
+            listModel.addElement( String.format("%s: %s", comentario.getUsuario(), comentario.getComentario()) );
         }
 
         list.setEnabled(false);
         list.setLayoutOrientation(JList.VERTICAL);
         list.setVisibleRowCount(-1);
-        JScrollPane listScroller = new JScrollPane(list);
-        listScroller.setPreferredSize(new Dimension(250, 100));
-        adicionarComponentes(listScroller, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 8, 0, 1, 1);
-        //
+        listComentarios = new JScrollPane(list);
+        listComentarios.setPreferredSize(new Dimension(250, 100));
 
-        JTextArea textComentarios = new JTextArea(8, 20);
-        adicionarComponentes(textComentarios, GridBagConstraints.WEST, GridBagConstraints.BOTH, 9, 0, 1, 1);
+        lbTituloComentar = new JLabel("Escreva seu comentário na caixa abaixo:");        
+        textComentar = new JTextArea(4, 20);
+        textComentar.setLineWrap(true);
 
-        JButton btnComentar = new JButton("Comentar");
-        JButton btnSair = new JButton("Sair");
+        painelComentar = new JScrollPane(textComentar);
 
-        JPanel painelBotoes = new JPanel();
+        btnComentar = new JButton("Comentar");
+        btnSair = new JButton("Sair");
+
+        painelBotoes = new JPanel();
         painelBotoes.setLayout(new GridLayout(1, 2, 20, 40));
         painelBotoes.add(btnComentar);
         painelBotoes.add(btnSair);
-        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER,GridBagConstraints.NONE , 10, 0, 1, 1);
+
+        adicionarComponentes(painelNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);
+        adicionarComponentes(new JPanel(), GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
+        adicionarComponentes(painelAvaliacao, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 0, 1, 1);
+        adicionarComponentes(new JPanel(), GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 0, 1, 1);
+        adicionarComponentes(lbTituloDescricao, GridBagConstraints.WEST, GridBagConstraints.NONE, 4, 0, 1, 1);
+        adicionarComponentes(painelDescricao, GridBagConstraints.WEST, GridBagConstraints.NONE, 5, 0, 1, 1);
+        adicionarComponentes(lbTituloPalavraChave, GridBagConstraints.WEST, GridBagConstraints.NONE, 6, 0, 1, 1);
+        adicionarComponentes(painelPalavrasChave, GridBagConstraints.WEST, GridBagConstraints.NONE, 7, 0, 1, 1);
+        adicionarComponentes(new JPanel(), GridBagConstraints.WEST, GridBagConstraints.NONE, 8, 0, 1, 1);
+        adicionarComponentes(lbTituloComentarios, GridBagConstraints.WEST, GridBagConstraints.NONE, 9, 0, 1, 1);
+        adicionarComponentes(listComentarios, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 10, 0, 1, 1);
+        adicionarComponentes(lbTituloComentar, GridBagConstraints.WEST, GridBagConstraints.BOTH, 11, 0, 1, 1);
+        adicionarComponentes(painelComentar, GridBagConstraints.WEST, GridBagConstraints.BOTH, 12, 0, 1, 1);
+        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 13, 0, 1, 1);
 
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
                 dispose();
-                source.setVisible(true);
+                setParentVisible(true);
             }
         });
-
 
         btnComentar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (textComentarios.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Comentário vazio!",
-                            "ERRO", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    Comentario comentario = new Comentario(textComentarios.getText(), nomeUsuario);
+                try {
+                    String texto = getComentario();
+                
+                    Comentario comentario = new Comentario(texto, getUsuario().getNome());
                     app.addComentario(comentario);
-                    JOptionPane.showMessageDialog(null,
-                            "Comentário cadastrado com sucesso!", "Cadastro Completo", JOptionPane.INFORMATION_MESSAGE);
-                    btnSair.doClick();
+                    
+                    // refresh
+                    dispose();
+                    new TelaVisualizarApp(getParentScreen(), getUsuario(), app).setVisible(true);
+                }
+                catch (ComentarioException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
+    }
+    
+    private String getComentario() throws ComentarioException {
+        final int MAX = 144;
+        String texto = textComentar.getText().trim().replace("\n", " ");
+        
+        if (texto.isEmpty()) {
+            throw new ComentarioException("Comentário vazio.");
+        }
+        else if (texto.length() > MAX) {
+            throw new ComentarioException(String.format("Comentário tem %d caracteres, máximo é %d.", texto.length(), MAX));
+        }
+        else {
+            return texto;
+        }
+    }
+    
+    private String stringReduzida(String s, int tam) {
+        if (s.length() > tam) {
+            return s.substring(0, tam-3) + "...";
+        }
+        else {
+            return s;
+        }
+    }
+
+    @Override
+    public void acaoAoFechar() {
+        btnSair.doClick();
     }
 
 }
