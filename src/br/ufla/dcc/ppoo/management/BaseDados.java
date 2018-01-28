@@ -35,9 +35,19 @@ public class BaseDados {
      * @param file Arquivo a ser lido
      */
     public BaseDados(File file) throws IOException, ClassNotFoundException {
-        ObjectInputStream reader = new ObjectInputStream(new FileInputStream(file));
-        cadastros = (List<Usuario>) reader.readObject();
-        reader.close();
+        ObjectInputStream reader = null;
+        try {
+            reader = new ObjectInputStream(new FileInputStream(file));
+            cadastros = (List<Usuario>) reader.readObject();
+        }
+        catch (ClassNotFoundException | IOException e) {
+            throw e;
+        }
+        finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
     }
     
     /**
@@ -45,9 +55,19 @@ public class BaseDados {
      * @param file Arquivo a ser salvo
      */
     public void save(File file) throws IOException {
-        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(file));
-        writer.writeObject(cadastros);
-        writer.close();
+        ObjectOutputStream writer = null;
+        try {
+            writer = new ObjectOutputStream(new FileOutputStream(file));
+            writer.writeObject(cadastros);
+        }
+        catch (IOException e) {
+            throw e;
+        }
+        finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
     }
     
     /**
@@ -79,7 +99,7 @@ public class BaseDados {
         }
         
         throw new LoginInexistenteException(
-            String.format("Cadastro com login \"%s\" não encontrado.", login)
+            String.format("Cadastro com login \"%s\" inexistente.", login)
         );
     }
     
@@ -102,26 +122,26 @@ public class BaseDados {
     
     /**
      * Busca aplcativo, usado no menu de busca.
-     * @param aplicativo Nome do app
-     * @return Lista de combinações encontradas
+     * @param keyword  Nome do app
+     * @return Lista de combinações encontradas, ordenada pela nota descrescente
      */
-    public List<Aplicativo> buscarAplicativo(String aplicativo) throws AppInexistenteException {
+    public List<Aplicativo> buscarAplicativos(String keyword) throws AppInexistenteException {
         List<Aplicativo> lista = new LinkedList();
+        
         for (Usuario c : cadastros) {
             for (Aplicativo app : c.getAplicativos()) {
-                if (app.getNome().equals(aplicativo) || app.getPalavrasChave().contains(aplicativo)) {
+                if (app.nomeContem(keyword) || app.palavrasChaveContem(keyword)) {
                     lista.add(app);
                 }
             }
         }
-        if (lista != null) {
-            lista.sort(Comparator.comparing(Aplicativo::getNota));
-            Collections.reverse(lista);
+        
+        if (!lista.isEmpty()) {
+            lista.sort(Collections.reverseOrder(Comparator.comparing(Aplicativo::getNota)));
             return lista;
-        } else {
-            throw new AppInexistenteException(
-                String.format("Aplicativo \"%s\" não encontrado.", aplicativo)
-            );
+        } 
+        else {
+            throw new AppInexistenteException(String.format("Aplicativo \"%s\" não encontrado.", keyword));
         }
     }
 
@@ -139,6 +159,20 @@ public class BaseDados {
             }
         }
         return false;
+    }
+    
+    /**
+     * Retorna todos os aplicativos disponíveis na base de dados.
+     * @return Lista contendo todos os apps
+     */
+    public List<Aplicativo> getAllApps() {
+        List<Aplicativo> list = new LinkedList();
+        
+        for (Usuario user : cadastros) {
+            list.addAll(user.getAplicativos());
+        }
+        
+        return list;
     }
     
 }
