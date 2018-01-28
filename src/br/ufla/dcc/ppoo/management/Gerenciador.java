@@ -23,7 +23,7 @@ public abstract class Gerenciador {
      * Seleciona o endereço do arquivo da base de dados.
      * @param filePath Caminho do arquivo 
      */
-    public static void definirArquivoDados(String filePath) {
+    public static void setArquivoDados(String filePath) {
         file = new File(filePath);
     }
     
@@ -70,8 +70,8 @@ public abstract class Gerenciador {
      * @param nome Nome do app buscado
      * @return Referência para o app
      */
-    public static List<Aplicativo> buscarAplicativos(String keyword) throws AppInexistenteException {
-        return dataBase.buscarAplicativos(keyword);
+    public static List<Aplicativo> buscarAplicativo(String nome) throws AppInexistenteException {
+        return dataBase.buscarAplicativo(nome);
     }
     
     /**
@@ -81,14 +81,6 @@ public abstract class Gerenciador {
      */
     public static boolean aplicativoExiste(String nome) {
         return dataBase.aplicativoExiste(nome);
-    }
-    
-    /**
-     * Retorna todos os aplicativos de todos os usuário do sistema.
-     * @return Lista de todos os apps
-     */
-    public static List<Aplicativo> obterTodosAplicativos() {
-        return dataBase.getAllApps();
     }
 
 }
