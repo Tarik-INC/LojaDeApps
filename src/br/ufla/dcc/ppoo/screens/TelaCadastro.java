@@ -25,8 +25,9 @@ import javax.swing.JTextField;
  * - Senha
  * @author rafael, tarik, william
  */
-public class TelaCadastrarUsuario extends Tela {
-      
+public class TelaCadastro extends Tela {
+    
+    private final Tela source;    
     private JButton btnSalvar;
     private JButton btnCancelar;
     private JPanel painelBotoes;
@@ -39,45 +40,49 @@ public class TelaCadastrarUsuario extends Tela {
     private JPasswordField caixaTextoSenha;
     private JPasswordField caixaTextoSenhaConfirmar;
     
-    public TelaCadastrarUsuario(Tela source) {
-        super("Cadastrar Usuário", source, 360, 180);
+    public TelaCadastro(Tela source) {
+        super("Cadastrar Usuário", 300, 300);
+        this.source = source;
         construirTela();
+        pack();
     }
 
     @Override
-    public void construirTela() {
+    void construirTela() {
 
-        btnSalvar = new JButton("Cadastrar");
+        btnSalvar = new JButton("Salvar");
         btnCancelar = new JButton("Cancelar");
 
         painelBotoes = new JPanel();
-        painelBotoes.setLayout(new GridLayout(1, 1, 10, 10));
+        painelBotoes.setLayout(new GridLayout(1, 1, 30, 30));
         painelBotoes.add(btnSalvar);
         painelBotoes.add(btnCancelar);
-        
-        rotuloNome = new JLabel("Nome");
-        caixaTextoNome = new JTextField(20);
-        
-        rotuloLogin = new JLabel("Login");
-        caixaTextoLogin = new JTextField(20);
-        
-        rotuloSenha = new JLabel("Senha");
-        caixaTextoSenha = new JPasswordField(6);
-        
-        rotuloSenhaConfirmar = new JLabel("Confirmar senha");
-        caixaTextoSenhaConfirmar = new JPasswordField(6);
-        
 
-        adicionarComponentes(rotuloNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 0, 0, 1, 1);        
-        adicionarComponentes(caixaTextoNome, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 0, 1, 3, 1);        
-        adicionarComponentes(rotuloLogin, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);        
-        adicionarComponentes(caixaTextoLogin, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 1, 1, 3, 1);        
-        adicionarComponentes(rotuloSenha, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 0, 1, 1);        
-        adicionarComponentes(caixaTextoSenha, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 1, 1, 1);        
-        adicionarComponentes(rotuloSenhaConfirmar, GridBagConstraints.CENTER, GridBagConstraints.NONE, 2, 2, 1, 1);        
-        adicionarComponentes(caixaTextoSenhaConfirmar, GridBagConstraints.CENTER, GridBagConstraints.NONE, 2, 3, 1, 1);
-        adicionarComponentes(new JPanel(), GridBagConstraints.CENTER, GridBagConstraints.NONE, 3, 0, 4, 1);        
-        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 4, 0, 4, 1);        
+        adicionarComponentes(painelBotoes, GridBagConstraints.CENTER, GridBagConstraints.NONE, 4, 1, 2, 1);
+
+        rotuloNome = new JLabel("Nome ");
+        adicionarComponentes(rotuloNome, GridBagConstraints.WEST, GridBagConstraints.NONE, 1, 0, 1, 1);
+
+        caixaTextoNome = new JTextField(20);
+        adicionarComponentes(caixaTextoNome, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 1, 1, 3, 1);
+
+        rotuloLogin = new JLabel("Login ");
+        adicionarComponentes(rotuloLogin, GridBagConstraints.WEST, GridBagConstraints.NONE, 2, 0, 1, 1);
+
+        caixaTextoLogin = new JTextField(20);
+        adicionarComponentes(caixaTextoLogin, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 2, 1, 3, 1);
+
+        rotuloSenha = new JLabel("Senha ");
+        adicionarComponentes(rotuloSenha, GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 0, 1, 1);
+
+        caixaTextoSenha = new JPasswordField(6);
+        adicionarComponentes(caixaTextoSenha, GridBagConstraints.WEST, GridBagConstraints.NONE, 3, 1, 1, 1);
+
+        rotuloSenhaConfirmar = new JLabel("Confirmar senha ");
+        adicionarComponentes(rotuloSenhaConfirmar, GridBagConstraints.CENTER, GridBagConstraints.NONE, 3, 2, 1, 1);
+
+        caixaTextoSenhaConfirmar = new JPasswordField(6);
+        adicionarComponentes(caixaTextoSenhaConfirmar, GridBagConstraints.CENTER, GridBagConstraints.NONE, 3, 3, 1, 1);
         
         
         btnSalvar.addActionListener(new ActionListener() {
@@ -87,8 +92,8 @@ public class TelaCadastrarUsuario extends Tela {
 
                 String login = caixaTextoLogin.getText().trim();
                 String nome = caixaTextoNome.getText().trim();
-                char[] senha = caixaTextoSenha.getPassword();
-                char[] confirmacao = caixaTextoSenhaConfirmar.getPassword();
+                String senha = caixaTextoSenha.getText();
+                String confirmacao = caixaTextoSenhaConfirmar.getText();
 
                 try {
                     validarNome(nome);
@@ -104,19 +109,12 @@ public class TelaCadastrarUsuario extends Tela {
                     }
                     catch (LoginJaExistenteException except) {
                         JOptionPane.showMessageDialog(null,
-                        except.getMessage(), "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
+                        "Usuário já existe, favor escolha outro.", "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 catch (LoginInvalidoException | SenhaInvalidaException except) {
                     JOptionPane.showMessageDialog(null, except.getMessage(),
-                        "Falha no Cadastro", JOptionPane.ERROR_MESSAGE);
-                }
-                finally {
-                    // limpa senhas passadas
-                    for (int i = 0; i < senha.length; i++) senha[i] = '\0';
-                    for (int i = 0; i < confirmacao.length; i++) confirmacao[i] = '\0';
-                    senha = null;
-                    confirmacao = null;
+                        "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -124,8 +122,9 @@ public class TelaCadastrarUsuario extends Tela {
         btnCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                setVisible(false);
+                source.setVisible(true);
                 dispose();
-                setParentVisible(true);
             }
         });
     }
@@ -136,14 +135,14 @@ public class TelaCadastrarUsuario extends Tela {
         }
     }
     
-    private void validarSenha(char[] senha, char[] confirmacao) throws SenhaInvalidaException {
-        if ( senha == null || senha.length == 0 ) {
+    private void validarSenha(String senha, String confirmacao) throws SenhaInvalidaException {
+        if ( senha.isEmpty() ) {
             throw new SenhaInvalidaException("Campo senha está vazio.");
         } 
-        else if ( senha.length < 4 ) {
-            throw new SenhaInvalidaException("Senha deve conter no mínimo 4 dígitos.");
+        else if ( senha.length() <= 4 ) {
+            throw new SenhaInvalidaException("Senha deve conter no mínimo 5 dígitos.");
         }
-        else if ( ! senhaIgualConfirmacao(senha, confirmacao) ) {
+        else if ( ! senha.equals(confirmacao) ) {
             throw new SenhaInvalidaException("Confirmação de senha digitada incorretamente.");
         }
     }
@@ -152,25 +151,6 @@ public class TelaCadastrarUsuario extends Tela {
         if ( nome.isEmpty() ) {
             throw new LoginInvalidoException("Campo nome de usuário vazio.");
         }
-    }
-    
-    private boolean senhaIgualConfirmacao(char[] senha, char[] confirm) {
-        if (senha.length != confirm.length) {
-            return false;
-        }
-        else {
-            for (int i = 0; i < senha.length; i++) {
-                if (senha[i] != confirm[i]) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-
-    @Override
-    public void acaoAoFechar() {
-        btnCancelar.doClick();
     }
     
 }
