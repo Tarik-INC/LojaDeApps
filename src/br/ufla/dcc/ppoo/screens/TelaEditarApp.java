@@ -1,70 +1,79 @@
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.apps.Aplicativo;
-
-import javax.swing.*;
-import java.awt.*;
+import br.ufla.dcc.ppoo.exceptions.AppJaExistenteException;
+import br.ufla.dcc.ppoo.exceptions.AppNomeVazioException;
+import br.ufla.dcc.ppoo.exceptions.AppPalavrasChaveException;
+import br.ufla.dcc.ppoo.users.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
+import java.util.List;
+import javax.swing.JOptionPane;
 
-public class TelaEditarApp extends Tela {
+public class TelaEditarApp extends TelaCadastrarApp {
 
-    private Aplicativo app;
-    private TelaListarApp source;
+    private final Aplicativo app;
 
-    public TelaEditarApp(Aplicativo app, TelaListarApp source) {
-        super("Editar Aplicativo", 300, 300);
+    public TelaEditarApp(Tela source, Usuario usuario, Aplicativo app) {
+        super("Editar App", source, usuario);
         this.app = app;
-        this.source = source;
-        construirTela();
-        pack();
+        preencherCampos();
     }
 
+    private void preencherCampos() {
+        setTxtNome(app.getNome());
+        setTxtDescricao(app.getDescricao());
+        setTxtPalavrasChave(app.getPalavrasChave());
+    }
+    
     @Override
-    void construirTela() {
-        JButton btnMudarNome = new JButton("Mudar Nome");
-        JButton btnMudarDescricao = new JButton("Mudar Descrição");
-        JButton btnMudarPalavrasChave = new JButton("Mudar Palavras-Chave");
-        JButton btnVoltar = new JButton("Voltar");
-        adicionarComponentes(btnMudarNome, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 0,0,1,1);
-        adicionarComponentes(btnMudarDescricao, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 1,0,1,1);
-        adicionarComponentes(btnMudarPalavrasChave, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 2,0,1,1);
-        adicionarComponentes(btnVoltar, GridBagConstraints.CENTER, GridBagConstraints.BOTH, 3,0,1,1);
-
-        btnVoltar.addActionListener(new ActionListener() {
+    public void addListenerCancelar() {
+        getBtnCancelar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                source.setVisible(true);
-                setVisible(false);
                 dispose();
+                disposeParent();
+                new TelaListarMeusApps(getUsuario()).setVisible(true);
             }
         });
-
-        btnMudarNome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String novoNome = JOptionPane.showInputDialog(null,"Novo nome","Mudar nome",
-                        JOptionPane.QUESTION_MESSAGE);
-                app.setNome(novoNome);
-            }
-        });
-
-        btnMudarDescricao.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                TelaMudarDescricao mudarDescricao = new TelaMudarDescricao(app);
-                mudarDescricao.setVisible(true);
-            }
-        });
-
-        btnMudarPalavrasChave.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                TelaMudarPalavraChave mudarPalavraChave = new TelaMudarPalavraChave(app);
-                mudarPalavraChave.setVisible(true);
-            }
-        });
-
     }
+    
+    @Override
+    public void addListenerSalvar() {
+        getBtnSalvar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String nome = getNomeVerificado();
+                    List<String> palavrasChave = getPalavrasChaveVerificadas();
+                    String descricao = getDescricaoVerificada();
+                    Usuario usuario = getUsuario();
+
+                    if (usuario.containsOther(app.getNome(), nome)) {
+                        throw new AppJaExistenteException(String.format("Já existe um app chamado \"%s\".", nome));
+                    }
+                    else {
+                        app.setNome(nome);
+                        app.setDescricao(descricao);
+                        app.setPalavrasChave(palavrasChave);
+                        usuario.sortAplicativos();
+
+                        JOptionPane.showMessageDialog(null,
+                                "Aplicativo atualizado com sucesso!", "Edição Completa", 
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                    }
+
+                    acaoAoFechar();
+                } 
+                catch (AppNomeVazioException | AppPalavrasChaveException |AppJaExistenteException except) {
+                    JOptionPane.showMessageDialog(null,
+                            except.getMessage(), "Erro no Cadastro", 
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        });
+    }
+    
 }

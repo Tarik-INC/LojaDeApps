@@ -1,6 +1,9 @@
 package br.ufla.dcc.ppoo.apps;
 
+import br.ufla.dcc.ppoo.exceptions.AvaliacaoNotaInvalidaException;
+import br.ufla.dcc.ppoo.miscellaneous.Avaliacao;
 import br.ufla.dcc.ppoo.miscellaneous.Comentario;
+import br.ufla.dcc.ppoo.users.Usuario;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -18,15 +21,17 @@ public class Aplicativo implements Serializable {
     private float nota;
     private int numAvaliacoes;
     private List<Comentario> comentarios;
-    private String autor;
+    private Usuario autor;
+    private List<Avaliacao> avaliacoes;
     
     /**
      * Construtor de um novo app.
      * @param nome Nome do recurso
      * @param descricao Descrição do recurso
      * @param palavrasChave Lista de palavras chaves
+     * @param autor Usuário dono do app
      */
-    public Aplicativo(String nome, String descricao, List<String> palavrasChave, String autor) {
+    public Aplicativo(String nome, String descricao, List<String> palavrasChave, Usuario autor) {
         this.nome = nome;
         this.descricao = descricao;
         this.palavrasChave = palavrasChave;
@@ -34,6 +39,7 @@ public class Aplicativo implements Serializable {
         this.numAvaliacoes = 0;
         this.comentarios = new LinkedList();
         this.autor = autor;
+        this.avaliacoes = new LinkedList();
     }
 
     /**
@@ -61,7 +67,7 @@ public class Aplicativo implements Serializable {
             return descricao;
         }
         else {
-            return "Sem descrição.";
+            return "(Sem descrição)";
         }
     }
 
@@ -79,14 +85,20 @@ public class Aplicativo implements Serializable {
      */
     public String getPalavrasChaveString() {
         // Isso aqui que é gambiarra seu mongol
-        String result = palavrasChave.get(0)+", ";
+        /*String result = palavrasChave.get(0)+", ";
         for (String palavraChave : palavrasChave) {
             palavraChave = palavraChave + ", ";
             if(!palavraChave.equals(result)) {
                 result += palavraChave;
             }
         }
-        return result;
+        return result;*/
+        String out = palavrasChave.get(0);
+        for (int i = 0; i < palavrasChave.size(); i++) {
+            out = out.concat(", " + palavrasChave.get(i));
+        }
+        return out;
+        
     }
     
     /**
@@ -111,11 +123,33 @@ public class Aplicativo implements Serializable {
     }
     
     /**
-     * Cadastra nNova avaliação feita por um usuário.
+     * Cadastra nova avaliação feita por um usuário.
      * @param nota Nota avaliada (1 a 5 estrelas)
      */
-    public void novaAvaliacao(int nota) {
+    private void novaAvaliacao(int nota) {
+        if (nota > 5 || nota < 1) {
+            throw new AvaliacaoNotaInvalidaException("Esperado valor de nota entre 1 e 5.");
+        }
+        
         this.nota = (this.nota * numAvaliacoes + nota) / (++numAvaliacoes);
+    }
+    
+    /**
+     * Remove avaliação feita por um usuário.
+     * @param nota Nota avaliada (1 a 5 estrelas)
+     */
+    private void removeAvaliacao(int nota) {
+        if (nota > 5 || nota < 1) {
+            throw new AvaliacaoNotaInvalidaException("Esperado valor de nota entre 1 e 5.");
+        }
+        
+        if (numAvaliacoes >= 2) {
+            this.nota = (this.nota * numAvaliacoes - nota) / (--numAvaliacoes);
+        }
+        else { 
+            this.nota = 0;
+            numAvaliacoes = 0;
+        }
     }
     
     /**
@@ -127,21 +161,11 @@ public class Aplicativo implements Serializable {
     }
 
     /**
-     * Tamanho da lista de comentários.
-     * @return Tamanho
+     * Get Lista de comentários.
+     * @return Lista de comentários imutável
      */
-    public int getComentariosSize() {
-        return comentarios.size();
-    }
-
-    /**
-     * Get i-ésimo comentário 
-     * @param i Índice
-     * @return Referência para o comentário
-     */
-    public String getComentario(int i) {
-        String comentario = comentarios.get(i).getUsuario() + ": " + comentarios.get(i).getComentario();
-        return comentario;
+    public List<Comentario> getComentarios() {
+        return Collections.unmodifiableList(comentarios);
     }
     
     /**
@@ -172,8 +196,78 @@ public class Aplicativo implements Serializable {
      * Get autor.
      * @return Nome do autor do app
      */
-    public String getAutor() {
+    public Usuario getAutor() {
         return autor;
+    }
+    
+    /**
+     * Get lista Avaliações.
+     * @return Lista imutável de usuário que já avaliaram
+     */
+    public List<Avaliacao> getAvaliacoes() {
+        return Collections.unmodifiableList(avaliacoes);
+    }
+    
+    /**
+     * Método para avaliar o app, insere nova avaliação ou modifica se já existir.
+     * @param user Usuário que avaliou
+     * @param nota Nota da avalição
+     */
+    public void setNotaAvaliacao(Usuario user, int nota) {
+        for (Avaliacao avaliacao : avaliacoes) {
+            if (avaliacao.getUsuario().equals(user)) {
+                removeAvaliacao(avaliacao.getNota());
+                avaliacao.setNota(nota);
+                novaAvaliacao(nota);
+                return;
+            }
+        }
+        
+        avaliacoes.add( new Avaliacao(user, nota) );
+        novaAvaliacao(nota);
+    }
+    
+    /**
+     * Get Nota que o usuário deu para o app.
+     * @param user Usuário a ser buscado
+     * @return Valor da nota dada, se não for econtrada, 0
+     */
+    public int getNotaUsuario(Usuario user) {
+        for (Avaliacao avaliacao : avaliacoes) {
+            if (avaliacao.getUsuario().equals(user)) {
+                return avaliacao.getNota();
+            }
+        }
+        
+        return 0;
+    }
+    
+    /**
+     * Verifica se uma palavra chave está contida no nome do app, para buscas.
+     * @param string Palavra chave a ser buscada
+     * @return Verdadeiro ou Falso
+     */
+    public boolean nomeContem(String string) {
+        String key = string.toLowerCase();
+        
+        return nome.toLowerCase().contains(key);
+    }
+    
+    /**
+     * Verifica se uma palavra chave está contida nas palavras-chave, para buscas.
+     * @param string Palavra chave a ser buscada
+     * @return Verdadeiro ou Falso
+     */
+    public boolean palavrasChaveContem(String string) {
+        String key = string.toLowerCase();
+        
+        for (String palavra : palavrasChave) {
+            if (palavra.toLowerCase().contains(key)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
 }
