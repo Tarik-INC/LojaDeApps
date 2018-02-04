@@ -2,7 +2,7 @@ package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.management.Gerenciador;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

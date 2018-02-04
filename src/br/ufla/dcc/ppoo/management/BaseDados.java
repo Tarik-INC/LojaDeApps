@@ -1,10 +1,10 @@
 package br.ufla.dcc.ppoo.management;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.modeling.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.AppInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -122,7 +122,7 @@ public class BaseDados {
     
     /**
      * Busca aplcativo, usado no menu de busca.
-     * @param keyword  Nome do app
+     * @param keyword  Nome ou palavra-chave do app
      * @return Lista de combinações encontradas, ordenada pela nota descrescente
      */
     public List<Aplicativo> buscarAplicativos(String keyword) throws AppInexistenteException {

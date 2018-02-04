@@ -9,10 +9,10 @@
 
 package br.ufla.dcc.ppoo.screens;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.modeling.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.NenhumItemSelecionadoException;
 import br.ufla.dcc.ppoo.management.Gerenciador;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Comparator;
@@ -20,6 +20,13 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
+/**
+ * Tela para listar todos os apps de todos os usuários, ordenados pelo nome.
+ * Funciona da mesma forma que a Tela de listar os apps de um usuário,
+ * apenas restringe o acesso às opções de modificação para somente que for
+ * proprietário do recurso
+ * @author rafael, tarik, william
+ */
 public class TelaListarTodosApps extends TelaListarMeusApps {
 
     private List<Aplicativo> list;

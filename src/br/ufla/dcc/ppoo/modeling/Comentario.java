@@ -1,4 +1,4 @@
-package br.ufla.dcc.ppoo.miscellaneous;
+package br.ufla.dcc.ppoo.modeling;
 
 import java.io.Serializable;
 

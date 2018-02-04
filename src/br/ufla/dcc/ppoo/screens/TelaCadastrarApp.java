@@ -1,10 +1,10 @@
 package br.ufla.dcc.ppoo.screens;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.modeling.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.AppJaExistenteException;
 import br.ufla.dcc.ppoo.exceptions.AppNomeVazioException;
 import br.ufla.dcc.ppoo.exceptions.AppPalavrasChaveException;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -127,10 +127,6 @@ public class TelaCadastrarApp extends Tela {
         return btnCancelar;
     }
     
-    /**
-     * 
-     * @return Nome do app em string
-     */
     public String getNomeVerificado() throws AppNomeVazioException {
         String nome = txtNome.getText().trim();
         if ( nome.isEmpty() ) {
@@ -139,10 +135,6 @@ public class TelaCadastrarApp extends Tela {
         return nome;
     }
     
-    /**
-     * 
-     * @return Lista de palavras-chave
-     */
     public List<String> getPalavrasChaveVerificadas() throws AppPalavrasChaveException {
         String[] array = txtPalavrasChave.getText().replaceAll("\t", " ").split(" ");
         List<String> palavrasChave = new LinkedList();
@@ -160,11 +152,6 @@ public class TelaCadastrarApp extends Tela {
         return palavrasChave;
     }
     
-    
-    /**
-     * 
-     * @return 
-     */
     public String getDescricaoVerificada() {
         return txtDescricao.getText().trim();
     }

@@ -1,10 +1,10 @@
 package br.ufla.dcc.ppoo.management;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.modeling.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.AppInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * fazendo a interface entre a base de dados e o sistema do programa.
  * @author rafael, tarik, william
  */
-public abstract class Gerenciador {
+public class Gerenciador {
 
     private static BaseDados dataBase;
     private static File file;
@@ -67,7 +67,7 @@ public abstract class Gerenciador {
     
     /**
      * Busca um app na base de dados.
-     * @param nome Nome do app buscado
+     * @param keyword Nome ou palavra-chave do app buscado
      * @return Referência para o app
      */
     public static List<Aplicativo> buscarAplicativos(String keyword) throws AppInexistenteException {

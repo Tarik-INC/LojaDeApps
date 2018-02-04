@@ -1,4 +1,14 @@
-package br.ufla.dcc.ppoo.miscellaneous;
+/**
+ * Classe StarRater.
+ * Implementada por terceiros, disponibilizada em domínio público.
+ * Não foi feita nenhuma modificação no código, usando o original.
+ * 
+ * Referência para o autor dada no link.
+ * 
+ * @link http://blog.noblemaster.com/2010/08/31/star-rating-panel-for-java-swing/
+ */
+
+package br.ufla.dcc.ppoo.thirdparty;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

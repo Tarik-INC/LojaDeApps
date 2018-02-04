@@ -1,16 +1,15 @@
 package br.ufla.dcc.ppoo.screens;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.modeling.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.AppInexistenteException;
 import br.ufla.dcc.ppoo.exceptions.CampoVazioException;
 import br.ufla.dcc.ppoo.exceptions.NenhumItemSelecionadoException;
 import br.ufla.dcc.ppoo.management.Gerenciador;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -19,6 +18,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * Tela para buscar um app dentre todos, através de uma palavra chave ou nome.
+ * Pede para a busca:
+ * - palavra-chave 
+ * (é feito casamento de padrão nas palavras-chave e no nome do app durante a busca)
+ * Mostra:
+ * - Lista dos apps que casaram com a palavra-chave, ordenada pela nota
+ * - Botão para visualizar detalhes do recurso
+ * @author rafael, tarik, william
+ */
 public class TelaBuscarApp extends TelaListarMeusApps {
     
     private List<Aplicativo> listaApps;

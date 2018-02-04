@@ -1,6 +1,5 @@
-package br.ufla.dcc.ppoo.users;
+package br.ufla.dcc.ppoo.modeling;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.AppJaExistenteException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -76,6 +75,7 @@ public class Usuario implements Serializable {
             return null;
         }
         finally {
+            // por questão de segurança:
             senhaIn = null;
         }
     }

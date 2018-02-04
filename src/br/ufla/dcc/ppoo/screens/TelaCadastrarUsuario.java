@@ -4,7 +4,7 @@ import br.ufla.dcc.ppoo.exceptions.LoginInvalidoException;
 import br.ufla.dcc.ppoo.exceptions.LoginJaExistenteException;
 import br.ufla.dcc.ppoo.exceptions.SenhaInvalidaException;
 import br.ufla.dcc.ppoo.management.Gerenciador;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;

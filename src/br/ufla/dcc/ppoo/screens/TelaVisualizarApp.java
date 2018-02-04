@@ -1,11 +1,11 @@
 package br.ufla.dcc.ppoo.screens;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.modeling.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.ComentarioException;
-import br.ufla.dcc.ppoo.miscellaneous.Comentario;
-import br.ufla.dcc.ppoo.miscellaneous.StarRater;
-import br.ufla.dcc.ppoo.miscellaneous.StarRater.StarListener;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Comentario;
+import br.ufla.dcc.ppoo.thirdparty.StarRater;
+import br.ufla.dcc.ppoo.thirdparty.StarRater.StarListener;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -22,6 +22,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+/**
+ * Tela para visualizar detalhes do app.
+ * Mostra:
+ * - Nome do app resumido (tipText mostra completo se não couber na tela)
+ * - Nome do autor do app resumido (tipText mostra completo também)
+ * - Nota média arredondada (tipText mostra valor com precisão de 4 casas)
+ * - Última avaliação que o usuário fez (estrela colorida)
+ * - Descrição completa
+ * - Lista de palavras-chave
+ * - Comentários
+ * Pede como entrada (opcional):
+ * - Avalição do usuário
+ * - Comentário do usuário
+ * @author rafael, tarik, william
+ */
 public class TelaVisualizarApp extends Tela {
 
     private Aplicativo app;

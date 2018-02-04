@@ -1,9 +1,6 @@
-package br.ufla.dcc.ppoo.apps;
+package br.ufla.dcc.ppoo.modeling;
 
 import br.ufla.dcc.ppoo.exceptions.AvaliacaoNotaInvalidaException;
-import br.ufla.dcc.ppoo.miscellaneous.Avaliacao;
-import br.ufla.dcc.ppoo.miscellaneous.Comentario;
-import br.ufla.dcc.ppoo.users.Usuario;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -52,15 +49,15 @@ public class Aplicativo implements Serializable {
 
     /**
      * Get Descrição.
-     * @return Descrição completa do recurso
+     * @return Descrição do recurso
      */
     public String getDescricao() {
         return descricao;
     }
     
     /**
-     * Get Descrição resumida.
-     * @return Descrição resumida do recurso
+     * Get Descrição formatada para interface gráfica.
+     * @return Descrição do recurso ou "sem descrição" se estiver vazia.
      */
     public String getDescricaoFormatada() {
         if (!descricao.isEmpty()) {
@@ -84,17 +81,8 @@ public class Aplicativo implements Serializable {
      * @return String palavras-chave
      */
     public String getPalavrasChaveString() {
-        // Isso aqui que é gambiarra seu mongol
-        /*String result = palavrasChave.get(0)+", ";
-        for (String palavraChave : palavrasChave) {
-            palavraChave = palavraChave + ", ";
-            if(!palavraChave.equals(result)) {
-                result += palavraChave;
-            }
-        }
-        return result;*/
         String out = palavrasChave.get(0);
-        for (int i = 0; i < palavrasChave.size(); i++) {
+        for (int i = 1; i < palavrasChave.size(); i++) {
             out = out.concat(", " + palavrasChave.get(i));
         }
         return out;

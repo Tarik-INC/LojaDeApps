@@ -1,0 +1,48 @@
+1. (0,5 pontos) Quanto à interface (facilidade de uso, intuitividade, mensagens de erro claras, prevenção de erros, etc):
+
+(+) Bom uso das mensagens de erro.
+(-) A interface para editar um recurso não é boa. Seria mais interessante se todos os campos aparecessem de uma só vez na tela.
+(-) A interface para edição das tags de um app não é boa: não deixa claro que deve-se ter, pelo menos, duas palavras separadas por ;
+(-) Há mistura de português e inglês na interface do sistema. Por exemplo: Deseja remover este app? Yes, No.
+
+Nota: 0.4
+
+2. (4,0 pontos, proporcionais à nota obtida para o critério "funcionalidade") Quanto aos conceitos de OO (correto uso dos conceitos de classes, objetos, atributos e métodos, encapsulamento e visibilidade, herança e polimorfismo, etc):
+
+(-) A classe comentário devia estar no mesmo pacote de Aplicativos. Sugiro mudar o nome do pacote para: modelo ou negocio, pois tratam-se de classes de negócio.
+(-) Não entendi porque a classe Gerenciador é abstrata se ninguém herda dela e se ela não tem métodos abstratos.
+
+Nota: 100% da nota do requisito funcionalidade (= 3.5)
+
+3. (0,5 pontos) Quanto à qualidade do código (correta indentação do código, uso de identificadores de atributos, métodos e classes que sejam sugestivos, correto uso de pacotes, etc):
+
+(+) Bom uso de pacotes.
+(-) Mistura de idiomas nos nomes dos identificadores de classes e métodos: português e inglês.
+(-) Há identificadores pouco sugestivos, ex. TelaCadastro: cadastro de que?
+(-) Verificar indentação da classe StarRater.
+
+Nota: 0.4
+
+4. (4,0 pontos) Quanto à funcionalidade (os requisitos foram atendidos por completo, as funções e as regras de negócio estão corretamente implementadas, etc):
+
+(+) Autenticar, cadastrar usuário, cadastrar apps, visualizar apps, persistência, comentar app, listar apps e buscar apps
+(-) A senha devia ter, no mínimo, 4 dígitos e não 5.
+(-) Permite cadastrar dois apps com mesmo nome.
+(-) Permite ao usuário avaliar seus próprios apps.
+(-) Para atualizar a lista de apps, após a edição/remoção de um app, o usuário tem que fechar a abrir novamente a mesma tela.
+
+Nota: 3.5
+
+5. (1,0 pontos) Quanto aos requisitos técnicos (uso dos conceitos de tratamento de exceção, correto uso dos comandos de entrada e saída de dados, etc):
+
+(-) Uso de métodos depreciados: getText da clase JPasswordField.
+
+Nota: 0.9
+
+6. (1,0 pontos) Bônus (o grupo foi além do que foi pedido):
+
+(+) Opção logout, além da opção Sair.
+
+Nota: 0.1
+
+Total: 8.8

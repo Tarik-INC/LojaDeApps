@@ -1,6 +1,6 @@
 package br.ufla.dcc.ppoo.screens;
 
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.awt.GridBagConstraints;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
  * Mostra como opções:
  * - cadastrar novo app
  * - listar meus apps
+ * - listar todos os app (meus e dos outros)
  * - buscar app
  * - logout
  * @author rafael, tarik, william

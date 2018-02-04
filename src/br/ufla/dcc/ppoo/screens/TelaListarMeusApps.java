@@ -1,8 +1,8 @@
 package br.ufla.dcc.ppoo.screens;
 
-import br.ufla.dcc.ppoo.apps.Aplicativo;
+import br.ufla.dcc.ppoo.modeling.Aplicativo;
 import br.ufla.dcc.ppoo.exceptions.NenhumItemSelecionadoException;
-import br.ufla.dcc.ppoo.users.Usuario;
+import br.ufla.dcc.ppoo.modeling.Usuario;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
