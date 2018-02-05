@@ -37,9 +37,14 @@ public class TelaEditarApp extends TelaCadastrarApp {
         getBtnCancelar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (getParent() instanceof TelaListarTodosApps) {
+                    new TelaListarTodosApps(getUsuario()).setVisible(true);
+                }
+                else {
+                    new TelaListarMeusApps(getUsuario()).setVisible(true);
+                }
                 dispose();
                 disposeParent();
-                new TelaListarMeusApps(getUsuario()).setVisible(true);
             }
         });
     }

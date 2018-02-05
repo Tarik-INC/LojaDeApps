@@ -86,6 +86,7 @@ public class TelaCadastrarApp extends Tela {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                new TelaGerenciamento(getUsuario()).setVisible(true);
             }
         });
     }

@@ -49,6 +49,7 @@ public class TelaGerenciamento extends Tela {
         btnCadastrarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 new TelaCadastrarApp(getUsuario()).setVisible(true);
             }
         });
@@ -56,6 +57,7 @@ public class TelaGerenciamento extends Tela {
         btnListarMeusApps.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 new TelaListarMeusApps(getUsuario()).setVisible(true);
             }
         });
@@ -63,6 +65,7 @@ public class TelaGerenciamento extends Tela {
         btnListarTodosApps.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 new TelaListarTodosApps(getUsuario()).setVisible(true);
             }
         });
@@ -70,6 +73,7 @@ public class TelaGerenciamento extends Tela {
         btnBuscarApp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 new TelaBuscarApp(getUsuario()).setVisible(true);
             }
         });

@@ -128,6 +128,7 @@ public class TelaBuscarApp extends TelaListarMeusApps {
                 try {
                     int index = getSelectedIndex();
                     
+                    TelaBuscarApp.this.setVisible(false);
                     Tela tv = new TelaVisualizarApp(TelaBuscarApp.this, usuario, listaApps.get(index));
                     tv.setVisible(true);
                 } 

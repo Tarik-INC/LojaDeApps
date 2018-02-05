@@ -1,12 +1,3 @@
-
-
-
-/****************************************************************************
- *            FAZER MÉTODOS DE ATUALIZAR TELA APÓS EDIÇÃO/REMOÇÃO           *
- ****************************************************************************/
-
-
-
 package br.ufla.dcc.ppoo.screens;
 
 import br.ufla.dcc.ppoo.modeling.Aplicativo;
@@ -55,6 +46,7 @@ public class TelaListarTodosApps extends TelaListarMeusApps {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int index = getSelectedIndex();
+                    TelaListarTodosApps.this.setVisible(false);
                     new TelaVisualizarApp(TelaListarTodosApps.this, getUsuario(), list.get(index)).setVisible(true);
                 } 
                 catch (NenhumItemSelecionadoException ex) {
@@ -75,6 +67,7 @@ public class TelaListarTodosApps extends TelaListarMeusApps {
                     int index = getSelectedIndex();
                     
                     if (list.get(index).getAutor().equals(getUsuario())) {
+                        TelaListarTodosApps.this.setVisible(false);
                         new TelaEditarApp(TelaListarTodosApps.this, getUsuario(), list.get(index)).setVisible(true);
                     }
                     else {
@@ -113,6 +106,8 @@ public class TelaListarTodosApps extends TelaListarMeusApps {
                             );
 
                             // refresh:
+                            TelaListarTodosApps.this.dispose();
+                            new TelaListarTodosApps(getUsuario()).setVisible(true);
                         }
                     }
                     else {

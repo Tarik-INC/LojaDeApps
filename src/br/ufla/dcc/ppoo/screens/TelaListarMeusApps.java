@@ -92,6 +92,7 @@ public class TelaListarMeusApps extends Tela {
                 try {
                     int index = getSelectedIndex();
                     
+                    TelaListarMeusApps.this.setVisible(false);
                     Tela tv = new TelaEditarApp(TelaListarMeusApps.this, usuario, usuario.getAplicativo(index));
                     tv.setVisible(true);
                 }
@@ -142,6 +143,7 @@ public class TelaListarMeusApps extends Tela {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                new TelaGerenciamento(getUsuario()).setVisible(true);
             }
         });
     }
@@ -154,6 +156,7 @@ public class TelaListarMeusApps extends Tela {
                 try {
                     int index = getSelectedIndex();
                     
+                    TelaListarMeusApps.this.setVisible(false);
                     Tela tv = new TelaVisualizarApp(TelaListarMeusApps.this, usuario, usuario.getAplicativo(index));
                     tv.setVisible(true);
                 } 
@@ -209,7 +212,7 @@ public class TelaListarMeusApps extends Tela {
             for (int i = 0; i < TAMANHO_MAX_COLUNA - nome.length(); i++) out += " ";
         }
         
-        return out;
+        return out.replace("\n", " ");
     }
     
     public String linhaFormatada(String nome, String descricao, String nota) {

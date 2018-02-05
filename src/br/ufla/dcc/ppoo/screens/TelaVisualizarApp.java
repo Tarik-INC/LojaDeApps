@@ -175,8 +175,23 @@ public class TelaVisualizarApp extends Tela {
         btnSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (getParentScreen() instanceof TelaListarTodosApps) {
+                    new TelaListarTodosApps(getUsuario()).setVisible(true);
+                    disposeParent();
+                }
+                else if (getParentScreen() instanceof TelaBuscarApp) {
+                    new TelaBuscarApp(getUsuario()).setVisible(true);
+                    disposeParent();
+                }
+                else if (getParentScreen() instanceof TelaListarMeusApps) {
+                    new TelaListarMeusApps(getUsuario()).setVisible(true);
+                    disposeParent();
+                }
+                else {
+                    System.out.println("deu ruim!");
+                    setParentVisible(true);
+                }
                 dispose();
-                setParentVisible(true);
             }
         });
 
